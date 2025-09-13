@@ -16,20 +16,20 @@ export default function RootLayout({
       <body style={{ fontFamily: "system-ui, sans-serif", margin: 0 }}>
         {/* Navigation bar */}
         <header
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "20px",
-            padding: "16px",
-            background: "#f8f9fa",
-            borderBottom: "1px solid #ddd",
-          }}
-        >
-          <Link href="/">Home</Link>
-          <Link href="/about">About</Link>
-          <Link href="/solutions">Solutions</Link>
-          <Link href="/contact">Contact</Link>
-        </header>
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    gap: "20px",
+    padding: "16px",
+    background: "#222", // darker background
+    borderBottom: "1px solid #444",
+  }}
+>
+  <Link href="/" style={{ color: "white", textDecoration: "none" }}>Home</Link>
+  <Link href="/about" style={{ color: "white", textDecoration: "none" }}>About</Link>
+  <Link href="/solutions" style={{ color: "white", textDecoration: "none" }}>Solutions</Link>
+  <Link href="/contact" style={{ color: "white", textDecoration: "none" }}>Contact</Link>
+</header>
 
         {/* Page content */}
         <main style={{ padding: "24px" }}>{children}</main>
