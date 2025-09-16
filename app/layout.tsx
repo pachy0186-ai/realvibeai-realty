@@ -26,9 +26,13 @@ export default function RootLayout({
   }}
 >
   <Link href="/" style={{ color: "white", textDecoration: "none" }}>Home</Link>
-  <Link href="/about" style={{ color: "white", textDecoration: "none" }}>About</Link>
   <Link href="/solutions" style={{ color: "white", textDecoration: "none" }}>Solutions</Link>
+  <Link href="/virtual-staging" style={{ color: "white", textDecoration: "none" }}>Virtual Staging</Link>
+  <Link href="/pricing" style={{ color: "white", textDecoration: "none" }}>Pricing</Link>
+  <Link href="/about" style={{ color: "white", textDecoration: "none" }}>About</Link>
   <Link href="/contact" style={{ color: "white", textDecoration: "none" }}>Contact</Link>
+  <Link href="/faq" style={{ color: "white", textDecoration: "none" }}>FAQ</Link>
+  <Link href="/privacy" style={{ color: "white", textDecoration: "none" }}>Privacy</Link>
 </header>
 
         {/* Page content */}
