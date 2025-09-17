@@ -1,0 +1,7 @@
+# Code ownership for RealVibeAI Realty
+# Require review from @pachy0186-ai for core application files
+
+/app/**           @pachy0186-ai
+/components/**    @pachy0186-ai
+/pages/**         @pachy0186-ai
+**/*.md           @pachy0186-ai
