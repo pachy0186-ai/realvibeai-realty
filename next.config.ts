@@ -1,7 +1,16 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  basePath: '/realty',
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/realty',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
