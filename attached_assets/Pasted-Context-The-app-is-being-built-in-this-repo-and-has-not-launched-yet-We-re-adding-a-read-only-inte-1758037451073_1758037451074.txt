@@ -1,0 +1,45 @@
+Context: The app is being built in this repo and has not launched yet. We’re adding a read-only intelligence lane that proposes small, low-risk polish via PRs without touching core code paths.
+
+Repository: reavibeai-realty
+Goal: Open small PRs for copy/UX/SEO only. Do not merge. Coordinate around a short pre-launch code freeze where only critical fixes merge.
+
+Operating Rules (hard constraints)
+	•	Read-only behavior: Do not alter core logic, DB schemas, or build pipelines.
+	•	No merges: You may open PRs, but must not merge them.
+	•	Scope limits: Only propose low-risk changes to:
+	•	Marketing/landing copy, FAQs, pricing text
+	•	Onboarding microcopy, button/CTA text, form labels/help text
+	•	Basic accessibility/UX wording (aria-labels, alt text)
+	•	SEO metadata (titles, descriptions), headings hierarchy, schema.org
+	•	Branching: Use replit-intel/<short-desc> (e.g., replit-intel/seo-home-title).
+	•	Labels: Apply intel-suggested, needs-review, and if not urgent pre-launch, post-launch.
+	•	Evidence: Link sources or rationale in PR descriptions.
+	•	Safe diffs: Keep each PR ≤ ~150 lines changed, content-only. Split larger suggestions into multiple PRs.
+
+Coordination Request (communicate to team)
+	•	Code freeze: Request a short pre-launch freeze window where only critical fixes are merged.
+	•	During the freeze, your PRs stay open for review. After freeze, maintainers can merge or re-label as post-launch.
+
+Tasks
+	1.	Inventory & Read-Only Analysis
+	•	Detect marketing/landing pages, onboarding screens, and SEO entry points.
+	•	Note obvious copy clarity issues, duplicated headings, missing meta descriptions, missing/weak CTAs, and accessibility labels.
+	2.	Prepare 2–4 Small PRs (content/UX/SEO only)
+	•	Examples:
+	•	Improve home page <title> and meta description for target keywords.
+	•	Clarify hero headline + subhead to sharpen value proposition.
+	•	Tighten onboarding microcopy (field labels, inline help, error messages).
+	•	Add or refine schema.org markup (Organization, Product, FAQ) if present.
+	•	For each PR:
+	•	Keep changes surgical and text-only where possible.
+	•	Include a short rationale + before/after snippets.
+	3.	Open Issues for Anything Beyond Scope
+	•	Create Issues for medium/longer items (e.g., navigation restructure, new components).
+	•	Tag with post-launch and include acceptance criteria.
+	4.	Summary Note
+	•	Add docs/intel-prelaunch-summary.md with:
+	•	Links to all PRs and Issues
+	•	One-page overview of suggested copy/UX/SEO improvements
+	•	Reminder of code-freeze coordination
+
+PR Template (use this text in each PR)
