@@ -2,8 +2,8 @@ import "./globals.css";
 import Link from "next/link";
 
 export const metadata = {
-  title: "RealVibeAI Realty - AI Virtual Staging & CRM for Real Estate",
-  description: "Transform your real estate business with AI-powered virtual staging, automated lead qualification, and seamless CRM integration. Boost sales and save time.",
+  title: "RealVibeAI Realty | AI-Powered Virtual Staging & CRM for Real Estate Professionals",
+  description: "Transform your real estate business with AI-powered staging, automated lead qualification, and seamless CRM integration. Boost sales and save time.",
 };
 
 export default function RootLayout({
