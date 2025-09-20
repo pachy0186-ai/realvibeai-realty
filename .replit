@@ -6,3 +6,6 @@ channel = "stable-25_05"
 [[ports]]
 localPort = 3000
 externalPort = 80
+
+[agent]
+integrations = ["github:1.0.0"]
