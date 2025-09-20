@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RealVibeAI Realty
 
-## Getting Started
+AI-powered real estate solutions that help agents close more deals with virtual staging, automated lead qualification, and seamless CRM integration.
 
-First, run the development server:
+## 🚀 Quick Start
+
+### Development
 
 ```bash
+# Install dependencies
+npm ci
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000/realty` to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build & Deploy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Type check
+npm run type-check
 
-## Learn More
+# Lint code
+npm run lint
 
-To learn more about Next.js, take a look at the following resources:
+# Build for production
+npm run build
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Start production server
+npm start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔧 Environment Variables
 
-## Deploy on Vercel
+### Required for Production
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Create a `.env.local` file with the following variables:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+# Public URLs
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
+NEXT_PUBLIC_FACEBOOK_URL=https://www.facebook.com/share/1G11RPicxJ/?mibextid=wwXIfr
+NEXT_PUBLIC_LINKEDIN_URL=https://www.linkedin.com/company/realvibe-ai-realty/
+
+# Private API Keys (post-launch)
+HUBSPOT_PORTAL_ID=
+HUBSPOT_FORM_ID_CONTACT=
+HUBSPOT_API_KEY=
+COLLOV_API_KEY=
+INSTANTDECO_API_KEY=
+BLOB_READ_WRITE_TOKEN=
+```
+
+See `.env.example` for the complete list of available variables.
+
+## 🏗️ Architecture
+
+- **Framework:** Next.js 15 with App Router
+- **Base Path:** `/realty` (configured in `next.config.ts`)
+- **Styling:** Tailwind CSS v4
+- **Type Safety:** TypeScript with strict mode
+- **Deployment:** Vercel with GitHub integration
+
+## 📦 Deployment
+
+### Vercel (Recommended)
+
+1. Connect your GitHub repository to Vercel
+2. Set environment variables in Vercel dashboard
+3. PRs automatically create Preview deployments
+4. Merges to `main` deploy to Production
+
+### Manual Deployment
+
+```bash
+npm run build
+npm start
+```
+
+## 🔒 Code Freeze Policy
+
+**This repository is in pre-launch code freeze.**
+
+- ✅ **Allowed:** Content updates, SEO improvements, accessibility fixes, configuration changes
+- ❌ **Restricted:** New features, major refactoring, breaking changes
+- 📋 **Process:** All changes must go through PRs with required reviews
+- 🎯 **Focus:** Stability and launch readiness
+
+### Contributing
+
+1. Create feature branch from `main`
+2. Make changes following existing patterns
+3. Open PR with clear description
+4. Ensure CI passes and get required reviews
+5. Merge only after approval
+
+## 📁 Project Structure
+
+```
+app/                    # Next.js App Router pages
+├── api/               # API routes (/lead, /staging)
+├── (pages)/           # Marketing pages
+└── globals.css        # Global styles
+
+lib/                   # Utilities and configuration
+├── siteConfig.ts      # Centralized site configuration
+
+.github/               # Repository governance
+├── CODEOWNERS         # Required reviewers
+└── workflows/ci.yml   # Automated testing
+```
+
+## 🎯 Post-Launch Roadmap
+
+Tracked as GitHub issues with `post-launch` label:
+
+- Contact form integration with validation
+- Pricing page with comparison tables  
+- FAQ section with collapsible UI
+- Schema.org structured data
+- Performance optimization
+- Privacy policy and legal pages
+
+## 📞 Support
+
+For questions about this codebase, contact @pachy0186-ai.
