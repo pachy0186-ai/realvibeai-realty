@@ -1,4 +1,4 @@
-name: CI
+name: ci.lym  # <- Change from "CI" to "ci.lym"
 on: [pull_request]
 jobs:
   build:
