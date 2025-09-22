@@ -1,0 +1,121 @@
+Subject: Take ownership of pre-launch build + deployment (code-freeze)
+
+Context
+
+Canonical repo: https://github.com/pachy0186-ai/realvibeai-realty
+
+Current branch with unmerged work: feature/realty-basepath
+
+Manus will continue proposing intel-suggested copy/SEO/a11y PRs only. Replit owns build + deployment.
+
+Goals (pre-launch)
+
+Centralize all work in the GitHub repo (no side workspaces as source of truth).
+
+Ship the feature/realty-basepath changes safely.
+
+Wire CI + Vercel so PRs → Preview, main → Production.
+
+Keep code-freeze rules: no risky feature work; only reviewed PRs merge.
+
+Immediate Actions
+
+Open a PR: feature/realty-basepath → main.
+
+Title: Prelaunch: basePath, Tailwind, SEO, a11y updates
+
+Paste this summary (edit as needed):
+
+Next.js App Router; basePath /realty; root → /realty redirect
+
+Pages & API stubs present; npx next build passes; routes verified
+
+Tailwind v4/PostCSS OK; path aliases OK; .env.example & lib/siteConfig.ts added
+
+Add labels: prelaunch, needs-review. Assign to me.
+
+Repo Governance (set up now)
+
+Protect main: require PRs, 1 review, passing checks, linear history.
+
+Add .github/CODEOWNERS so my review is required:
+
+/app/**           @pachy0186-ai
+/components/**    @pachy0186-ai
+/pages/**         @pachy0186-ai
+**/*.md           @pachy0186-ai
+
+
+Add minimal CI at .github/workflows/ci.yml:
+
+name: CI
+on: [pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm ci
+      - run: npm run lint --if-present
+      - run: npm run build --if-present
+
+
+Vercel
+
+Ensure project is connected to this GitHub repo.
+
+PRs must create Preview deployments; merges to main → Production.
+
+Coordinate with me to add env vars in Vercel (no secrets in code):
+
+NEXT_PUBLIC_SITE_URL, NEXT_PUBLIC_FACEBOOK_URL, NEXT_PUBLIC_LINKEDIN_URL
+
+Private stubs (HubSpot, providers, blob) will stay empty until post-launch.
+
+Scope & Freeze Rules
+
+Only low-risk content/UX/SEO/a11y and configuration fixes.
+
+No direct pushes to main. Use branches → PRs.
+
+Manus PRs are labeled intel-suggested + needs-review; you may refine but don’t merge without my approval.
+
+Acceptance Criteria (for this handoff)
+
+ PR open for feature/realty-basepath with my summary in the description
+
+ Branch protection enabled on main
+
+ CI workflow present and passing on the PR
+
+ Vercel linked to repo; Preview URL visible on the PR
+
+ README update: “How to run, build, deploy”, env var list, and code-freeze note
+
+ Post-launch issues created (labels: post-launch, content/feature/seo) for:
+
+Contact form + validation + provider wiring
+
+Pricing page content + comparison table
+
+FAQ entries + collapsible UI
+
+Schema.org (Org, Product/Service, FAQ)
+
+Performance pass (fonts, images, CWV)
+
+Privacy policy/legal
+
+Communication
+
+Reply in this thread confirming: remotes, CI status, Vercel connection, and links to the PR + Preview.
+
+If blocked (permissions, env, deployment), list the exact blocker and the command/log line.
+
+Definition of Done
+
+I can review a green PR with a working Vercel Preview and merge it to deploy Production from main.
+
+All non-critical work is tracked as post-launch issues.
