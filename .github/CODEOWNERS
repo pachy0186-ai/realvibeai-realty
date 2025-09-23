@@ -1,0 +1,9 @@
+# Code ownership for RealVibeAI Realty
+# Require review from code owners is enforced by your branch rules
+
+/app/**            @pachy0186-ai
+/components/**     @pachy0186-ai
+/pages/**          @pachy0186-ai
+**/*.md            @pachy0186-ai
+# Catch-all (optional)
+*                  @pachy0186-ai
