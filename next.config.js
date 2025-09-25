@@ -1,11 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: '/realty',
+  // basePath removed
   async redirects() {
-    return [{ source: '/', destination: '/realty', permanent: true }];
+    return [
+      // Optional safety: if anything still links to /realty, send it to /
+      { source: '/realty', destination: '/', permanent: true },
+      { source: '/realty/:path*', destination: '/:path*', permanent: true },
+    ];
   },
 };
 
 module.exports = nextConfig;
-
-
