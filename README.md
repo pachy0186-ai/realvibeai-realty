@@ -123,6 +123,84 @@ Tracked as GitHub issues with `post-launch` label:
 - Performance optimization
 - Privacy policy and legal pages
 
+## 🎨 Customization Guide
+
+### Updating Copy & Content
+
+**Homepage (`app/realty/page.tsx`)**
+- Hero headline and description
+- Feature descriptions and benefits  
+- Testimonials and social proof
+- Call-to-action buttons
+
+**Pricing (`app/realty/pricing/page.tsx`)**
+- Pricing tiers and features
+- Plan descriptions and benefits
+- Special offers or discounts
+
+**Solutions (`app/realty/solutions/page.tsx`)**
+- Feature explanations
+- Sample lead analysis examples
+- Integration details
+
+### Changing Assets
+
+**Logo**: Replace `public/logo-realvibeai-realty.png`
+- Recommended size: 200x80px
+- Format: PNG with transparent background
+
+**Hero Banner**: Replace `public/hero-banner-realvibeai.jpg`
+- Recommended size: 1920x600px
+- Format: JPG or WebP for best performance
+
+**Favicon**: Add `public/favicon.ico`
+
+### Updating Contact Information
+
+**Email**: Update environment variables:
+```bash
+CONTACT_TO=your-email@domain.com
+NEXT_PUBLIC_CONTACT_EMAIL=your-email@domain.com
+```
+
+**Phone/Address**: Update in:
+- `app/realty/contact/page.tsx`
+- `app/layout.tsx` (footer)
+
+### Pricing Configuration
+
+Update pricing in `app/realty/pricing/page.tsx`:
+```tsx
+const pricingPlans = [
+  {
+    name: "Starter",
+    price: "$49", 
+    features: ["Feature 1", "Feature 2"]
+  }
+];
+```
+
+## 📊 Analytics Setup
+
+### Google Analytics 4
+1. Create GA4 property
+2. Add to Vercel environment variables:
+   ```
+   NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+   ```
+
+### Microsoft Clarity
+1. Create Clarity project  
+2. Add to Vercel environment variables:
+   ```
+   NEXT_PUBLIC_CLARITY_ID=xxxxxxxxxx
+   ```
+
+### Tracked Events
+- `lead_form_submit` - Contact form submissions
+- `cta_click` - Call-to-action button clicks
+- `pricing_view` - Pricing page views
+
 ## 📞 Support
 
 For questions about this codebase, contact @pachy0186-ai.

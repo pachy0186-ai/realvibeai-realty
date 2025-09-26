@@ -1,5 +1,27 @@
-import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'AI Lead Qualification Solutions – RealVibeAI Realty',
+  description: 'Discover how our AI-powered lead qualification system automatically scores prospects as Hot, Warm, or Cold with detailed reasoning. Built for solo real estate agents.',
+  keywords: 'AI lead qualification, real estate lead scoring, automated lead analysis, CRM integration',
+  openGraph: {
+    title: 'AI Lead Qualification Solutions – RealVibeAI Realty',
+    description: 'Discover how our AI-powered lead qualification system automatically scores prospects as Hot, Warm, or Cold with detailed reasoning.',
+    url: 'https://www.realvibeai.com/realty/solutions',
+    siteName: 'RealVibeAI Realty',
+    images: [
+      {
+        url: 'https://www.realvibeai.com/hero-banner-realvibeai.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'RealVibeAI Realty - AI Lead Qualification Solutions',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+};
 
 export default function SolutionsPage() {
   return (
