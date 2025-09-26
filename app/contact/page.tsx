@@ -6,7 +6,7 @@ export default function Contact() {
         Have questions or want to schedule a demo? We’d love to hear from you!
       </p>
       <ul>
-        <li>📧 Email: contact@realvibeai.com</li>
+        <li>📧 Email: realvibeairealty@gmail.com</li>
         <li>📞 Phone: +1 (954) 247-8275</li>
         <li>🌐 Website: www.realvibeai.com</li>
       </ul>

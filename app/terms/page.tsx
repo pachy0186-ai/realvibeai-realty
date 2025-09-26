@@ -68,8 +68,11 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">Contact Information</h2>
             <p className="text-gray-600">
-              If you have any questions about these Terms of Service, please contact us through our 
-              contact form or support channels.
+              If you have any questions about these Terms of Service, please contact us at{' '}
+              <a href="mailto:realvibeairealty@gmail.com" className="text-purple-600 hover:text-purple-700">
+                realvibeairealty@gmail.com
+              </a>{' '}
+              or through our contact form.
             </p>
           </section>
         </div>
