@@ -5,11 +5,10 @@ const nextConfig = {
       {
         source: '/',
         destination: '/realty',
-        permanent: false,
+        permanent: false, // use false for flexibility during testing
       },
     ];
   },
 };
 
 module.exports = nextConfig;
-
