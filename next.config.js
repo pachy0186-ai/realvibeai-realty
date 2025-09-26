@@ -5,7 +5,7 @@ const nextConfig = {
       {
         source: '/',
         destination: '/realty',
-        permanent: false, // use false for flexibility during testing
+        permanent: false,
       },
     ];
   },

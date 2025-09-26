@@ -8,10 +8,7 @@ export default function ContactPage() {
     name: '',
     email: '',
     phone: '',
-    company: '',
-    leadVolume: '',
-    message: '',
-    interests: [] as string[]
+    message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState('');
@@ -24,15 +21,7 @@ export default function ContactPage() {
     }));
   };
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      interests: checked 
-        ? [...prev.interests, value]
-        : prev.interests.filter(interest => interest !== value)
-    }));
-  };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,7 +29,7 @@ export default function ContactPage() {
     setSubmitStatus('');
 
     try {
-      const response = await fetch('/api/lead', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,15 +43,12 @@ export default function ContactPage() {
           name: '',
           email: '',
           phone: '',
-          company: '',
-          leadVolume: '',
-          message: '',
-          interests: [] as string[]
+          message: ''
         });
       } else {
         setSubmitStatus('error');
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -225,92 +211,30 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      placeholder="(555) 123-4567"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
-                      Brokerage/Company
-                    </label>
-                    <input
-                      type="text"
-                      id="company"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      placeholder="ABC Realty"
-                    />
-                  </div>
-                </div>
-
                 <div>
-                  <label htmlFor="leadVolume" className="block text-sm font-medium text-gray-700 mb-2">
-                    Monthly Lead Volume
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                    Phone Number (Optional)
                   </label>
-                  <select
-                    id="leadVolume"
-                    name="leadVolume"
-                    value={formData.leadVolume}
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  >
-                    <option value="">Select your typical monthly lead volume</option>
-                    <option value="1-25">1-25 leads per month</option>
-                    <option value="26-50">26-50 leads per month</option>
-                    <option value="51-100">51-100 leads per month</option>
-                    <option value="101-200">101-200 leads per month</option>
-                    <option value="200+">200+ leads per month</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
-                    What are you most interested in? (Select all that apply)
-                  </label>
-                  <div className="space-y-2">
-                    {[
-                      'AI Lead Qualification',
-                      'Virtual Staging',
-                      'CRM Integration',
-                      'Analytics & Reporting',
-                      'Custom Setup & Training'
-                    ].map((interest) => (
-                      <label key={interest} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          value={interest}
-                          checked={formData.interests.includes(interest)}
-                          onChange={handleCheckboxChange}
-                          className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-                        />
-                        <span className="ml-2 text-gray-700">{interest}</span>
-                      </label>
-                    ))}
-                  </div>
+                    placeholder="(555) 123-4567"
+                  />
                 </div>
 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                    Additional Information
+                    Message *
                   </label>
                   <textarea
                     id="message"
                     name="message"
                     rows={4}
+                    required
                     value={formData.message}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
@@ -323,7 +247,7 @@ export default function ContactPage() {
                   disabled={isSubmitting}
                   className="w-full btn-primary text-lg py-4 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? 'Submitting...' : 'Start Free Trial'}
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
 
                 <p className="text-xs text-gray-500 text-center">
@@ -432,7 +356,7 @@ export default function ContactPage() {
                 document.querySelector('form')?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              Start Free Trial
+                  Send Message
             </Link>
             <Link
               href="/realty/pricing"
