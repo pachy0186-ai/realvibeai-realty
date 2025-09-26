@@ -126,3 +126,5 @@ Tracked as GitHub issues with `post-launch` label:
 ## 📞 Support
 
 For questions about this codebase, contact @pachy0186-ai.
+
+For business inquiries and support, email: realvibeairealty@gmail.com

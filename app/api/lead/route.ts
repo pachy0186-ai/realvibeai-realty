@@ -27,11 +27,15 @@ export async function POST(request: NextRequest) {
       source: 'website_contact_form'
     };
 
+    // Get the contact email from environment variables
+    const contactEmail = process.env.CONTACT_TO || 'realvibeairealty@gmail.com';
+    
     // Log the lead submission (in production, this would go to a database or CRM)
     console.log('Lead submission received:', leadData);
+    console.log('Contact email for notifications:', contactEmail);
     
     // TODO: In production, integrate with:
-    // - Email service (SendGrid, Mailgun, etc.) to send notifications
+    // - Email service (SendGrid, Mailgun, etc.) to send notifications to contactEmail
     // - CRM system (HubSpot, Salesforce, etc.) to store lead
     // - Database to persist lead data
     
