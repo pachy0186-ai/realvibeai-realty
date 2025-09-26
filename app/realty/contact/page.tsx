@@ -11,7 +11,7 @@ export default function ContactPage() {
     company: '',
     leadVolume: '',
     message: '',
-    interests: []
+    interests: [] as string[]
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState('');
@@ -57,7 +57,7 @@ export default function ContactPage() {
           company: '',
           leadVolume: '',
           message: '',
-          interests: []
+          interests: [] as string[]
         });
       } else {
         setSubmitStatus('error');
