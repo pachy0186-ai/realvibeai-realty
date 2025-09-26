@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { auditEvents } from '../../../lib/audit';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ export default function ContactPage() {
     phone: '',
     message: ''
   });
+  const [aiConsent, setAiConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState('');
 
@@ -25,8 +27,17 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!aiConsent) {
+      setSubmitStatus('consent-required');
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus('');
+
+    // Log AI consent acceptance
+    auditEvents.aiConsentAccepted('contact_form');
 
     try {
       const response = await fetch('/api/contact', {
@@ -45,6 +56,7 @@ export default function ContactPage() {
           phone: '',
           message: ''
         });
+        setAiConsent(false);
       } else {
         setSubmitStatus('error');
       }
@@ -125,9 +137,8 @@ export default function ContactPage() {
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2">Risk-Free Trial</h3>
                     <p className="text-gray-600">
-                      14-day free trial with full access to all features. 30-day money-back 
-                      guarantee if you're not completely satisfied.
-                    </p>
+                      14-day free trial with full acc                      30-day money-back 
+                      policy if you're not completely satisfied.                    </p>
                   </div>
                 </div>
               </div>
@@ -172,6 +183,17 @@ export default function ContactPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                     Something went wrong. Please try again or contact us directly.
+                  </div>
+                </div>
+              )}
+
+              {submitStatus === 'consent-required' && (
+                <div className="mb-6 p-4 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded-lg">
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                    </svg>
+                    Please agree to the AI Policy to continue.
                   </div>
                 </div>
               )}
@@ -242,9 +264,26 @@ export default function ContactPage() {
                   />
                 </div>
 
+                <div className="flex items-start space-x-3">
+                  <input
+                    type="checkbox"
+                    id="aiConsent"
+                    checked={aiConsent}
+                    onChange={(e) => setAiConsent(e.target.checked)}
+                    className="mt-1 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                  />
+                  <label htmlFor="aiConsent" className="text-sm text-gray-600">
+                    I understand some responses may be AI-generated and agree to the{' '}
+                    <Link href="/legal/ai-policy" className="text-purple-600 hover:text-purple-800 underline">
+                      AI Policy
+                    </Link>
+                    .
+                  </label>
+                </div>
+
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !aiConsent}
                   className="w-full btn-primary text-lg py-4 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
@@ -367,7 +406,7 @@ export default function ContactPage() {
           </div>
 
           <div className="mt-8 text-sm text-gray-300">
-            14-day free trial • No credit card required • 30-day money-back guarantee
+            14-day free trial • No credit card required • 30-day money-back policy
           </div>
         </div>
       </section>
