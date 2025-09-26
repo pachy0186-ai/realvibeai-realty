@@ -1,20 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Remove any basePath - causes routing issues
-  // basePath: '/realty', // REMOVED
-  
-  // Optional: Safe redirects only (make these idempotent)
   async redirects() {
+    // Safety: if anything still hits /realty, send it home
     return [
-      // Only add if you need specific redirects
-      // Remove if causing issues
-    ]
+      { source: '/realty', destination: '/', permanent: true },
+      { source: '/realty/:path*', destination: '/:path*', permanent: true },
+    ];
   },
-  
-  // Standard Next.js 15 App Router config
-  experimental: {
-    // Remove if not needed
-  }
-}
-
-module.exports = nextConfig
+};
+module.exports = nextConfig;
