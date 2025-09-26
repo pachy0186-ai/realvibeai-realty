@@ -214,12 +214,17 @@ function Footer() {
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/legal/ai-policy" className="text-gray-400 hover:text-white transition-colors">
+                  AI Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/privacy" className="text-gray-400 hover:text-white transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/legal/terms" className="text-gray-400 hover:text-white transition-colors">
                   Terms of Service
                 </Link>
               </li>
@@ -228,9 +233,14 @@ function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8">
-          <p className="text-center text-gray-400 text-sm">
-            © 2024 RealVibeAI Realty. All rights reserved.
-          </p>
+          <div className="text-center space-y-2">
+            <p className="text-gray-400 text-sm">
+              Some site features use AI and may be imperfect. Verify important info. © RealVibeAI Realty
+            </p>
+            <p className="text-gray-500 text-xs">
+              Contact: <a href="mailto:realvibeairealty@gmail.com" className="hover:text-gray-400">realvibeairealty@gmail.com</a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>
