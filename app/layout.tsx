@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { Analytics } from "../components/Analytics";
+import SocialLinks from "../components/SocialLinks";
 
 export default function RootLayout({
   children,
@@ -19,6 +20,36 @@ export default function RootLayout({
         <title>RealVibeAI Realty | AI-Powered Lead Qualification for Real Estate Agents</title>
         <meta name="description" content="AI that qualifies leads for you (Hot/Warm/Cold) and saves you time. Transparent pricing, 10-minute setup, privacy-first approach for solo real estate agents." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="RealVibeAI Realty | AI-Powered Lead Qualification for Real Estate Agents" />
+        <meta property="og:description" content="AI that qualifies leads for you (Hot/Warm/Cold) and saves you time. Transparent pricing, 10-minute setup, privacy-first approach for solo real estate agents." />
+        <meta property="og:site_name" content="RealVibeAI Realty" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="RealVibeAI Realty | AI-Powered Lead Qualification for Real Estate Agents" />
+        <meta name="twitter:description" content="AI that qualifies leads for you (Hot/Warm/Cold) and saves you time. Transparent pricing, 10-minute setup, privacy-first approach for solo real estate agents." />
+        
+        {/* JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "RealVibeAI Realty",
+              "description": "AI-powered lead qualification for real estate agents",
+              "url": "https://www.realvibeai.com",
+              "email": "realvibeairealty@gmail.com",
+              "sameAs": [
+                process.env.NEXT_PUBLIC_LINKEDIN_URL,
+                process.env.NEXT_PUBLIC_FACEBOOK_URL
+              ].filter(Boolean)
+            })
+          }}
+        />
       </head>
       <body className="min-h-screen bg-white text-gray-900 antialiased">
         <Analytics />
@@ -55,38 +86,41 @@ function Header({ isMobileMenuOpen, setIsMobileMenuOpen }: {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            <Link
-              href="/realty"
-              className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors"
-            >
-              Home
-            </Link>
-            <Link
-              href="/realty/solutions"
-              className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors"
-            >
-              Solutions
-            </Link>
-            <Link
-              href="/realty/virtual-staging"
-              className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors"
-            >
-              Virtual Staging
-            </Link>
-            <Link
-              href="/realty/pricing"
-              className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors"
-            >
-              Pricing
-            </Link>
-            <Link
-              href="/realty/contact"
-              className="bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700 transition-colors"
-            >
-              Contact
-            </Link>
-          </nav>
+          <div className="hidden md:flex items-center space-x-8">
+            <nav className="flex space-x-8">
+              <Link
+                href="/realty"
+                className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors"
+              >
+                Home
+              </Link>
+              <Link
+                href="/realty/solutions"
+                className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors"
+              >
+                Solutions
+              </Link>
+              <Link
+                href="/realty/virtual-staging"
+                className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors"
+              >
+                Virtual Staging
+              </Link>
+              <Link
+                href="/realty/pricing"
+                className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors"
+              >
+                Pricing
+              </Link>
+              <Link
+                href="/realty/contact"
+                className="bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700 transition-colors"
+              >
+                Contact
+              </Link>
+            </nav>
+            <SocialLinks className="flex gap-3 ml-4" />
+          </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden">
@@ -147,6 +181,9 @@ function Header({ isMobileMenuOpen, setIsMobileMenuOpen }: {
               >
                 Contact
               </Link>
+              <div className="px-3 py-4 border-t border-gray-200 mt-4">
+                <SocialLinks className="flex gap-4 justify-center" />
+              </div>
             </div>
           </div>
         )}
@@ -233,13 +270,16 @@ function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8">
-          <div className="text-center space-y-2">
-            <p className="text-gray-400 text-sm">
-              Some site features use AI and may be imperfect. Verify important info. © RealVibeAI Realty
-            </p>
-            <p className="text-gray-500 text-xs">
-              Contact: <a href="mailto:realvibeairealty@gmail.com" className="hover:text-gray-400">realvibeairealty@gmail.com</a>
-            </p>
+          <div className="text-center space-y-4">
+            <SocialLinks className="flex gap-6 justify-center" />
+            <div className="space-y-2">
+              <p className="text-gray-400 text-sm">
+                Some site features use AI and may be imperfect. Verify important info. © RealVibeAI Realty
+              </p>
+              <p className="text-gray-500 text-xs">
+                Contact: <a href="mailto:realvibeairealty@gmail.com" className="hover:text-gray-400">realvibeairealty@gmail.com</a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
