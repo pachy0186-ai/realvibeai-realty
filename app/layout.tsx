@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Analytics } from "../components/Analytics";
 import SocialLinks from "../components/SocialLinks";
+import ContactWidget from "../components/ContactWidget";
 
 export default function RootLayout({
   children,
@@ -58,6 +59,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <ContactWidget />
       </body>
     </html>
   );
