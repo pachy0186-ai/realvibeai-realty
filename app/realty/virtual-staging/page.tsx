@@ -41,24 +41,22 @@ export default function VirtualStagingPage() {
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
                   <p className="text-sm text-gray-600 mb-2 text-center">Before</p>
-                  <div className="bg-gray-300 h-48 rounded-lg flex items-center justify-center">
-                    <div className="text-center">
-                      <svg className="w-12 h-12 text-gray-500 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2v0" />
-                      </svg>
-                      <span className="text-gray-500 text-sm">Empty Room</span>
-                    </div>
+                  <div className="h-48 rounded-lg overflow-hidden">
+                    <img 
+                      src="/images/staging/living-room-before.jpg" 
+                      alt="Empty living room before staging"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600 mb-2 text-center">After AI Staging</p>
-                  <div className="bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 h-48 rounded-lg flex items-center justify-center">
-                    <div className="text-center">
-                      <svg className="w-12 h-12 text-purple-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m0 0V1a1 1 0 011-1h2a1 1 0 011 1v18a1 1 0 01-1 1H4a1 1 0 01-1-1V1a1 1 0 011-1h2a1 1 0 011 1v3" />
-                      </svg>
-                      <span className="text-purple-600 text-sm">Modern Furnished</span>
-                    </div>
+                  <div className="h-48 rounded-lg overflow-hidden">
+                    <img 
+                      src="/images/staging/living-room-after.jpg" 
+                      alt="Staged living room with modern furniture"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               </div>
@@ -73,24 +71,22 @@ export default function VirtualStagingPage() {
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
                   <p className="text-sm text-gray-600 mb-2 text-center">Before</p>
-                  <div className="bg-gray-300 h-48 rounded-lg flex items-center justify-center">
-                    <div className="text-center">
-                      <svg className="w-12 h-12 text-gray-500 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2v0" />
-                      </svg>
-                      <span className="text-gray-500 text-sm">Outdated Decor</span>
-                    </div>
+                  <div className="h-48 rounded-lg overflow-hidden">
+                    <img 
+                      src="/images/staging/bedroom-before.jpg" 
+                      alt="Empty bedroom before staging"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600 mb-2 text-center">After AI Staging</p>
-                  <div className="bg-gradient-to-br from-green-100 via-blue-50 to-purple-100 h-48 rounded-lg flex items-center justify-center">
-                    <div className="text-center">
-                      <svg className="w-12 h-12 text-green-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2v0" />
-                      </svg>
-                      <span className="text-green-600 text-sm">Luxury Bedroom</span>
-                    </div>
+                  <div className="h-48 rounded-lg overflow-hidden">
+                    <img 
+                      src="/images/staging/bedroom-after.jpg" 
+                      alt="Staged bedroom with luxury furniture"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               </div>
@@ -107,24 +103,22 @@ export default function VirtualStagingPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                 <div>
                   <p className="text-sm text-gray-600 mb-2 text-center">Before</p>
-                  <div className="bg-gray-300 h-64 rounded-lg flex items-center justify-center">
-                    <div className="text-center">
-                      <svg className="w-16 h-16 text-gray-500 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2v0" />
-                      </svg>
-                      <span className="text-gray-500">Bare Kitchen</span>
-                    </div>
+                  <div className="h-64 rounded-lg overflow-hidden">
+                    <img 
+                      src="/images/staging/kitchen-before.jpg" 
+                      alt="Empty kitchen before staging"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600 mb-2 text-center">After AI Staging</p>
-                  <div className="bg-gradient-to-br from-yellow-100 via-orange-50 to-red-100 h-64 rounded-lg flex items-center justify-center">
-                    <div className="text-center">
-                      <svg className="w-16 h-16 text-orange-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
-                      </svg>
-                      <span className="text-orange-600">Warm & Inviting</span>
-                    </div>
+                  <div className="h-64 rounded-lg overflow-hidden">
+                    <img 
+                      src="/images/staging/kitchen-after.jpg" 
+                      alt="Staged kitchen with warm decor and accessories"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               </div>
