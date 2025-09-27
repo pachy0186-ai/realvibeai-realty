@@ -21,7 +21,7 @@ async function sendEmailWithResend(data: ContactFormData, recipient: string) {
   const intentText = data.intent ? ` (${data.intent})` : '';
   
   await resend.emails.send({
-    from: 'RealVibeAI Contact <noreply@realvibeai.com>',
+    from: `RealVibeAI Contact <${process.env.BUSINESS_EMAIL || 'realvibeairealty@gmail.com'}>`,
     to: [recipient],
     subject: `New Lead: ${data.name}${intentText}`,
     html: `
@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const recipient = process.env.CONTACT_TO || 'realvibeairealty@gmail.com';
+    const recipient = process.env.BUSINESS_EMAIL || process.env.CONTACT_TO || 'realvibeairealty@gmail.com';
 
     try {
       // Try Resend first
@@ -116,6 +116,48 @@ export async function POST(request: NextRequest) {
         });
       }
 
+      // Trigger lead qualification workflow
+      try {
+        const qualificationResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/lead-qualification`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            message: data.message,
+            intent: data.intent,
+            timestamp: new Date().toISOString(),
+          }),
+        });
+
+        if (qualificationResponse.ok) {
+          const qualificationResult = await qualificationResponse.json();
+          console.log('Lead qualification completed:', qualificationResult);
+        }
+      } catch (qualificationError) {
+        console.error('Lead qualification failed (non-critical):', qualificationError);
+      }
+
+      // Trigger lead enrichment (async, non-blocking)
+      try {
+        fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/lead-enrichment`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+          }),
+        }).catch(err => console.log('Lead enrichment failed (non-critical):', err));
+      } catch (enrichmentError) {
+        console.log('Lead enrichment skipped:', enrichmentError);
+      }
+
       return NextResponse.json({ ok: true });
     } catch (emailError) {
       console.error('Email sending failed:', emailError);
@@ -131,6 +173,48 @@ export async function POST(request: NextRequest) {
         timestamp: new Date().toISOString(),
         error: emailError,
       });
+
+      // Trigger lead qualification workflow
+      try {
+        const qualificationResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/lead-qualification`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            message: data.message,
+            intent: data.intent,
+            timestamp: new Date().toISOString(),
+          }),
+        });
+
+        if (qualificationResponse.ok) {
+          const qualificationResult = await qualificationResponse.json();
+          console.log('Lead qualification completed:', qualificationResult);
+        }
+      } catch (qualificationError) {
+        console.error('Lead qualification failed (non-critical):', qualificationError);
+      }
+
+      // Trigger lead enrichment (async, non-blocking)
+      try {
+        fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/lead-enrichment`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+          }),
+        }).catch(err => console.log('Lead enrichment failed (non-critical):', err));
+      } catch (enrichmentError) {
+        console.log('Lead enrichment skipped:', enrichmentError);
+      }
 
       return NextResponse.json({ ok: true }); // Still return success to user
     }

@@ -22,6 +22,7 @@ export default function ContactWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [followUpConsent, setFollowUpConsent] = useState(false);
   const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     email: '',
@@ -73,6 +74,7 @@ export default function ContactWidget() {
           intent: '',
           aiConsent: false,
         });
+        setFollowUpConsent(false);
         
         // Send SMS alert if configured
         try {
@@ -237,23 +239,38 @@ export default function ContactWidget() {
             </p>
           </div>
 
-          <div className="flex items-start space-x-2">
-            <input
-              type="checkbox"
-              id="aiConsent"
-              name="aiConsent"
-              checked={formData.aiConsent}
-              onChange={handleInputChange}
-              className="mt-1 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-              required
-            />
-            <label htmlFor="aiConsent" className="text-xs text-gray-600">
-              I understand some responses may be AI-generated and agree to the{' '}
-              <Link href="/legal/ai-policy" className="text-purple-600 hover:text-purple-700 underline">
-                AI Policy
-              </Link>
-              . *
-            </label>
+          <div className="space-y-3">
+            <div className="flex items-start space-x-2">
+              <input
+                type="checkbox"
+                id="aiConsent"
+                name="aiConsent"
+                checked={formData.aiConsent}
+                onChange={handleInputChange}
+                className="mt-1 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                required
+              />
+              <label htmlFor="aiConsent" className="text-xs text-gray-600">
+                I understand some responses may be AI-generated and agree to the{' '}
+                <Link href="/legal/ai-policy" className="text-purple-600 hover:text-purple-700 underline">
+                  AI Policy
+                </Link>
+                . *
+              </label>
+            </div>
+
+            <div className="flex items-start space-x-2">
+              <input
+                type="checkbox"
+                id="followUpConsent"
+                checked={followUpConsent}
+                onChange={(e) => setFollowUpConsent(e.target.checked)}
+                className="mt-1 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+              />
+              <label htmlFor="followUpConsent" className="text-xs text-gray-600">
+                I would like to receive helpful follow-up emails about my inquiry (you can unsubscribe anytime)
+              </label>
+            </div>
           </div>
 
           <button
