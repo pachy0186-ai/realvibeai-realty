@@ -1,4 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default function VirtualStagingPage() {
   return (
@@ -41,21 +45,25 @@ export default function VirtualStagingPage() {
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
                   <p className="text-sm text-gray-600 mb-2 text-center">Before</p>
-                  <div className="h-48 rounded-lg overflow-hidden">
-                    <img 
+                  <div className="h-48 rounded-lg overflow-hidden relative">
+                    <Image 
                       src="/images/staging/living-room-before.jpg" 
                       alt="Empty living room before staging"
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     />
                   </div>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600 mb-2 text-center">After AI Staging</p>
-                  <div className="h-48 rounded-lg overflow-hidden">
-                    <img 
+                  <div className="h-48 rounded-lg overflow-hidden relative">
+                    <Image 
                       src="/images/staging/living-room-after.jpg" 
                       alt="Staged living room with modern furniture"
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     />
                   </div>
                 </div>
@@ -71,21 +79,25 @@ export default function VirtualStagingPage() {
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
                   <p className="text-sm text-gray-600 mb-2 text-center">Before</p>
-                  <div className="h-48 rounded-lg overflow-hidden">
-                    <img 
+                  <div className="h-48 rounded-lg overflow-hidden relative">
+                    <Image 
                       src="/images/staging/bedroom-before.jpg" 
                       alt="Empty bedroom before staging"
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     />
                   </div>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600 mb-2 text-center">After AI Staging</p>
-                  <div className="h-48 rounded-lg overflow-hidden">
-                    <img 
+                  <div className="h-48 rounded-lg overflow-hidden relative">
+                    <Image 
                       src="/images/staging/bedroom-after.jpg" 
                       alt="Staged bedroom with luxury furniture"
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     />
                   </div>
                 </div>
@@ -103,21 +115,25 @@ export default function VirtualStagingPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                 <div>
                   <p className="text-sm text-gray-600 mb-2 text-center">Before</p>
-                  <div className="h-64 rounded-lg overflow-hidden">
-                    <img 
+                  <div className="h-64 rounded-lg overflow-hidden relative">
+                    <Image 
                       src="/images/staging/kitchen-before.jpg" 
                       alt="Empty kitchen before staging"
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   </div>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600 mb-2 text-center">After AI Staging</p>
-                  <div className="h-64 rounded-lg overflow-hidden">
-                    <img 
+                  <div className="h-64 rounded-lg overflow-hidden relative">
+                    <Image 
                       src="/images/staging/kitchen-after.jpg" 
                       alt="Staged kitchen with warm decor and accessories"
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   </div>
                 </div>
@@ -309,8 +325,8 @@ export default function VirtualStagingPage() {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Choose Style</h3>
               <p className="text-gray-600">
-                Select from Modern, Traditional, Minimalist, or Luxury styles 
-                based on your target buyer demographic.
+                Select from our curated design styles: Modern, Traditional, 
+                Minimalist, or Luxury to match your target buyer.
               </p>
             </div>
 
@@ -321,8 +337,8 @@ export default function VirtualStagingPage() {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4">AI Processing</h3>
               <p className="text-gray-600">
-                Our AI analyzes the space, lighting, and architecture to create 
-                realistic furniture placement and decor.
+                Our AI analyzes the space, lighting, and architecture to 
+                generate realistic furniture and decor placements.
               </p>
             </div>
 
@@ -342,33 +358,28 @@ export default function VirtualStagingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 hero-gradient">
+      <section className="py-20 bg-purple-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Ready to Stage Your Next Listing?
+          <h2 className="text-4xl font-bold text-white mb-6">
+            Ready to Transform Your Listings?
           </h2>
-          <p className="text-xl text-gray-200 mb-8 max-w-3xl mx-auto">
-            Transform empty spaces into buyer magnets with professional AI staging. 
-            Get started with your free trial today.
+          <p className="text-xl text-purple-100 mb-8 max-w-3xl mx-auto">
+            Join thousands of real estate professionals who are selling properties faster 
+            and for higher prices with AI virtual staging.
           </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/realty/contact"
-              className="btn-primary bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-4"
+              className="bg-white text-purple-600 hover:bg-gray-100 font-semibold text-lg px-8 py-4 rounded-lg transition-colors"
             >
               Start Free Trial
             </Link>
             <Link
               href="/realty/pricing"
-              className="btn-secondary border-white text-white hover:bg-white hover:text-purple-600 text-lg px-8 py-4"
+              className="border-2 border-white text-white hover:bg-white hover:text-purple-600 font-semibold text-lg px-8 py-4 rounded-lg transition-colors"
             >
               View Pricing
             </Link>
-          </div>
-
-          <div className="mt-8 text-sm text-gray-300">
-            No credit card required • 5 free staging credits • Professional results guaranteed
           </div>
         </div>
       </section>
