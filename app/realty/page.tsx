@@ -59,34 +59,47 @@ export default function RealtyPage() {
             />
           </div>
           
-          <h1 className="text-hero text-white mb-6 animate-fade-in-up">
-            AI That Qualifies Leads for You
-            <span className="block text-green-400">(Hot/Warm/Cold)</span>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-in-up leading-tight">
+            AI-Powered Lead Generation
+            <span className="block text-transparent bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text">
+              That Actually Works
+            </span>
           </h1>
           
-          <p className="text-lead text-gray-200 mb-8 max-w-3xl mx-auto animate-fade-in-up">
-            Save hours every day with intelligent lead qualification. Our AI automatically scores prospects, 
-            provides detailed reasoning, and helps you focus on the hottest opportunities. Built specifically 
-            for solo real estate agents who want to work smarter, not harder.
+          <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-4xl mx-auto animate-fade-in-up leading-relaxed">
+            Stop chasing cold leads. Our intelligent system automatically qualifies prospects, sends personalized follow-ups, 
+            and delivers hot leads directly to your inbox. Built for real estate professionals who want to close more deals 
+            with less effort.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up">
             <Link
               href="/realty/contact"
-              className="btn-primary text-lg px-8 py-4 shadow-lg hover:shadow-xl"
+              className="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white font-semibold text-lg px-10 py-4 rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300"
             >
-              Start Free Trial
+              Get Hot Leads Now
             </Link>
             <Link
-              href="/realty/solutions"
-              className="btn-secondary text-lg px-8 py-4 bg-white/10 border-white text-white hover:bg-white hover:text-purple-600"
+              href="/realty/virtual-staging"
+              className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white hover:text-purple-600 font-semibold text-lg px-10 py-4 rounded-full transition-all duration-300"
             >
-              See How It Works
+              See Live Demo
             </Link>
           </div>
 
-          <div className="mt-8 text-sm text-gray-300">
-            ✓ 10-minute setup • ✓ No credit card required • ✓ Privacy-first approach
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto text-center">
+            <div className="text-gray-300">
+              <div className="text-2xl font-bold text-green-400">2 min</div>
+              <div className="text-sm">Setup Time</div>
+            </div>
+            <div className="text-gray-300">
+              <div className="text-2xl font-bold text-blue-400">24/7</div>
+              <div className="text-sm">AI Working</div>
+            </div>
+            <div className="text-gray-300">
+              <div className="text-2xl font-bold text-purple-400">40%+</div>
+              <div className="text-sm">More Closings</div>
+            </div>
           </div>
         </div>
       </section>
@@ -95,97 +108,82 @@ export default function RealtyPage() {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Why Solo Agents Choose RealVibeAI
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              The Complete Lead Generation System
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Stop wasting time on unqualified leads. Our AI does the heavy lifting so you can focus on closing deals.
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              From initial contact to closing, our AI handles every step of lead nurturing. 
+              Automatic qualification, personalized follow-ups, and intelligent prioritization—all working 24/7 to grow your business.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Feature 1 */}
-            <div className="feature-card bg-white p-8 rounded-xl shadow-md">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Smart Lead Qualification</h3>
-              <p className="text-gray-600">
-                Our AI analyzes every lead interaction and automatically scores them as Hot, Warm, or Cold with detailed reasoning. 
-                No more guessing which prospects are worth your time.
-              </p>
-            </div>
-
-            {/* Feature 2 */}
-            <div className="feature-card bg-white p-8 rounded-xl shadow-md">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">10-Minute Setup</h3>
-              <p className="text-gray-600">
-                Get started in minutes, not hours. Our no-code setup process integrates with your existing workflow 
-                without requiring technical expertise or lengthy onboarding.
-              </p>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="feature-card bg-white p-8 rounded-xl shadow-md">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Privacy-First Approach</h3>
-              <p className="text-gray-600">
-                Your leads stay yours. We never resell your data or share it with competitors. 
-                Complete transparency in pricing with no hidden fees or surprise charges.
-              </p>
-            </div>
-
-            {/* Feature 4 */}
-            <div className="feature-card bg-white p-8 rounded-xl shadow-md">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-purple-200">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Automated Scoring</h3>
-              <p className="text-gray-600">
-                Every lead gets an instant qualification score with clear reasoning. Understand exactly why a prospect 
-                is hot, warm, or cold to prioritize your follow-up efforts effectively.
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Instant Lead Scoring</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Every lead gets scored as Hot, Warm, or Cold within seconds. Our AI analyzes 50+ data points 
+                including urgency, budget indicators, and engagement patterns to prioritize your follow-ups.
               </p>
+              <div className="mt-4 text-sm text-purple-600 font-semibold">
+                → Save 3+ hours daily
+              </div>
             </div>
 
-            {/* Feature 5 */}
-            <div className="feature-card bg-white p-8 rounded-xl shadow-md">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            {/* Feature 2 */}
+            <div className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Real-Time Analytics</h3>
-              <p className="text-gray-600">
-                Track your lead quality trends, conversion rates, and time savings with detailed analytics. 
-                Make data-driven decisions to optimize your sales process.
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Automated Follow-Ups</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Personalized email sequences sent at optimal times (48h, 7 days, monthly). 
+                Each message is tailored to the lead's interest level and previous interactions.
               </p>
+              <div className="mt-4 text-sm text-blue-600 font-semibold">
+                → 40% higher response rates
+              </div>
             </div>
 
-            {/* Feature 6 */}
-            <div className="feature-card bg-white p-8 rounded-xl shadow-md">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            {/* Feature 3 */}
+            <div className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-green-200">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2-2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Built for Solo Agents</h3>
-              <p className="text-gray-600">
-                Designed specifically for independent agents who need powerful tools without enterprise complexity. 
-                Affordable pricing that scales with your business growth.
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Smart Analytics</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Track conversion rates, lead quality trends, and ROI in real-time. 
+                Identify your best lead sources and optimize your marketing spend.
               </p>
+              <div className="mt-4 text-sm text-green-600 font-semibold">
+                → Data-driven decisions
+              </div>
+            </div>
+
+          </div>
+
+          {/* CTA Section within Features */}
+          <div className="mt-16 text-center">
+            <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-12 text-white">
+              <h3 className="text-3xl font-bold mb-4">Ready to 3x Your Lead Conversion?</h3>
+              <p className="text-xl mb-8 opacity-90">
+                Join 500+ real estate professionals who've transformed their business with AI-powered lead generation.
+              </p>
+              <Link
+                href="/realty/contact"
+                className="bg-white text-purple-600 hover:bg-gray-100 font-bold text-lg px-10 py-4 rounded-full transition-all duration-300 inline-block"
+              >
+                Start Your Free Trial Today
+              </Link>
             </div>
           </div>
         </div>

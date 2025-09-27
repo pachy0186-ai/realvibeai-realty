@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Analytics } from "../components/Analytics";
 import SocialLinks from "../components/SocialLinks";
 import ContactWidget from "../components/ContactWidget";
+import ComplianceBanner from "../components/ComplianceBanner";
 
 export default function RootLayout({
   children,
@@ -60,6 +61,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <ContactWidget />
+        <ComplianceBanner />
       </body>
     </html>
   );
@@ -265,6 +267,11 @@ function Footer() {
               <li>
                 <Link href="/legal/terms" className="text-gray-400 hover:text-white transition-colors">
                   Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/data-deletion" className="text-gray-400 hover:text-white transition-colors">
+                  Data Deletion
                 </Link>
               </li>
             </ul>
