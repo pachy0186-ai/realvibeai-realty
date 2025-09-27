@@ -1,4 +1,4 @@
-# RealVibeAI Realty
+'''# RealVibeAI Realty
 
 AI-powered real estate solutions that help agents close more deals with virtual staging, automated lead qualification, and seamless CRM integration.
 
@@ -205,4 +205,31 @@ const pricingPlans = [
 
 For questions about this codebase, contact @pachy0186-ai.
 
-For business inquiries and support, email: realvibeairealty@gmail.com# RealVibeAI Realty - Last updated: Fri Sep 26 11:12:54 EDT 2025
+For business inquiries and support, email: realvibeairealty@gmail.com
+
+## Social Profiles
+
+This project includes a `SocialLinks` component that displays icons for LinkedIn and Facebook, driven by environment variables. This allows for easy management of social media links without hardcoding them in the codebase.
+
+### Configuration
+
+To display the social media icons, you need to set the following environment variables in your `.env.local` file or in your hosting provider's environment variable settings (e.g., Vercel):
+
+```
+NEXT_PUBLIC_LINKEDIN_URL=https://www.linkedin.com/company/realvibe-ai-realty/
+NEXT_PUBLIC_FACEBOOK_URL=https://www.facebook.com/share/1G11RPicxJ/?mibextid=wwXIfr
+```
+
+If a variable is not set, the corresponding icon will not be rendered.
+
+### Component Usage
+
+The `SocialLinks` component is used in the main layout (`app/layout.tsx`) to display the social media icons in the header and footer of the website.
+
+### Implementation Notes
+
+- The component uses inline SVG icons for both LinkedIn and Facebook to avoid external dependencies.
+- Links open in a new tab using `target="_blank"` and `rel="noopener noreferrer"` for security.
+- Accessibility is handled with `aria-label` attributes on each link.
+- No tracking scripts are used, ensuring user privacy.
+'''
