@@ -40,7 +40,7 @@ async function sendEmailWithResend(data: ContactFormData, recipient: string) {
 }
 
 async function sendEmailWithSMTP(data: ContactFormData, recipient: string) {
-  const transporter = nodemailer.createTransporter({
+  const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: parseInt(process.env.SMTP_PORT || '587'),
     secure: process.env.SMTP_PORT === '465',
