@@ -1,3 +1,6 @@
+// Force Node runtime (Edge would choke on nodemailer and some headers)
+export const runtime = 'nodejs';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import nodemailer from 'nodemailer';
@@ -13,25 +16,30 @@ interface ContactFormData {
   aiConsent: boolean;
 }
 
-async function sendEmailWithResend(data: ContactFormData, recipient: string) {
-  if (!resend) {
-    throw new Error('Resend not configured');
-  }
+// Replace non-ASCII characters to avoid ByteString issues anywhere headers might be involved
+function toAscii(input: string): string {
+  return input.replace(/[^\x00-\x7F]/g, '?');
+}
 
-  const intentText = data.intent ? ` (${data.intent})` : '';
-  
+async function sendEmailWithResend(data: ContactFormData, recipient: string) {
+  if (!resend) throw new Error('Resend not configured');
+
+  const intentText = data.intent ? ` (${toAscii(data.intent)})` : '';
+  const subject = `New Lead: ${toAscii(data.name)}${intentText}`;
+
   await resend.emails.send({
+    // NOTE: Resend usually requires a verified sender domain/from
     from: `RealVibeAI Contact <${process.env.BUSINESS_EMAIL || 'realvibeairealty@gmail.com'}>`,
     to: [recipient],
-    subject: `New Lead: ${data.name}${intentText}`,
+    subject,
     html: `
       <h2>New Contact Form Submission</h2>
-      <p><strong>Name:</strong> ${data.name}</p>
-      <p><strong>Email:</strong> ${data.email}</p>
-      ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
-      ${data.intent ? `<p><strong>Intent:</strong> ${data.intent}</p>` : ''}
+      <p><strong>Name:</strong> ${toAscii(data.name)}</p>
+      <p><strong>Email:</strong> ${toAscii(data.email)}</p>
+      ${data.phone ? `<p><strong>Phone:</strong> ${toAscii(data.phone)}</p>` : ''}
+      ${data.intent ? `<p><strong>Intent:</strong> ${toAscii(data.intent)}</p>` : ''}
       <p><strong>Message:</strong></p>
-      <p>${data.message.replace(/\n/g, '<br>')}</p>
+      <p>${toAscii(data.message).replace(/\n/g, '<br>')}</p>
       <hr>
       <p><small>AI Consent: ${data.aiConsent ? 'Yes' : 'No'}</small></p>
       <p><small>Submitted at: ${new Date().toISOString()}</small></p>
@@ -42,7 +50,7 @@ async function sendEmailWithResend(data: ContactFormData, recipient: string) {
 async function sendEmailWithSMTP(data: ContactFormData, recipient: string) {
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
-    port: parseInt(process.env.SMTP_PORT || '587'),
+    port: parseInt(process.env.SMTP_PORT || '587', 10),
     secure: process.env.SMTP_PORT === '465',
     auth: {
       user: process.env.SMTP_USER,
@@ -50,20 +58,21 @@ async function sendEmailWithSMTP(data: ContactFormData, recipient: string) {
     },
   });
 
-  const intentText = data.intent ? ` (${data.intent})` : '';
+  const intentText = data.intent ? ` (${toAscii(data.intent)})` : '';
+  const subject = `New Lead: ${toAscii(data.name)}${intentText}`;
 
   await transporter.sendMail({
     from: process.env.SMTP_USER,
     to: recipient,
-    subject: `New Lead: ${data.name}${intentText}`,
+    subject,
     html: `
       <h2>New Contact Form Submission</h2>
-      <p><strong>Name:</strong> ${data.name}</p>
-      <p><strong>Email:</strong> ${data.email}</p>
-      ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
-      ${data.intent ? `<p><strong>Intent:</strong> ${data.intent}</p>` : ''}
+      <p><strong>Name:</strong> ${toAscii(data.name)}</p>
+      <p><strong>Email:</strong> ${toAscii(data.email)}</p>
+      ${data.phone ? `<p><strong>Phone:</strong> ${toAscii(data.phone)}</p>` : ''}
+      ${data.intent ? `<p><strong>Intent:</strong> ${toAscii(data.intent)}</p>` : ''}
       <p><strong>Message:</strong></p>
-      <p>${data.message.replace(/\n/g, '<br>')}</p>
+      <p>${toAscii(data.message).replace(/\n/g, '<br>')}</p>
       <hr>
       <p><small>AI Consent: ${data.aiConsent ? 'Yes' : 'No'}</small></p>
       <p><small>Submitted at: ${new Date().toISOString()}</small></p>
@@ -86,43 +95,42 @@ export async function POST(request: NextRequest) {
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(data.email)) {
-      return NextResponse.json(
-        { error: 'Invalid email format' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid email format' }, { status: 400 });
     }
 
-    const recipient = process.env.BUSINESS_EMAIL || process.env.CONTACT_TO || 'realvibeairealty@gmail.com';
+    const recipient =
+      process.env.BUSINESS_EMAIL ||
+      process.env.CONTACT_TO ||
+      'realvibeairealty@gmail.com';
 
     try {
-      // Try Resend first
+      // Prefer Resend
       if (resend) {
         await sendEmailWithResend(data, recipient);
       }
-      // Fallback to SMTP if Resend is not available
+      // Fallback: SMTP
       else if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
         await sendEmailWithSMTP(data, recipient);
       }
-      // Fallback to console logging
+      // Last resort: log (ASCII-only)
       else {
-        console.log('📧 New Contact Form Submission:', {
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          intent: data.intent,
-          message: data.message,
+        console.log('New Contact Form Submission:', {
+          name: toAscii(data.name),
+          email: toAscii(data.email),
+          phone: data.phone ? toAscii(data.phone) : undefined,
+          intent: data.intent ? toAscii(data.intent) : undefined,
+          message: toAscii(data.message),
           aiConsent: data.aiConsent,
           timestamp: new Date().toISOString(),
         });
       }
 
-      // Trigger lead qualification workflow
+      // Trigger lead qualification (best-effort)
       try {
-        const qualificationResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/lead-qualification`, {
+        const base = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+        const q = await fetch(`${base}/api/lead-qualification`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name: data.name,
             email: data.email,
@@ -132,55 +140,51 @@ export async function POST(request: NextRequest) {
             timestamp: new Date().toISOString(),
           }),
         });
-
-        if (qualificationResponse.ok) {
-          const qualificationResult = await qualificationResponse.json();
-          console.log('Lead qualification completed:', qualificationResult);
+        if (q.ok) {
+          const result = await q.json();
+          console.log('Lead qualification completed:', result);
         }
-      } catch (qualificationError) {
-        console.error('Lead qualification failed (non-critical):', qualificationError);
+      } catch (err) {
+        console.error('Lead qualification failed (non-critical):', err);
       }
 
-      // Trigger lead enrichment (async, non-blocking)
+      // Fire-and-forget lead enrichment
       try {
-        fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/lead-enrichment`, {
+        const base = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+        fetch(`${base}/api/lead-enrichment`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name: data.name,
             email: data.email,
             phone: data.phone,
           }),
-        }).catch(err => console.log('Lead enrichment failed (non-critical):', err));
-      } catch (enrichmentError) {
-        console.log('Lead enrichment skipped:', enrichmentError);
+        }).catch((err) => console.log('Lead enrichment failed (non-critical):', err));
+      } catch (err) {
+        console.log('Lead enrichment skipped:', err);
       }
 
       return NextResponse.json({ ok: true });
     } catch (emailError) {
       console.error('Email sending failed:', emailError);
-      
-      // Log to console as fallback
-      console.log('📧 New Contact Form Submission (email failed):', {
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        intent: data.intent,
-        message: data.message,
+
+      // Log fallback (ASCII)
+      console.log('New Contact Form Submission (email failed):', {
+        name: toAscii(data.name),
+        email: toAscii(data.email),
+        phone: data.phone ? toAscii(data.phone) : undefined,
+        intent: data.intent ? toAscii(data.intent) : undefined,
+        message: toAscii(data.message),
         aiConsent: data.aiConsent,
         timestamp: new Date().toISOString(),
-        error: emailError,
       });
 
-      // Trigger lead qualification workflow
+      // Still try background workflows
       try {
-        const qualificationResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/lead-qualification`, {
+        const base = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+        const q = await fetch(`${base}/api/lead-qualification`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name: data.name,
             email: data.email,
@@ -190,39 +194,34 @@ export async function POST(request: NextRequest) {
             timestamp: new Date().toISOString(),
           }),
         });
-
-        if (qualificationResponse.ok) {
-          const qualificationResult = await qualificationResponse.json();
-          console.log('Lead qualification completed:', qualificationResult);
+        if (q.ok) {
+          const result = await q.json();
+          console.log('Lead qualification completed:', result);
         }
-      } catch (qualificationError) {
-        console.error('Lead qualification failed (non-critical):', qualificationError);
+      } catch (err) {
+        console.error('Lead qualification failed (non-critical):', err);
       }
 
-      // Trigger lead enrichment (async, non-blocking)
       try {
-        fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/lead-enrichment`, {
+        const base = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+        fetch(`${base}/api/lead-enrichment`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name: data.name,
             email: data.email,
             phone: data.phone,
           }),
-        }).catch(err => console.log('Lead enrichment failed (non-critical):', err));
-      } catch (enrichmentError) {
-        console.log('Lead enrichment skipped:', enrichmentError);
+        }).catch((err) => console.log('Lead enrichment failed (non-critical):', err));
+      } catch (err) {
+        console.log('Lead enrichment skipped:', err);
       }
 
-      return NextResponse.json({ ok: true }); // Still return success to user
+      // Return success to the user even if email failed
+      return NextResponse.json({ ok: true });
     }
   } catch (error) {
     console.error('Contact API error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
