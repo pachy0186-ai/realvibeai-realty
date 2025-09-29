@@ -1,9 +1,8 @@
-// Force Node runtime (Edge would choke on nodemailer and some headers)
-export const runtime = 'nodejs';
-
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import nodemailer from 'nodemailer';
+
+export const dynamic = 'force-dynamic'; // ensure purely dynamic API route
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
@@ -16,30 +15,23 @@ interface ContactFormData {
   aiConsent: boolean;
 }
 
-// Replace non-ASCII characters to avoid ByteString issues anywhere headers might be involved
-function toAscii(input: string): string {
-  return input.replace(/[^\x00-\x7F]/g, '?');
-}
-
 async function sendEmailWithResend(data: ContactFormData, recipient: string) {
   if (!resend) throw new Error('Resend not configured');
 
-  const intentText = data.intent ? ` (${toAscii(data.intent)})` : '';
-  const subject = `New Lead: ${toAscii(data.name)}${intentText}`;
+  const intentText = data.intent ? ` (${data.intent})` : '';
 
   await resend.emails.send({
-    // NOTE: Resend usually requires a verified sender domain/from
     from: `RealVibeAI Contact <${process.env.BUSINESS_EMAIL || 'realvibeairealty@gmail.com'}>`,
     to: [recipient],
-    subject,
+    subject: `New Lead: ${data.name}${intentText}`,
     html: `
       <h2>New Contact Form Submission</h2>
-      <p><strong>Name:</strong> ${toAscii(data.name)}</p>
-      <p><strong>Email:</strong> ${toAscii(data.email)}</p>
-      ${data.phone ? `<p><strong>Phone:</strong> ${toAscii(data.phone)}</p>` : ''}
-      ${data.intent ? `<p><strong>Intent:</strong> ${toAscii(data.intent)}</p>` : ''}
+      <p><strong>Name:</strong> ${data.name}</p>
+      <p><strong>Email:</strong> ${data.email}</p>
+      ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
+      ${data.intent ? `<p><strong>Intent:</strong> ${data.intent}</p>` : ''}
       <p><strong>Message:</strong></p>
-      <p>${toAscii(data.message).replace(/\n/g, '<br>')}</p>
+      <p>${(data.message || '').replace(/\n/g, '<br>')}</p>
       <hr>
       <p><small>AI Consent: ${data.aiConsent ? 'Yes' : 'No'}</small></p>
       <p><small>Submitted at: ${new Date().toISOString()}</small></p>
@@ -48,31 +40,31 @@ async function sendEmailWithResend(data: ContactFormData, recipient: string) {
 }
 
 async function sendEmailWithSMTP(data: ContactFormData, recipient: string) {
+  const port = parseInt(process.env.SMTP_PORT || '587', 10);
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
-    port: parseInt(process.env.SMTP_PORT || '587', 10),
-    secure: process.env.SMTP_PORT === '465',
+    port,
+    secure: port === 465,
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
   });
 
-  const intentText = data.intent ? ` (${toAscii(data.intent)})` : '';
-  const subject = `New Lead: ${toAscii(data.name)}${intentText}`;
+  const intentText = data.intent ? ` (${data.intent})` : '';
 
   await transporter.sendMail({
     from: process.env.SMTP_USER,
     to: recipient,
-    subject,
+    subject: `New Lead: ${data.name}${intentText}`,
     html: `
       <h2>New Contact Form Submission</h2>
-      <p><strong>Name:</strong> ${toAscii(data.name)}</p>
-      <p><strong>Email:</strong> ${toAscii(data.email)}</p>
-      ${data.phone ? `<p><strong>Phone:</strong> ${toAscii(data.phone)}</p>` : ''}
-      ${data.intent ? `<p><strong>Intent:</strong> ${toAscii(data.intent)}</p>` : ''}
+      <p><strong>Name:</strong> ${data.name}</p>
+      <p><strong>Email:</strong> ${data.email}</p>
+      ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
+      ${data.intent ? `<p><strong>Intent:</strong> ${data.intent}</p>` : ''}
       <p><strong>Message:</strong></p>
-      <p>${toAscii(data.message).replace(/\n/g, '<br>')}</p>
+      <p>${(data.message || '').replace(/\n/g, '<br>')}</p>
       <hr>
       <p><small>AI Consent: ${data.aiConsent ? 'Yes' : 'No'}</small></p>
       <p><small>Submitted at: ${new Date().toISOString()}</small></p>
@@ -103,32 +95,40 @@ export async function POST(request: NextRequest) {
       process.env.CONTACT_TO ||
       'realvibeairealty@gmail.com';
 
+    // Try Resend -> SMTP -> console fallback
     try {
-      // Prefer Resend
       if (resend) {
         await sendEmailWithResend(data, recipient);
-      }
-      // Fallback: SMTP
-      else if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+      } else if (
+        process.env.SMTP_HOST &&
+        process.env.SMTP_USER &&
+        process.env.SMTP_PASS
+      ) {
         await sendEmailWithSMTP(data, recipient);
-      }
-      // Last resort: log (ASCII-only)
-      else {
-        console.log('New Contact Form Submission:', {
-          name: toAscii(data.name),
-          email: toAscii(data.email),
-          phone: data.phone ? toAscii(data.phone) : undefined,
-          intent: data.intent ? toAscii(data.intent) : undefined,
-          message: toAscii(data.message),
+      } else {
+        // Console fallback (ASCII only text)
+        console.log('New Contact Form Submission', {
+          name: data.name,
+          email: data.email,
+          phone: data.phone || '',
+          intent: data.intent || '',
+          message: data.message,
           aiConsent: data.aiConsent,
           timestamp: new Date().toISOString(),
         });
       }
 
-      // Trigger lead qualification (best-effort)
+      // Trigger lead qualification (non-blocking for user experience)
       try {
-        const base = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-        const q = await fetch(`${base}/api/lead-qualification`, {
+        const base =
+          process.env.NEXT_PUBLIC_SITE_URL ||
+          process.env.VERCEL_URL ||
+          '';
+        const url = base
+          ? `https://${base.replace(/^https?:\/\//, '')}/api/lead-qualification`
+          : '/api/lead-qualification';
+
+        const qualificationResponse = await fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -140,18 +140,26 @@ export async function POST(request: NextRequest) {
             timestamp: new Date().toISOString(),
           }),
         });
-        if (q.ok) {
-          const result = await q.json();
-          console.log('Lead qualification completed:', result);
+
+        if (qualificationResponse.ok) {
+          const result = await qualificationResponse.json();
+          console.log('Lead qualification completed', result);
         }
       } catch (err) {
-        console.error('Lead qualification failed (non-critical):', err);
+        console.error('Lead qualification failed (non-critical)', err);
       }
 
-      // Fire-and-forget lead enrichment
+      // Trigger lead enrichment (fire and forget)
       try {
-        const base = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-        fetch(`${base}/api/lead-enrichment`, {
+        const base =
+          process.env.NEXT_PUBLIC_SITE_URL ||
+          process.env.VERCEL_URL ||
+          '';
+        const url = base
+          ? `https://${base.replace(/^https?:\/\//, '')}/api/lead-enrichment`
+          : '/api/lead-enrichment';
+
+        fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -159,30 +167,37 @@ export async function POST(request: NextRequest) {
             email: data.email,
             phone: data.phone,
           }),
-        }).catch((err) => console.log('Lead enrichment failed (non-critical):', err));
-      } catch (err) {
-        console.log('Lead enrichment skipped:', err);
+        }).catch((e) => console.log('Lead enrichment failed (non-critical)', e));
+      } catch {
+        // ignore
       }
 
       return NextResponse.json({ ok: true });
     } catch (emailError) {
-      console.error('Email sending failed:', emailError);
+      console.error('Email sending failed', emailError);
 
-      // Log fallback (ASCII)
-      console.log('New Contact Form Submission (email failed):', {
-        name: toAscii(data.name),
-        email: toAscii(data.email),
-        phone: data.phone ? toAscii(data.phone) : undefined,
-        intent: data.intent ? toAscii(data.intent) : undefined,
-        message: toAscii(data.message),
+      // Log details but keep ASCII
+      console.log('New Contact Form Submission (email failed)', {
+        name: data.name,
+        email: data.email,
+        phone: data.phone || '',
+        intent: data.intent || '',
+        message: data.message,
         aiConsent: data.aiConsent,
         timestamp: new Date().toISOString(),
       });
 
-      // Still try background workflows
+      // Retry those auxiliary tasks but do not block response
       try {
-        const base = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-        const q = await fetch(`${base}/api/lead-qualification`, {
+        const base =
+          process.env.NEXT_PUBLIC_SITE_URL ||
+          process.env.VERCEL_URL ||
+          '';
+        const url = base
+          ? `https://${base.replace(/^https?:\/\//, '')}/api/lead-qualification`
+          : '/api/lead-qualification';
+
+        fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -193,18 +208,23 @@ export async function POST(request: NextRequest) {
             intent: data.intent,
             timestamp: new Date().toISOString(),
           }),
-        });
-        if (q.ok) {
-          const result = await q.json();
-          console.log('Lead qualification completed:', result);
-        }
-      } catch (err) {
-        console.error('Lead qualification failed (non-critical):', err);
+        }).catch((e) =>
+          console.error('Lead qualification failed (non-critical)', e)
+        );
+      } catch {
+        // ignore
       }
 
       try {
-        const base = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-        fetch(`${base}/api/lead-enrichment`, {
+        const base =
+          process.env.NEXT_PUBLIC_SITE_URL ||
+          process.env.VERCEL_URL ||
+          '';
+        const url = base
+          ? `https://${base.replace(/^https?:\/\//, '')}/api/lead-enrichment`
+          : '/api/lead-enrichment';
+
+        fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -212,16 +232,18 @@ export async function POST(request: NextRequest) {
             email: data.email,
             phone: data.phone,
           }),
-        }).catch((err) => console.log('Lead enrichment failed (non-critical):', err));
-      } catch (err) {
-        console.log('Lead enrichment skipped:', err);
+        }).catch((e) =>
+          console.log('Lead enrichment failed (non-critical)', e)
+        );
+      } catch {
+        // ignore
       }
 
-      // Return success to the user even if email failed
+      // Still return success to the user
       return NextResponse.json({ ok: true });
     }
   } catch (error) {
-    console.error('Contact API error:', error);
+    console.error('Contact API error', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
