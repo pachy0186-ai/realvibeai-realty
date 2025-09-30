@@ -77,10 +77,11 @@ async function sendEmailWithSMTP(data: ContactFormData, recipient: string) {
 
 export async function POST(request: NextRequest) {
   try {
-    const rawData: any = await request.json();
-    const data: ContactFormData = {
-      name: S(rawData.name),
-      email: S(rawData.email),
+    const rawData: unknown = await request.json();
+const body = rawData as Record<string, unknown>;
+const data: ContactFormData = {
+  name: S(body.name),
+  email: S(body.email),
       phone: rawData.phone ? S(rawData.phone) : undefined,
       message: S(rawData.message),
       intent: rawData.intent ? S(rawData.intent) : undefined,
