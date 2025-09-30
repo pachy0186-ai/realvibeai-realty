@@ -164,8 +164,8 @@ export default function Contact() {
     <button type="submit">Submit</button>
   </form>
 </main>
-    
-      <hr style={{ margin: '24px 0' }} />
+
+<hr style={{ margin: '24px 0' }} />
 
       <form onSubmit={onSubmit} style={{ display: 'grid', gap: 12 }}>
         {/* Honeypot (hidden from users via CSS inline) */}
