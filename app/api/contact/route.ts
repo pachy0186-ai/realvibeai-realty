@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import nodemailer from 'nodemailer';
+import { sanitize as S } from '@/app/lib/sanitize';
 
 export const dynamic = 'force-dynamic'; // ensure purely dynamic API route
 
@@ -76,7 +77,17 @@ async function sendEmailWithSMTP(data: ContactFormData, recipient: string) {
 
 export async function POST(request: NextRequest) {
   try {
-    const data: ContactFormData = await request.json();
+    const rawData: any = await request.json();
+    const data: ContactFormData = {
+      name: S(rawData.name),
+      email: S(rawData.email),
+      phone: rawData.phone ? S(rawData.phone) : undefined,
+      message: S(rawData.message),
+      intent: rawData.intent ? S(rawData.intent) : undefined,
+      lead_priority: rawData.lead_priority ? S(rawData.lead_priority) : undefined,
+      linkedin_profile: rawData.linkedin_profile ? S(rawData.linkedin_profile) : undefined,
+      aiConsent: Boolean(rawData.aiConsent),
+    };
 
     // Validate required fields
     if (!data.name || !data.email || !data.message || !data.aiConsent) {

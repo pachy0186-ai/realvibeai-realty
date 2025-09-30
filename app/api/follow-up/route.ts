@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { sanitize as S } from '@/app/lib/sanitize';
 
 export const dynamic = 'force-dynamic';
 
@@ -42,7 +43,14 @@ async function sendFollowUpEmail(data: FollowUpFormData, recipient: string) {
 
 export async function POST(request: NextRequest) {
   try {
-    const data: FollowUpFormData = await request.json();
+    const rawData: FollowUpFormData = await request.json();
+    const data: FollowUpFormData = {
+      email: S(rawData.email),
+      name: S(rawData.name),
+      subject: S(rawData.subject),
+      message: S(rawData.message),
+      send: rawData.send,
+    };
 
     if (!data.email || !data.name || !data.subject || !data.message) {
       return NextResponse.json(
