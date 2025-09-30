@@ -98,17 +98,73 @@ export default function Contact() {
   }
 
   return (
-    <main style={{ maxWidth: 900, margin: '40px auto', padding: '0 16px' }}>
-      <h1>Contact Us</h1>
-      <p>Have questions or want to schedule a demo? We’d love to hear from you!</p>
+ <main style={{ maxWidth: 900, margin: "40px auto", padding: "0 16px" }}>
+  <h1>Contact Us</h1>
+  <p>Have questions or want to schedule a demo? We’d love to hear from you!</p>
 
-      {/* Static contact info (kept) */}
-      <ul>
-        <li>📧 Email: realvibeairealty@gmail.com</li>
-        <li>📞 Phone: +1 (954) 247-8275</li>
-        <li>🌐 Website: www.realvibeai.com</li>
-      </ul>
+  <form method="POST" action="/api/follow-up/route">
+    <label>
+      Name:
+      <input type="text" name="name" required />
+    </label>
+    <br />
 
+    <label>
+      Email:
+      <input type="email" name="email" required />
+    </label>
+    <br />
+
+    <label>
+      Phone:
+      <input type="tel" name="phone" />
+    </label>
+    <br />
+
+    <label>
+      Message:
+      <textarea name="message" required></textarea>
+    </label>
+    <br />
+
+    {/* 🔽 New fields go here */}
+    <label>
+      Lead Intent:
+      <select name="intent" required>
+        <option value="buy">Buy</option>
+        <option value="sell">Sell</option>
+        <option value="rent">Rent</option>
+        <option value="investor">Investor</option>
+      </select>
+    </label>
+    <br />
+
+    <label>
+      Lead Priority:
+      <select name="priority" required>
+        <option value="high">High</option>
+        <option value="medium">Medium</option>
+        <option value="low">Low</option>
+      </select>
+    </label>
+    <br />
+
+    <label>
+      LinkedIn Profile:
+      <input type="url" name="linkedinProfile" placeholder="https://linkedin.com/in/..." />
+    </label>
+    <br />
+
+    <label>
+      <input type="checkbox" name="aiConsent" required />
+      I consent to AI-powered responses and follow-ups
+    </label>
+    <br />
+
+    <button type="submit">Submit</button>
+  </form>
+</main>
+    
       <hr style={{ margin: '24px 0' }} />
 
       <form onSubmit={onSubmit} style={{ display: 'grid', gap: 12 }}>
