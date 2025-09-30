@@ -11,7 +11,9 @@ interface ContactFormData {
   email: string;
   phone?: string;
   message: string;
-  intent?: string;
+  intent?: string; // already here
+  lead_priority?: string;
+  linkedin_profile?: string;
   aiConsent: boolean;
 }
 
