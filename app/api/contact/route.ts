@@ -12,8 +12,8 @@ interface ContactFormData {
   email: string;
   phone?: string;
   message: string;
-  intent?: string; // already here
-  lead_priority?: string;
+  intent?: 'Buy' | 'Sell' | 'Rent' | 'Investor';
+  lead_priority?: 'High' | 'Medium' | 'Low';
   linkedin_profile?: string;
   aiConsent: boolean;
 }
@@ -32,7 +32,9 @@ async function sendEmailWithResend(data: ContactFormData, recipient: string) {
       <p><strong>Name:</strong> ${data.name}</p>
       <p><strong>Email:</strong> ${data.email}</p>
       ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
-      ${data.intent ? `<p><strong>Intent:</strong> ${data.intent}</p>` : ''}
+      ${data.intent ? `<p><strong>Lead Intent:</strong> ${data.intent}</p>` : ''}
+      ${data.lead_priority ? `<p><strong>Lead Priority:</strong> ${data.lead_priority}</p>` : ''}
+      ${data.linkedin_profile ? `<p><strong>LinkedIn Profile:</strong> <a href="${data.linkedin_profile}">${data.linkedin_profile}</a></p>` : ''}
       <p><strong>Message:</strong></p>
       <p>${(data.message || '').replace(/\n/g, '<br>')}</p>
       <hr>
@@ -65,7 +67,9 @@ async function sendEmailWithSMTP(data: ContactFormData, recipient: string) {
       <p><strong>Name:</strong> ${data.name}</p>
       <p><strong>Email:</strong> ${data.email}</p>
       ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
-      ${data.intent ? `<p><strong>Intent:</strong> ${data.intent}</p>` : ''}
+      ${data.intent ? `<p><strong>Lead Intent:</strong> ${data.intent}</p>` : ''}
+      ${data.lead_priority ? `<p><strong>Lead Priority:</strong> ${data.lead_priority}</p>` : ''}
+      ${data.linkedin_profile ? `<p><strong>LinkedIn Profile:</strong> <a href="${data.linkedin_profile}">${data.linkedin_profile}</a></p>` : ''}
       <p><strong>Message:</strong></p>
       <p>${(data.message || '').replace(/\n/g, '<br>')}</p>
       <hr>
@@ -78,16 +82,16 @@ async function sendEmailWithSMTP(data: ContactFormData, recipient: string) {
 export async function POST(request: NextRequest) {
   try {
     const rawData: unknown = await request.json();
-const body = rawData as Record<string, unknown>;
-const data: ContactFormData = {
-  name: S(body.name),
-  email: S(body.email),
-      phone: rawData.phone ? S(rawData.phone) : undefined,
-      message: S(rawData.message),
-      intent: rawData.intent ? S(rawData.intent) : undefined,
-      lead_priority: rawData.lead_priority ? S(rawData.lead_priority) : undefined,
-      linkedin_profile: rawData.linkedin_profile ? S(rawData.linkedin_profile) : undefined,
-      aiConsent: Boolean(rawData.aiConsent),
+    const body = rawData as Record<string, unknown>;
+    const data: ContactFormData = {
+      name: S(body.name),
+      email: S(body.email),
+      phone: body.phone ? S(body.phone) : undefined,
+      message: S(body.message),
+      intent: body.intent ? S(body.intent) as ContactFormData['intent'] : undefined,
+      lead_priority: body.lead_priority ? S(body.lead_priority) as ContactFormData['lead_priority'] : undefined,
+      linkedin_profile: body.linkedin_profile ? S(body.linkedin_profile) : undefined,
+      aiConsent: Boolean(body.aiConsent),
     };
 
     // Validate required fields
@@ -99,7 +103,7 @@ const data: ContactFormData = {
     }
 
     // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(data.email)) {
       return NextResponse.json({ error: 'Invalid email format' }, { status: 400 });
     }
@@ -121,11 +125,13 @@ const data: ContactFormData = {
         await sendEmailWithSMTP(data, recipient);
       } else {
         // Console fallback (ASCII only text)
-        console.log('New Contact Form Submission', {
+        console.log("New Contact Form Submission", {
           name: data.name,
           email: data.email,
-          phone: data.phone || '',
-          intent: data.intent || '',
+          phone: data.phone || "",
+          intent: data.intent || "",
+          lead_priority: data.lead_priority || "",
+          linkedin_profile: data.linkedin_profile || "",
           message: data.message,
           aiConsent: data.aiConsent,
           timestamp: new Date().toISOString(),
@@ -151,6 +157,8 @@ const data: ContactFormData = {
             phone: data.phone,
             message: data.message,
             intent: data.intent,
+            lead_priority: data.lead_priority,
+            linkedin_profile: data.linkedin_profile,
             timestamp: new Date().toISOString(),
           }),
         });
@@ -180,6 +188,7 @@ const data: ContactFormData = {
             name: data.name,
             email: data.email,
             phone: data.phone,
+            linkedin_profile: data.linkedin_profile,
           }),
         }).catch((e) => console.log('Lead enrichment failed (non-critical)', e));
       } catch {
@@ -196,6 +205,8 @@ const data: ContactFormData = {
         email: data.email,
         phone: data.phone || '',
         intent: data.intent || '',
+        lead_priority: data.lead_priority || '',
+        linkedin_profile: data.linkedin_profile || '',
         message: data.message,
         aiConsent: data.aiConsent,
         timestamp: new Date().toISOString(),
@@ -220,6 +231,8 @@ const data: ContactFormData = {
             phone: data.phone,
             message: data.message,
             intent: data.intent,
+            lead_priority: data.lead_priority,
+            linkedin_profile: data.linkedin_profile,
             timestamp: new Date().toISOString(),
           }),
         }).catch((e) =>
@@ -245,6 +258,7 @@ const data: ContactFormData = {
             name: data.name,
             email: data.email,
             phone: data.phone,
+            linkedin_profile: data.linkedin_profile,
           }),
         }).catch((e) =>
           console.log('Lead enrichment failed (non-critical)', e)
@@ -261,3 +275,4 @@ const data: ContactFormData = {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
+
