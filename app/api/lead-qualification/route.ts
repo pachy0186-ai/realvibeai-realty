@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { sanitize as S } from '@/app/lib/sanitize';
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
@@ -190,7 +191,16 @@ async function sendAutoReply(data: LeadData, leadScore: LeadScore) {
 
 export async function POST(request: NextRequest) {
   try {
-    const data: LeadData = await request.json();
+    const rawData: unknown = await request.json();
+    const body = rawData as Record<string, unknown>;
+    const data: LeadData = {
+      name: S(body.name),
+      email: S(body.email),
+      phone: body.phone ? S(body.phone) : undefined,
+      message: S(body.message),
+      intent: body.intent ? S(body.intent) : undefined,
+      timestamp: S(body.timestamp),
+    };
 
     // Validate required fields
     if (!data.name || !data.email || !data.message) {
