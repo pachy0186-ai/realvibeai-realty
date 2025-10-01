@@ -81,16 +81,17 @@ async function sendEmailWithSMTP(data: ContactFormData, recipient: string) {
 
 export async function POST(request: NextRequest) {
   try {
-    const rawData: any = await request.json();
+    const rawData: unknown = await request.json();
+    const body = rawData as Record<string, unknown>;
     const data: ContactFormData = {
-      name: S(rawData.name),
-      email: S(rawData.email),
-      phone: rawData.phone ? S(rawData.phone) : undefined,
-      message: S(rawData.message),
-      intent: rawData.intent ? S(rawData.intent) : undefined,
-      lead_priority: rawData.lead_priority ? S(rawData.lead_priority) : undefined,
-      linkedin_profile: rawData.linkedin_profile ? S(rawData.linkedin_profile) : undefined,
-      aiConsent: Boolean(rawData.aiConsent),
+      name: S(body.name),
+      email: S(body.email),
+      phone: body.phone ? S(body.phone) : undefined,
+      message: S(body.message),
+      intent: body.intent ? S(body.intent) as ContactFormData['intent'] : undefined,
+      lead_priority: body.lead_priority ? S(body.lead_priority) as ContactFormData['lead_priority'] : undefined,
+      linkedin_profile: body.linkedin_profile ? S(body.linkedin_profile) : undefined,
+      aiConsent: Boolean(body.aiConsent),
     };
 
     // Validate required fields
@@ -102,7 +103,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(data.email)) {
       return NextResponse.json({ error: 'Invalid email format' }, { status: 400 });
     }
@@ -274,3 +275,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
+
