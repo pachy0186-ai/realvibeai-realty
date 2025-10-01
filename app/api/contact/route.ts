@@ -124,11 +124,13 @@ export async function POST(request: NextRequest) {
         await sendEmailWithSMTP(data, recipient);
       } else {
         // Console fallback (ASCII only text)
-        console.log('New Contact Form Submission', {
+        console.log("New Contact Form Submission", {
           name: data.name,
           email: data.email,
-          phone: data.phone || '',
-          intent: data.intent || '',
+          phone: data.phone || "",
+          intent: data.intent || "",
+          lead_priority: data.lead_priority || "",
+          linkedin_profile: data.linkedin_profile || "",
           message: data.message,
           aiConsent: data.aiConsent,
           timestamp: new Date().toISOString(),
@@ -154,6 +156,8 @@ export async function POST(request: NextRequest) {
             phone: data.phone,
             message: data.message,
             intent: data.intent,
+            lead_priority: data.lead_priority,
+            linkedin_profile: data.linkedin_profile,
             timestamp: new Date().toISOString(),
           }),
         });
@@ -183,6 +187,7 @@ export async function POST(request: NextRequest) {
             name: data.name,
             email: data.email,
             phone: data.phone,
+            linkedin_profile: data.linkedin_profile,
           }),
         }).catch((e) => console.log('Lead enrichment failed (non-critical)', e));
       } catch {
@@ -199,6 +204,8 @@ export async function POST(request: NextRequest) {
         email: data.email,
         phone: data.phone || '',
         intent: data.intent || '',
+        lead_priority: data.lead_priority || '',
+        linkedin_profile: data.linkedin_profile || '',
         message: data.message,
         aiConsent: data.aiConsent,
         timestamp: new Date().toISOString(),
@@ -223,6 +230,8 @@ export async function POST(request: NextRequest) {
             phone: data.phone,
             message: data.message,
             intent: data.intent,
+            lead_priority: data.lead_priority,
+            linkedin_profile: data.linkedin_profile,
             timestamp: new Date().toISOString(),
           }),
         }).catch((e) =>
@@ -248,6 +257,7 @@ export async function POST(request: NextRequest) {
             name: data.name,
             email: data.email,
             phone: data.phone,
+            linkedin_profile: data.linkedin_profile,
           }),
         }).catch((e) =>
           console.log('Lead enrichment failed (non-critical)', e)
