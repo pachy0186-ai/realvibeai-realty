@@ -12,8 +12,8 @@ interface ContactFormData {
   email: string;
   phone?: string;
   message: string;
-  intent?: string; // already here
-  lead_priority?: string;
+  intent?: 'Buy' | 'Sell' | 'Rent' | 'Investor';
+  lead_priority?: 'High' | 'Medium' | 'Low';
   linkedin_profile?: string;
   aiConsent: boolean;
 }
@@ -32,7 +32,9 @@ async function sendEmailWithResend(data: ContactFormData, recipient: string) {
       <p><strong>Name:</strong> ${data.name}</p>
       <p><strong>Email:</strong> ${data.email}</p>
       ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
-      ${data.intent ? `<p><strong>Intent:</strong> ${data.intent}</p>` : ''}
+      ${data.intent ? `<p><strong>Lead Intent:</strong> ${data.intent}</p>` : ''}
+      ${data.lead_priority ? `<p><strong>Lead Priority:</strong> ${data.lead_priority}</p>` : ''}
+      ${data.linkedin_profile ? `<p><strong>LinkedIn Profile:</strong> <a href="${data.linkedin_profile}">${data.linkedin_profile}</a></p>` : ''}
       <p><strong>Message:</strong></p>
       <p>${(data.message || '').replace(/\n/g, '<br>')}</p>
       <hr>
@@ -65,7 +67,9 @@ async function sendEmailWithSMTP(data: ContactFormData, recipient: string) {
       <p><strong>Name:</strong> ${data.name}</p>
       <p><strong>Email:</strong> ${data.email}</p>
       ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
-      ${data.intent ? `<p><strong>Intent:</strong> ${data.intent}</p>` : ''}
+      ${data.intent ? `<p><strong>Lead Intent:</strong> ${data.intent}</p>` : ''}
+      ${data.lead_priority ? `<p><strong>Lead Priority:</strong> ${data.lead_priority}</p>` : ''}
+      ${data.linkedin_profile ? `<p><strong>LinkedIn Profile:</strong> <a href="${data.linkedin_profile}">${data.linkedin_profile}</a></p>` : ''}
       <p><strong>Message:</strong></p>
       <p>${(data.message || '').replace(/\n/g, '<br>')}</p>
       <hr>
