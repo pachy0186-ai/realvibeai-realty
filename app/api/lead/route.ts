@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sanitizeASCII } from '@/lib/sanitize';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     
-    // Validate required fields
-    const { email, name, phone, message } = body;
+    // Validate and sanitize required fields
+    const email = sanitizeASCII(body.email);
+    const name = sanitizeASCII(body.name);
+    const phone = sanitizeASCII(body.phone);
+    const message = sanitizeASCII(body.message);
     
     if (!email || !name) {
       return NextResponse.json(
