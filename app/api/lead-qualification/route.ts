@@ -145,7 +145,7 @@ async function sendAutoReply(data: LeadData, leadScore: LeadScore) {
 
   try {
     await resend.emails.send({
-      from: RealVibeAI Team <${businessEmail}>,
+      from: `RealVibeAI Team <${businessEmail}>`,
       to: [data.email],
       subject,
       html: `
