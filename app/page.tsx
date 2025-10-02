@@ -39,9 +39,9 @@ export default function Home() {
 
       <h2 style={{ marginTop: 32 }}>Our Services</h2>
       <ul style={{ fontSize: "1.1em", lineHeight: "1.6" }}>
-        <li>⚡ <strong>Virtual Property Staging</strong> - Transform empty spaces instantly</li>
-        <li>📊 <strong>CRM Integration</strong> - Sync leads with HubSpot, Zoho, Apptivo</li>
-        <li>🤖 <strong>AI Lead Qualification</strong> - Identify hot prospects automatically</li>
+        <li><strong>Virtual Property Staging</strong> - Transform empty spaces instantly</li>
+        <li><strong>CRM Integration</strong> - Sync leads with HubSpot, Zoho, Apptivo</li>
+        <li><strong>AI Lead Qualification</strong> - Identify hot prospects automatically</li>
       </ul>
     </main>
   )

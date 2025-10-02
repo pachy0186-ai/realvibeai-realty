@@ -10,7 +10,7 @@ export default function Solutions() {
       
       <div style={{ display: "grid", gap: "32px", marginBottom: 40 }}>
         <div style={{ padding: "24px", border: "1px solid #ddd", borderRadius: "8px" }}>
-          <h3 style={{ color: "#007cba", marginTop: 0 }}>⚡ Virtual Property Staging</h3>
+          <h3 style={{ color: "#007cba", marginTop: 0 }}>Virtual Property Staging</h3>
           <p>Instantly transform empty spaces into beautifully staged rooms with AI-powered design. Show buyers the full potential of any property.</p>
           <Link href="/virtual-staging" style={{ 
             padding: "8px 16px", 
@@ -25,7 +25,7 @@ export default function Solutions() {
         </div>
         
         <div style={{ padding: "24px", border: "1px solid #ddd", borderRadius: "8px" }}>
-          <h3 style={{ color: "#007cba", marginTop: 0 }}>📊 CRM Integration</h3>
+          <h3 style={{ color: "#007cba", marginTop: 0 }}>CRM Integration</h3>
           <p>Sync leads and contacts directly with your existing CRM (HubSpot, Zoho, Apptivo). Never lose a lead again with automated follow-ups.</p>
           <Link href="/contact" style={{ 
             padding: "8px 16px", 
@@ -40,7 +40,7 @@ export default function Solutions() {
         </div>
         
         <div style={{ padding: "24px", border: "1px solid #ddd", borderRadius: "8px" }}>
-          <h3 style={{ color: "#007cba", marginTop: 0 }}>🤖 AI Lead Qualification</h3>
+          <h3 style={{ color: "#007cba", marginTop: 0 }}>AI Lead Qualification</h3>
           <p>Automatically identify hot leads and prioritize follow-ups. Focus your time on prospects most likely to buy or sell.</p>
           <Link href="/contact" style={{ 
             padding: "8px 16px", 
