@@ -157,7 +157,7 @@ async function sendAutoReply(data: LeadData, leadScore: LeadScore) {
         </p>
       `,
     });
-    console.log(\Auto-reply sent to \${data.email} (\${leadScore.priority} priority)\);
+    console.log(`Auto-reply sent to ${data.email} (${leadScore.priority} priority)`);
   } catch (err) {
     console.error('Auto-reply failed:', err);
   }
