@@ -31,7 +31,7 @@ export default function VirtualStagingPage() {
           </div>
           <h1 className="text-5xl font-bold text-white mb-4">Virtual Staging</h1>
           <p className="text-xl text-gray-200 max-w-3xl mx-auto">
-            Showcase empty properties with AI-enhanced, photo-realistic interiors — faster, cheaper, and on brand.
+            Showcase empty properties with AI-enhanced, photo-realistic interiors - faster, cheaper, and on brand.
           </p>
         </div>
       </section>

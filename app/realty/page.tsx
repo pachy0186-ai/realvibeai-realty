@@ -113,7 +113,7 @@ export default function RealtyPage() {
             </h2>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
               From initial contact to closing, our AI handles every step of lead nurturing. 
-              Automatic qualification, personalized follow-ups, and intelligent prioritization—all working 24/7 to grow your business.
+              Automatic qualification, personalized follow-ups, and intelligent prioritization - all working 24/7 to grow your business.
             </p>
           </div>
 

@@ -235,7 +235,7 @@ export default function ContactWidget() {
               placeholder="How can we help you?"
             />
             <p className="text-xs text-gray-500 mt-1">
-              AI-generated—may be imperfect. Use your judgment.
+              AI-generated - may be imperfect. Use your judgment.
             </p>
           </div>
 

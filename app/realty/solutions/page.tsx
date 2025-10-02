@@ -107,7 +107,7 @@ export default function SolutionsPage() {
                   <strong>AI Reasoning:</strong> Specific requirements, confirmed budget, urgent timeline, pre-approved financing. 
                   High probability of conversion within 30 days.
                   <div className="mt-1 text-xs text-blue-600 italic">
-                    AI-generated—may be imperfect. Use your judgment.
+                    AI-generated - may be imperfect. Use your judgment.
                   </div>
                 </div>
               </div>
@@ -140,7 +140,7 @@ export default function SolutionsPage() {
                 <p className="text-xs text-gray-500 mt-3">
                   Professional staging in minutes, not days. Multiple style options available.
                   <span className="block mt-1 text-blue-600 italic">
-                    AI-generated—may be imperfect. Use your judgment.
+                    AI-generated - may be imperfect. Use your judgment.
                   </span>
                 </p>
               </div>
