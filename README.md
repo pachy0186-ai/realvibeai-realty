@@ -2,7 +2,7 @@
 
 AI-powered real estate solutions that help agents close more deals with virtual staging, automated lead qualification, and seamless CRM integration.
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Development
 
@@ -32,7 +32,7 @@ npm run build
 npm start
 ```
 
-## 🔧 Environment Variables
+##  Environment Variables
 
 ### Required for Production
 
@@ -55,7 +55,7 @@ BLOB_READ_WRITE_TOKEN=
 
 See `.env.example` for the complete list of available variables.
 
-## 🏗️ Architecture
+##  Architecture
 
 - **Framework:** Next.js 15 with App Router
 - **Base Path:** `/realty` (configured in `next.config.ts`)
@@ -63,7 +63,7 @@ See `.env.example` for the complete list of available variables.
 - **Type Safety:** TypeScript with strict mode
 - **Deployment:** Vercel with GitHub integration
 
-## 📦 Deployment
+##  Deployment
 
 ### Vercel (Recommended)
 
@@ -79,14 +79,14 @@ npm run build
 npm start
 ```
 
-## 🔒 Code Freeze Policy
+##  Code Freeze Policy
 
 **This repository is in pre-launch code freeze.**
 
-- ✅ **Allowed:** Content updates, SEO improvements, accessibility fixes, configuration changes
-- ❌ **Restricted:** New features, major refactoring, breaking changes
-- 📋 **Process:** All changes must go through PRs with required reviews
-- 🎯 **Focus:** Stability and launch readiness
+-  **Allowed:** Content updates, SEO improvements, accessibility fixes, configuration changes
+-  **Restricted:** New features, major refactoring, breaking changes
+-  **Process:** All changes must go through PRs with required reviews
+-  **Focus:** Stability and launch readiness
 
 ### Contributing
 
@@ -96,23 +96,23 @@ npm start
 4. Ensure CI passes and get required reviews
 5. Merge only after approval
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 app/                    # Next.js App Router pages
-├── api/               # API routes (/lead, /staging)
-├── (pages)/           # Marketing pages
-└── globals.css        # Global styles
+ api/               # API routes (/lead, /staging)
+ (pages)/           # Marketing pages
+ globals.css        # Global styles
 
 lib/                   # Utilities and configuration
-├── siteConfig.ts      # Centralized site configuration
+ siteConfig.ts      # Centralized site configuration
 
 .github/               # Repository governance
-├── CODEOWNERS         # Required reviewers
-└── workflows/ci.yml   # Automated testing
+ CODEOWNERS         # Required reviewers
+ workflows/ci.yml   # Automated testing
 ```
 
-## 🎯 Post-Launch Roadmap
+##  Post-Launch Roadmap
 
 Tracked as GitHub issues with `post-launch` label:
 
@@ -123,6 +123,6 @@ Tracked as GitHub issues with `post-launch` label:
 - Performance optimization
 - Privacy policy and legal pages
 
-## 📞 Support
+##  Support
 
 For questions about this codebase, contact @pachy0186-ai.

@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sanitizeASCII } from '@/lib/sanitize';
+import { cleanString } from '@/lib/sanitize';
 
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     
     // Extract and sanitize form fields
-    const email = sanitizeASCII(formData.get('email'));
-    const propertyType = sanitizeASCII(formData.get('propertyType'));
-    const roomType = sanitizeASCII(formData.get('roomType'));
+    const email = cleanString(formData.get('email'));
+    const propertyType = cleanString(formData.get('propertyType'));
+    const roomType = cleanString(formData.get('roomType'));
     const images = formData.getAll('images') as File[];
     
     // Validate required fields
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       propertyType,
       roomType,
       imageCount: images.length,
-      imageSizes: images.map(img => ({ name: sanitizeASCII(img.name), size: img.size }))
+      imageSizes: images.map(img => ({ name: cleanString(img.name), size: img.size }))
     });
     
     return NextResponse.json({ 
