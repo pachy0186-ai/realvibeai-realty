@@ -1,4 +1,4 @@
-'''# RealVibeAI Realty
+# RealVibeAI Realty
 
 AI-powered real estate solutions that help agents close more deals with virtual staging, automated lead qualification, and seamless CRM integration.
 
@@ -232,4 +232,4 @@ The `SocialLinks` component is used in the main layout (`app/layout.tsx`) to dis
 - Links open in a new tab using `target="_blank"` and `rel="noopener noreferrer"` for security.
 - Accessibility is handled with `aria-label` attributes on each link.
 - No tracking scripts are used, ensuring user privacy.
-'''
+
