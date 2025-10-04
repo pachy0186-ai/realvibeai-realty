@@ -10,7 +10,7 @@ export default function About() {
       </p>
       <p>
         From AI-driven lead qualification to virtual staging and seamless CRM
-        integration, our solutions are designed to keep you ahead in today’s
+        integration, our solutions are designed to keep you ahead in today&apos;s
         fast-moving market.
       </p>
     </main>
