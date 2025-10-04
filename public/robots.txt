@@ -1,15 +1,15 @@
-User-agent: *
-Allow: /
+............*
+...... /
 
-# Sitemap
-Sitemap: https://www.realvibeai.com/sitemap.xml
+.........
+.............................................ml
 
-# Disallow admin and API routes
-Disallow: /api/
-Disallow: /_next/
-Disallow: /admin/
+..............................s
+...............
+...............t/
+...............n/
 
-# Allow all other content
-Allow: /realty/
-Allow: /privacy
-Allow: /terms
+........................t
+...............
+...............
+............s
