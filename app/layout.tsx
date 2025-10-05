@@ -283,7 +283,7 @@ function Footer() {
             <SocialLinks className="flex gap-6 justify-center" />
             <div className="space-y-2">
               <p className="text-gray-400 text-sm">
-                Some site features use AI and may be imperfect. Verify important info. © RealVibeAI Realty
+                Some site features use AI and may be imperfect. Verify important info. RealVibeAI Realty
               </p>
               <p className="text-gray-500 text-xs">
                 Contact: <a href="mailto:realvibeairealty@gmail.com" className="hover:text-gray-400">realvibeairealty@gmail.com</a>
