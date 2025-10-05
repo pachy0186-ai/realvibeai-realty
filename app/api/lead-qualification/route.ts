@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 // -------- helpers --------
 function toAscii(input: string): string {
   return (input || '')
-    .replace(/[\u2012-\u2015]/g, '-')   // dashes → hyphen
+    .replace(/[\u2012\u2013\u2014\u2015]/g, '-')   // dashes → hyphen
     .replace(/[\u2018\u2019]/g, "'")    // curly single → '
     .replace(/[\u201C\u201D]/g, '"')    // curly double → "
     .replace(/[^\x00-\x7F]/g, '');      // drop other non-ASCII
