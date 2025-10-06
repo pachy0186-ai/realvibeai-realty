@@ -2,7 +2,11 @@ modules = ["nodejs-20"]
 
 [nix]
 channel = "stable-25_05"
+packages = ["gh", "jq"]
 
 [[ports]]
 localPort = 3000
 externalPort = 80
+
+[agent]
+integrations = ["github:1.0.0"]

@@ -1,0 +1,184 @@
+Goal: Fix Vercel build errors by removing ALL non-ASCII characters across the project and enforcing ASCII in server code.
+
+Repo/branch: current workspace (realvibeai-realty), push to main when clean.
+
+Execute these steps exactly:
+
+1. Scan for non-ASCII
+
+Recursively scan the repo for any characters outside ASCII range, EXCLUDING: node_modules, .next, .git, .vercel, build artifacts, and binary assets.
+
+Command:
+
+```
+grep -rIn --color=always -P "[^\x00-\x7F]" \
+  --exclude-dir={node_modules,.next,.git,.vercel,dist,build,.turbo} \
+  --exclude="*.png" --exclude="*.jpg" --exclude="*.jpeg" --exclude="*.gif" --exclude="*.ico" \
+  --exclude="*.woff" --exclude="*.woff2" --exclude="*.ttf" --exclude="*.eot" \
+  --exclude="*.mp4" --exclude="*.mp3" --exclude="*.wav" \
+  --exclude="*.pdf" --exclude="*.zip" \
+  --exclude="package-lock.json" --exclude="pnpm-lock.yaml" --exclude="yarn.lock" \
+  . || echo "No non-ASCII characters found"
+```
+
+Show a concise list of (file:line) hits so I can see what you’ll fix.
+
+1. Create sanitizer script
+
+File: scripts/sanitize-repo.mjs
+
+Requirements:
+
+- Walk the repo (skip directories above)
+- Only process text files with extensions: .js, .jsx, .ts, .tsx, .md, .mdx, .json, .yml, .yaml, .css, .scss, .html, .txt, .mjs, .cjs
+- Replace smart punctuation with ASCII equivalents:
+  - — (em dash, 8212) → -
+  - – (en dash, 8211) → -
+  - “ “ (smart quotes, 8220, 8221) → “
+  - ’ ’ (smart quotes, 8216, 8217) → ’
+  - … (ellipsis, 8230) → …
+  - • (bullet, 8226) → -
+  - NBSP (non-breaking space, 160) → regular space
+  - Any remaining non-ASCII (charCode > 127) → remove entirely
+- Print per-file counts of replacements
+- Support –dry-run flag (show changes without writing)
+- Handle UTF-8 BOM if present
+
+Script template:
+
+```javascript
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const rootDir = path.join(__dirname, '..');
+
+const TEXT_EXTENSIONS = ['.js', '.jsx', '.ts', '.tsx', '.md', '.mdx', '.json', '.yml', '.yaml', '.css', '.scss', '.html', '.txt', '.mjs', '.cjs'];
+const SKIP_DIRS = ['node_modules', '.next', '.git', '.vercel', 'dist', 'build', '.turbo'];
+const SKIP_FILES = ['package-lock.json', 'pnpm-lock.yaml', 'yarn.lock'];
+
+const dryRun = process.argv.includes('--dry-run');
+
+function sanitizeASCII(str) {
+  let result = str
+    .replace(/—/g, '-')           // em dash
+    .replace(/–/g, '-')           // en dash
+    .replace(/[""]/g, '"')        // smart double quotes
+    .replace(/['']/g, "'")        // smart single quotes
+    .replace(/…/g, '...')         // ellipsis
+    .replace(/•/g, '-')           // bullet
+    .replace(/\u00A0/g, ' ')      // nbsp
+    .replace(/[^\x00-\x7F]/g, ''); // remove any remaining non-ASCII
+  
+  return result;
+}
+
+// Add the walking and processing logic here
+```
+
+1. DRY RUN first
+
+```
+node scripts/sanitize-repo.mjs --dry-run
+```
+
+Review the output carefully before applying changes.
+
+1. Apply the changes
+
+```
+node scripts/sanitize-repo.mjs
+```
+
+1. Add server-side guard
+
+Create: lib/sanitize.ts
+
+```typescript
+/**
+ * Sanitizes strings by replacing non-ASCII characters with ASCII equivalents
+ * Use this for any user input or content that will be used in:
+ * - Email subjects/bodies
+ * - HTTP headers
+ * - API responses
+ * - Any string serialization
+ */
+export function sanitizeASCII(str: string): string {
+  return str
+    .replace(/—/g, '-')           // em dash (U+2014)
+    .replace(/–/g, '-')           // en dash (U+2013)
+    .replace(/[""]/g, '"')        // smart double quotes
+    .replace(/['']/g, "'")        // smart single quotes
+    .replace(/…/g, '...')         // ellipsis (U+2026)
+    .replace(/•/g, '-')           // bullet (U+2022)
+    .replace(/\u00A0/g, ' ')      // non-breaking space
+    .replace(/[^\x00-\x7F]/g, ''); // remove remaining non-ASCII
+}
+
+/**
+ * Helper to safely sanitize unknown values
+ */
+export function cleanString(value: unknown): string {
+  return sanitizeASCII(String(value ?? ''));
+}
+```
+
+Update API routes (especially app/api/lead-qualification/route.ts):
+
+```typescript
+import { sanitizeASCII, cleanString } from '@/lib/sanitize';
+
+// Wrap any user input or content strings:
+const subject = sanitizeASCII(emailSubject);
+const body = sanitizeASCII(emailBody);
+const header = cleanString(userInput);
+
+// Use in headers, email, etc.
+```
+
+Apply this pattern to ALL API routes that handle strings in:
+
+- Headers
+- Email content
+- Database queries
+- External API calls
+- Any serialization
+
+1. Verify locally
+
+```
+npm ci
+npm run build
+```
+
+If build fails:
+
+- Read the error carefully
+- Open the problematic file
+- Fix remaining non-ASCII characters manually
+- Repeat npm run build until success
+
+1. Commit & push
+
+```
+git add .
+git commit -m "fix: sanitize non-ASCII across repo; enforce ASCII in API routes"
+git push origin main
+```
+
+1. Summary Report
+
+After completion, provide:
+
+- Total files changed
+- Examples of replacements (file:line, before → after)
+- Confirm git push completed
+- Next step: Vercel will auto-deploy on push, or manually trigger redeploy in Vercel dashboard
+
+Notes:
+
+- The script should be idempotent (safe to run multiple times)
+- Keep backups if doing this manually
+- Check .env files manually (they’re often in .gitignore)
+- Review package.json scripts for any hardcoded strings with special chars

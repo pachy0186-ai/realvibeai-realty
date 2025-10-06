@@ -17,11 +17,12 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "resend": "^6.1.0",
-    "twilio": "^5.10.1"
+    "twilio": "^5.10.1",
+    "zod": "^4.1.11"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/postcss": "^4.1.14",
     "@types/marked": "^5.0.2",
     "@types/node": "^20",
     "@types/nodemailer": "^7.0.1",
@@ -29,6 +30,8 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
+    "lightningcss": "^1.30.2",
+    "postcss": "^8.5.6",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
