@@ -3,11 +3,14 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+export const revalidate = 0; // ensure no build-time pre-rendering/caching
 
 // -------- helpers --------
 function toAscii(input: string): string {
+  // Normalize then drop any non-ASCII to avoid ByteString/latin1 issues
   return (input || '')
-    .replace(/[^\x00-\x7F]/g, '');      // drop all non-ASCII characters
+    .normalize('NFKC')
+    .replace(/[^\x00-\x7F]/g, '');
 }
 
 function isEmail(s: string) {
@@ -24,7 +27,7 @@ interface LeadInput {
   timestamp?: string;
 }
 
-// -------- handler --------
+// -------- handlers --------
 export async function POST(request: NextRequest) {
   try {
     const raw = (await request.json().catch(() => ({}))) as Partial<LeadInput>;
@@ -47,12 +50,11 @@ export async function POST(request: NextRequest) {
       timestamp: raw.timestamp || new Date().toISOString(),
     };
 
-    // Do your real qualification here (placeholder demo):
+    // simple qualification heuristic (adjust as needed)
     const qualified =
-      !!lead.intent && /buy|sell|rent|list|cash/i.test(lead.intent) ||
+      (!!lead.intent && /buy|sell|rent|list|cash/i.test(lead.intent)) ||
       (!!lead.message && /pre[- ]?approved|budget|neighborhood/i.test(lead.message || ''));
 
-    // Return normalized, safe payload
     return NextResponse.json(
       { ok: true, qualified, lead },
       { headers: { 'Cache-Control': 'no-store' } }
@@ -61,4 +63,9 @@ export async function POST(request: NextRequest) {
     console.error('lead-qualification error', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
+}
+
+export async function GET() {
+  // quick health check endpoint
+  return NextResponse.json({ ok: true }, { headers: { 'Cache-Control': 'no-store' } });
 }
