@@ -2,11 +2,11 @@ import Link from "next/link";
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'AI Lead Qualification Solutions – RealVibeAI Realty',
+  title: 'AI Lead Qualification Solutions - RealVibeAI Realty',
   description: 'Discover how our AI-powered lead qualification system automatically scores prospects as Hot, Warm, or Cold with detailed reasoning. Built for solo real estate agents.',
   keywords: 'AI lead qualification, real estate lead scoring, automated lead analysis, CRM integration',
   openGraph: {
-    title: 'AI Lead Qualification Solutions – RealVibeAI Realty',
+    title: 'AI Lead Qualification Solutions - RealVibeAI Realty',
     description: 'Discover how our AI-powered lead qualification system automatically scores prospects as Hot, Warm, or Cold with detailed reasoning.',
     url: 'https://www.realvibeai.com/realty/solutions',
     siteName: 'RealVibeAI Realty',
@@ -258,17 +258,17 @@ export default function SolutionsPage() {
               <div className="bg-white p-6 rounded-lg text-center">
                 <div className="text-3xl font-bold text-purple-600 mb-2">87%</div>
                 <div className="text-sm text-gray-600">Lead Quality Score</div>
-                <div className="text-xs text-green-600 mt-1">↑ 23% from last month</div>
+                <div className="text-xs text-green-600 mt-1"> + 23% from last month </div>
               </div>
               <div className="bg-white p-6 rounded-lg text-center">
                 <div className="text-3xl font-bold text-blue-600 mb-2">3.2h</div>
                 <div className="text-sm text-gray-600">Daily Time Saved</div>
-                <div className="text-xs text-green-600 mt-1">↑ 45% efficiency gain</div>
+                <div className="text-xs text-green-600 mt-1"> +45% efficiency gain </div>
               </div>
               <div className="bg-white p-6 rounded-lg text-center">
                 <div className="text-3xl font-bold text-green-600 mb-2">42%</div>
                 <div className="text-sm text-gray-600">Conversion Rate</div>
-                <div className="text-xs text-green-600 mt-1">↑ 18% improvement</div>
+                <div className="text-xs text-green-600 mt-1"> +18% improvement </div>
               </div>
             </div>
           </div>

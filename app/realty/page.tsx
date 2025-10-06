@@ -3,11 +3,11 @@ import Link from "next/link";
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'RealVibeAI Realty – Intelligent Real Estate Solutions | AI Lead Qualification',
+  title: 'RealVibeAI Realty - Intelligent Real Estate Solutions | AI Lead Qualification',
   description: 'AI-powered lead qualification that saves real estate agents time and helps them focus on hot prospects. Transparent pricing, privacy-first approach.',
   keywords: 'real estate AI, lead qualification, virtual staging, real estate agents, CRM integration',
   openGraph: {
-    title: 'RealVibeAI Realty – Intelligent Real Estate Solutions',
+    title: 'RealVibeAI Realty - Intelligent Real Estate Solutions',
     description: 'AI-powered lead qualification that saves real estate agents time and helps them focus on hot prospects.',
     url: 'https://www.realvibeai.com/realty',
     siteName: 'RealVibeAI Realty',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'RealVibeAI Realty – Intelligent Real Estate Solutions',
+    title: 'RealVibeAI Realty - Intelligent Real Estate Solutions',
     description: 'AI-powered lead qualification that saves real estate agents time and helps them focus on hot prospects.',
     images: ['https://www.realvibeai.com/hero-banner-realvibeai.jpg'],
   },
