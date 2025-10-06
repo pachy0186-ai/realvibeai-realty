@@ -28,6 +28,7 @@ interface ContactInput {
 export async function POST(request: NextRequest) {
   try {
     const raw = (await request.json().catch(() => ({}))) as Partial<ContactInput>;
+    console.log('Incoming contact form data:', raw);
 
     // validate
     const name = typeof raw.name === 'string' ? raw.name.trim() : '';
