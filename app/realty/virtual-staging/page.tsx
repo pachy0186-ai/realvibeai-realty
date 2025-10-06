@@ -4,6 +4,12 @@ import Image from "next/image";
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
+const gallery = [
+  { title: "Living Room",  before: "/images/virtual-staging/living-before.jpg",  after: "/images/virtual-staging/living-after.jpg",  caption: "Modern, neutral style." },
+  { title: "Master Bedroom", before: "/images/virtual-staging/bedroom-before.jpg", after: "/images/virtual-staging/bedroom-after.jpg", caption: "Elegant traditional style." },
+  { title: "Kitchen & Dining", before: "/images/virtual-staging/kitchen-before.jpg", after: "/images/virtual-staging/kitchen-after.jpg", caption: "Bright, MLS-ready." },
+];
+
 export default function VirtualStagingPage() {
   return (
     <div className="min-h-screen bg-white">
@@ -83,23 +89,26 @@ export default function VirtualStagingPage() {
             </div>
           </div>
 
-          {/* Sample Gallery Placeholder */}
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 text-center mb-8">Before & After Gallery</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[1, 2, 3, 4].map((num) => (
-                <div key={num} className="bg-gray-100 rounded-lg p-8 text-center border-2 border-dashed border-gray-300">
-                  <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-700 mb-2">Sample #{num}</h3>
-                  <p className="text-gray-500 text-sm">Before/After slider coming soon</p>
+          {/* Before & After Gallery */}
+          <section className="mb-16">
+            <h2 className="text-3xl font-bold text-center mb-8">Before &amp; After Gallery</h2>
+            {gallery.map(g => (
+              <div key={g.title} className="mb-12">
+                <h3 className="text-2xl font-semibold text-center mb-4">{g.title}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <figure className="bg-white rounded-lg p-2">
+                    <div className="text-sm text-gray-500 mb-2 text-center">Before</div>
+                    <Image src={g.before} alt={`${g.title} before`} width={1200} height={800} className="rounded-lg object-cover w-full h-auto" sizes="(max-width:768px) 100vw, 50vw" />
+                  </figure>
+                  <figure className="bg-white rounded-lg p-2">
+                    <div className="text-sm text-gray-500 mb-2 text-center">After AI Staging</div>
+                    <Image src={g.after} alt={`${g.title} after`} width={1200} height={800} className="rounded-lg object-cover w-full h-auto" sizes="(max-width:768px) 100vw, 50vw" />
+                  </figure>
                 </div>
-              ))}
-            </div>
-          </div>
+                <p className="text-center text-gray-600 mt-3">{g.caption}</p>
+              </div>
+            ))}
+          </section>
 
           {/* CTA Section */}
           <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-12 text-center text-white">
