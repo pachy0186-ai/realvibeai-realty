@@ -61,7 +61,10 @@ export default function ContactWidget() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          followUpConsent,
+        }),
       });
 
       if (response.ok) {
@@ -162,7 +165,7 @@ export default function ContactWidget() {
               required
               value={formData.name}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 placeholder-gray-500"
               placeholder="Your name"
             />
           </div>
@@ -178,7 +181,7 @@ export default function ContactWidget() {
               required
               value={formData.email}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 placeholder-gray-500"
               placeholder="your@email.com"
             />
           </div>
@@ -193,7 +196,7 @@ export default function ContactWidget() {
               name="phone"
               value={formData.phone}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 placeholder-gray-500"
               placeholder="(555) 123-4567"
             />
           </div>
@@ -231,7 +234,7 @@ export default function ContactWidget() {
               rows={3}
               value={formData.message}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none text-gray-900 placeholder-gray-500"
               placeholder="How can we help you?"
             />
             <p className="text-xs text-gray-500 mt-1">
@@ -275,8 +278,8 @@ export default function ContactWidget() {
 
           <button
             type="submit"
-            disabled={isSubmitting || !formData.aiConsent}
-            className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-2 px-4 rounded-md transition-colors duration-200"
+            disabled={isSubmitting || !formData.aiConsent || !formData.name.trim() || !formData.email.trim() || !formData.message.trim()}
+            className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white py-2 px-4 rounded-md transition-colors duration-200 font-medium"
           >
             {isSubmitting ? 'Sending...' : 'Send Message'}
           </button>
