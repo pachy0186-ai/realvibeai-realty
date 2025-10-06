@@ -3,38 +3,56 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
-const norm = (v: unknown) => (typeof v === 'string' ? v.normalize('NFKC') : v);
-const toUtf8 = (s: string) => Buffer.from(s ?? '', 'utf8');
-const isEmail = (s: unknown): s is string =>
-  typeof s === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+// ---------- helpers ----------
+const toAscii = (input: string): string =>
+  (input || '')
+    .normalize('NFKC')
+    .replace(/[\u2012-\u2015]/g, '-')  // various dashes → "-"
+    .replace(/[\u2018\u2019]/g, "'")   // curly quotes → "'"
+    .replace(/[\u201C\u201D]/g, '"')   // curly quotes → '"'
+    .replace(/[^\x00-\x7F]/g, '');     // drop any remaining non-ASCII
 
+const isEmail = (s: string): boolean =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+
+// ---------- types ----------
+interface FollowUpInput {
+  email: string;
+  name?: string;
+  message?: string;
+  intent?: string;
+  timestamp?: string; // ISO string
+}
+
+// ---------- handlers ----------
 export async function POST(request: NextRequest) {
   try {
-    const raw = (await request.json().catch(() => ({}))) as Record<string, unknown>;
-    const payload = {
-      name: norm(raw.name) as string | undefined,
-      email: norm(raw.email) as string | undefined,
-      phone: norm(raw.phone) as string | undefined,
-      message: norm(raw.message) as string | undefined,
-      intent: norm(raw.intent) as string | undefined,
-      timestamp: (typeof raw.timestamp === 'string' && raw.timestamp) || new Date().toISOString(),
-    };
+    const raw = (await request.json().catch(() => ({}))) as Partial<FollowUpInput>;
 
-    if (payload.email && !isEmail(payload.email)) {
+    const emailRaw = typeof raw.email === 'string' ? raw.email.trim() : '';
+    if (!isEmail(emailRaw)) {
       return NextResponse.json({ ok: false, error: 'Invalid email' }, { status: 400 });
     }
 
-    // Example if you sign payloads:
-    // import crypto from 'crypto';
-    // const sig = crypto.createHmac('sha256', process.env.SECRET ?? '')
-    //   .update(toUtf8(JSON.stringify(payload)))
-    //   .digest('hex');
+    const payload: FollowUpInput = {
+      email: toAscii(emailRaw),
+      name: typeof raw.name === 'string' ? toAscii(raw.name.trim()) : undefined,
+      message: typeof raw.message === 'string' ? toAscii(raw.message) : undefined,
+      intent: typeof raw.intent === 'string' ? toAscii(raw.intent) : undefined,
+      timestamp:
+        typeof raw.timestamp === 'string' && raw.timestamp
+          ? raw.timestamp
+          : new Date().toISOString(),
+    };
 
-    return NextResponse.json({ ok: true, followUp: payload /*, sig*/ }, { headers: { 'Cache-Control': 'no-store' } });
-  } catch (err: any) {
-    return NextResponse.json({ ok: false, error: String(err?.message || err) }, { status: 500 });
+    return NextResponse.json(
+      { ok: true, followUp: payload },
+      { headers: { 'Cache-Control': 'no-store' } }
+    );
+  } catch (err) {
+    console.error('follow-up error', err);
+    return NextResponse.json({ ok: false, error: 'Internal server error' }, { status: 500 });
   }
 }
 

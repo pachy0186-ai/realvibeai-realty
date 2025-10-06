@@ -1,172 +1,121 @@
-// app/api/contact/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
-import nodemailer from 'nodemailer';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 // ---------- helpers ----------
-function toAscii(input: string): string {
-  return input
-    .replace(/[\u2012-\u2015]/g, '-')
-    .replace(/[\u2018\u2019]/g, "'")
-    .replace(/[\u201C\u201D]/g, '"')
-    .replace(/[^\x00-\x7F]/g, '');
-}
-function getSiteUrl(): string {
-  const raw = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-  return toAscii(raw.trim());
-}
-function isEmail(s: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
-}
+const toAscii = (input: string): string =>
+  (input || '')
+    .normalize('NFKC')
+    .replace(/[\u2012-\u2015]/g, '-')  // figure/en/em dashes -> hyphen
+    .replace(/[\u2018\u2019]/g, "'")   // curly single quotes -> '
+    .replace(/[\u201C\u201D]/g, '"')   // curly double quotes -> "
+    .replace(/[^\x00-\x7F]/g, '');     // drop any remaining non-ASCII
+
+const isEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 
 // ---------- types ----------
-interface ContactFormData {
+interface ContactInput {
   name: string;
   email: string;
   phone?: string;
-  message: string;
   intent?: string;
-  aiConsent: boolean;
-  token?: string;
-}
-
-// ---------- email senders ----------
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-
-async function sendEmailWithResend(data: ContactFormData, recipient: string) {
-  if (!resend) throw new Error('Resend not configured');
-  const intentText = data.intent ? ` (${toAscii(data.intent)})` : '';
-  const subject = toAscii(`New Lead: ${data.name}${intentText}`);
-  const fromAddr = process.env.BUSINESS_EMAIL || 'realvibeairealty@gmail.com';
-  const fromHeader = toAscii(`RealVibeAI Contact <${fromAddr}>`);
-
-  await resend.emails.send({
-    from: fromHeader,
-    to: [recipient],
-    subject,
-    html: `
-      <h2>New Contact Form Submission</h2>
-      <p><strong>Name:</strong> ${data.name}</p>
-      <p><strong>Email:</strong> ${data.email}</p>
-      ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
-      ${data.intent ? `<p><strong>Intent:</strong> ${data.intent}</p>` : ''}
-      <p><strong>Message:</strong></p>
-      <p>${(data.message || '').replace(/\n/g, '<br>')}</p>
-      <hr>
-      <p><small>AI Consent: ${data.aiConsent ? 'Yes' : 'No'}</small></p>
-      <p><small>Submitted at: ${new Date().toISOString()}</small></p>
-    `,
-  });
-}
-
-async function sendEmailWithSMTP(data: ContactFormData, recipient: string) {
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: parseInt(process.env.SMTP_PORT || '587', 10),
-    secure: process.env.SMTP_PORT === '465',
-    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-  });
-
-  const intentText = data.intent ? ` (${toAscii(data.intent)})` : '';
-  const subject = toAscii(`New Lead: ${data.name}${intentText}`);
-
-  await transporter.sendMail({
-    from: process.env.SMTP_USER,
-    to: recipient,
-    subject,
-    html: `
-      <h2>New Contact Form Submission</h2>
-      <p><strong>Name:</strong> ${data.name}</p>
-      <p><strong>Email:</strong> ${data.email}</p>
-      ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
-      ${data.intent ? `<p><strong>Intent:</strong> ${data.intent}</p>` : ''}
-      <p><strong>Message:</strong></p>
-      <p>${(data.message || '').replace(/\n/g, '<br>')}</p>
-      <hr>
-      <p><small>AI Consent: ${data.aiConsent ? 'Yes' : 'No'}</small></p>
-      <p><small>Submitted at: ${new Date().toISOString()}</small></p>
-    `,
-  });
+  message: string;
+  aiConsent?: boolean;
 }
 
 // ---------- handler ----------
 export async function POST(request: NextRequest) {
   try {
-    const raw = await request.json().catch(() => ({}));
-    const data = raw as Partial<ContactFormData>;
+    const raw = (await request.json().catch(() => ({}))) as Partial<ContactInput>;
 
-    // manual validation
-    if (
-      typeof data.name !== 'string' || data.name.trim().length < 2 ||
-      typeof data.email !== 'string' || !isEmail(data.email) ||
-      typeof data.message !== 'string' || data.message.trim().length < 1 ||
-      data.aiConsent !== true
-    ) {
+    // validate
+    const name = typeof raw.name === 'string' ? raw.name.trim() : '';
+    const email = typeof raw.email === 'string' ? raw.email.trim() : '';
+    const message = typeof raw.message === 'string' ? raw.message : '';
+
+    if (!name || !isEmail(email) || !message.trim()) {
       return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
     }
 
-    const clean: ContactFormData = {
-      name: data.name.trim(),
-      email: data.email.trim(),
-      phone: (data.phone || '').toString().trim() || undefined,
-      message: data.message.trim(),
-      intent: (data.intent || '').toString().trim() || undefined,
-      aiConsent: true,
+    // sanitize inputs to ASCII
+    const data: ContactInput = {
+      name: toAscii(name),
+      email: toAscii(email),
+      phone: raw.phone ? toAscii(String(raw.phone)) : undefined,
+      intent: raw.intent ? toAscii(String(raw.intent)) : undefined,
+      message: toAscii(message),
+      aiConsent: !!raw.aiConsent,
     };
 
-    const recipient = toAscii(
-      (process.env.BUSINESS_EMAIL || process.env.CONTACT_TO || 'realvibeairealty@gmail.com').trim()
-    );
+    // Build a simple ASCII-only email
+    const subject = `New contact: ${data.name}${data.intent ? ` (${data.intent})` : ''}`;
+    const textLines = [
+      'New contact form submission',
+      `Name: ${data.name}`,
+      `Email: ${data.email}`,
+      data.phone ? `Phone: ${data.phone}` : '',
+      data.intent ? `Intent: ${data.intent}` : '',
+      '',
+      'Message:',
+      data.message,
+      '',
+      `AI Consent: ${data.aiConsent ? 'Yes' : 'No'}`,
+    ].filter(Boolean);
+    const text = textLines.join('\n');
 
-    try {
-      if (resend) {
-        await sendEmailWithResend(clean, recipient);
-      } else if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
-        await sendEmailWithSMTP(clean, recipient);
-      } else {
-        console.log('NEW CONTACT FORM SUBMISSION', {
-          name: clean.name, email: clean.email, phone: clean.phone,
-          intent: clean.intent, aiConsent: clean.aiConsent, ts: new Date().toISOString(),
+    // Optional send via Resend (lazy import so nothing runs at build time)
+    if (process.env.RESEND_API_KEY && (process.env.CONTACT_TO || process.env.BUSINESS_EMAIL)) {
+      const { Resend } = await import('resend');
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      const to = (process.env.CONTACT_TO || process.env.BUSINESS_EMAIL || 'realvibeairealty@gmail.com').trim();
+      try {
+        await resend.emails.send({
+          from: toAscii(process.env.BUSINESS_EMAIL || 'realvibeai-realty@no-reply.example'),
+          to: [toAscii(to)],
+          subject: toAscii(subject),
+          text, // ASCII-only
         });
+      } catch (e) {
+        console.error('Resend send error', e);
       }
-
-      const siteUrl = getSiteUrl();
-
-      // Lead qualification (best-effort)
-      try {
-        const r = await fetch(`${siteUrl}/api/lead-qualification`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: clean.name, email: clean.email, phone: clean.phone,
-            message: clean.message, intent: clean.intent, timestamp: new Date().toISOString(),
-          }),
-          cache: 'no-store',
-        });
-        if (r.ok) console.log('Lead qualification completed');
-      } catch {}
-
-      // Lead enrichment (fire-and-forget)
-      try {
-        fetch(`${siteUrl}/api/lead-enrichment`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: clean.name, email: clean.email, phone: clean.phone }),
-          cache: 'no-store',
-        }).catch(() => {});
-      } catch {}
-
-      return NextResponse.json({ ok: true });
-    } catch (emailError) {
-      console.error('Email sending failed', emailError);
-      // still return ok to the user; downstream attempts are non-blocking
-      return NextResponse.json({ ok: true });
     }
-  } catch (error) {
-    console.error('Contact API error', error);
+
+    // Optional send via SMTP (also lazy)
+    if (process.env.SMTP_HOST && (process.env.CONTACT_TO || process.env.BUSINESS_EMAIL)) {
+      try {
+        const nodemailer = await import('nodemailer');
+        const transporter = nodemailer.createTransport({
+          host: process.env.SMTP_HOST,
+          port: parseInt(process.env.SMTP_PORT || '587', 10),
+          secure: process.env.SMTP_PORT === '465',
+          auth: process.env.SMTP_USER && process.env.SMTP_PASS
+            ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+            : undefined,
+        });
+        const to = (process.env.CONTACT_TO || process.env.BUSINESS_EMAIL || 'realvibeairealty@gmail.com').trim();
+        await transporter.sendMail({
+          from: toAscii(process.env.BUSINESS_EMAIL || 'realvibeai-realty@no-reply.example'),
+          to: toAscii(to),
+          subject: toAscii(subject),
+          text, // ASCII-only
+        });
+      } catch (e) {
+        console.error('SMTP send error', e);
+      }
+    }
+
+    // success response
+    return NextResponse.json(
+      { ok: true },
+      { headers: { 'Cache-Control': 'no-store' } }
+    );
+  } catch (err) {
+    console.error('Contact API error', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
+}
+
+export async function GET() {
+  return NextResponse.json({ ok: true }, { headers: { 'Cache-Control': 'no-store' } });
 }
