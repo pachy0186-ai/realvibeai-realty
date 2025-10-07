@@ -32,13 +32,16 @@ export default function ContactWidget() {
     aiConsent: false,
   });
 
-  // 🧭 refs must be inside the component
+  // refs inside the component
   const panelRef = useRef<HTMLDivElement | null>(null);
-  const openerRef = useRef<HTMLButtonElement | null>(null); // keep for focus return if you add an opener
+  const openerRef = useRef<HTMLButtonElement | null>(null); // used for focus return
 
-  // ♿ focus trap + ESC close + scroll lock + focus return
+  // focus trap + ESC close + scroll lock + focus return (fixed cleanup ref)
   useEffect(() => {
     if (!isOpen) return;
+
+    // snapshot the opener element for cleanup (prevents ref-change warning)
+    const openerEl = openerRef.current;
 
     // lock background scroll
     const prevOverflow = document.body.style.overflow;
@@ -93,13 +96,14 @@ export default function ContactWidget() {
     };
 
     document.addEventListener('keydown', onKeyDown);
+
     return () => {
-      // restore scroll + focus to opener if present
       document.removeEventListener('keydown', onKeyDown);
       document.body.style.overflow = prevOverflow;
-      openerRef.current?.focus?.();
+      // use the captured element so ESLint is happy and focus is stable
+      openerEl?.focus?.();
     };
-  }, [isOpen]);
+  }, [isOpen, setIsOpen]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -174,7 +178,7 @@ export default function ContactWidget() {
     }
   };
 
-  // 🔓 Open-state (modal dialog with focus trap)
+  // Open-state (modal dialog with focus trap)
   if (isOpen) {
     return (
       <div
@@ -193,7 +197,7 @@ export default function ContactWidget() {
             Contact Us
           </h2>
 
-          {/* your contact form goes here — you can render the same form as below if you prefer modal-only UX */}
+          {/* render your modal form here if using modal-only UX */}
 
           <button
             type="button"
@@ -208,14 +212,13 @@ export default function ContactWidget() {
     );
   }
 
-  // 🔒 Closed-state (inline panel you already had)
+  // Closed-state (inline panel)
   return (
     <div className="fixed bottom-6 right-6 w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
       <div className="p-6">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold text-gray-900">Contact Us</h3>
           <button
-            // keep a ref here if this button serves as the opener later
             ref={openerRef}
             onClick={() => setIsOpen(false)}
             className="text-gray-400 hover:text-gray-600 transition-colors"
