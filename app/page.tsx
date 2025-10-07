@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main style={{ maxWidth: 900 }}>
-      <h1>RealVibeAI Realty – AI-Powered Real Estate Tools</h1>
+      <h1>RealVibeAI Realty - AI-Powered Real Estate Tools</h1>
 
       <p style={{ fontSize: "1.2em" }}>
         Transform your real estate marketing with AI-driven automation.
