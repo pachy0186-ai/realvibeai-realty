@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
     if (process.env.SMTP_HOST && (process.env.CONTACT_TO || process.env.BUSINESS_EMAIL)) {
       try {
         const nodemailer = await import('nodemailer');
-        const transporter = (nodemailer as any).createTransport({
+        const transporter = nodemailer.default.createTransport({
           host: process.env.SMTP_HOST,
           port: parseInt(process.env.SMTP_PORT || '587', 10),
           secure: process.env.SMTP_PORT === '465',
