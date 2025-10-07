@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 interface ContactFormData {
@@ -32,21 +32,92 @@ export default function ContactWidget() {
     aiConsent: false,
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  // 🧭 refs must be inside the component
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const openerRef = useRef<HTMLButtonElement | null>(null); // keep for focus return if you add an opener
+
+  // ♿ focus trap + ESC close + scroll lock + focus return
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // lock background scroll
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const root = panelRef.current;
+    const focusSelector =
+      'a[href],button:not([disabled]),textarea,input,select,[tabindex]:not([tabindex="-1"])';
+
+    // initial focus: first focusable or the panel
+    if (root) {
+      const first = root.querySelector<HTMLElement>(focusSelector) || root;
+      first.focus();
+    }
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (!root) return;
+
+      // ESC closes
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        setIsOpen(false);
+        return;
+      }
+
+      // TAB loops focus
+      if (e.key !== 'Tab') return;
+
+      const candidates = Array.from(
+        root.querySelectorAll<HTMLElement>(focusSelector)
+      ).filter(
+        (el) => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true'
+      );
+
+      if (candidates.length === 0) {
+        e.preventDefault();
+        (root as HTMLElement).focus();
+        return;
+      }
+
+      const first = candidates[0];
+      const last = candidates[candidates.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+
+      if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
+      } else if (e.shiftKey && active === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      // restore scroll + focus to opener if present
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = prevOverflow;
+      openerRef.current?.focus?.();
+    };
+  }, [isOpen]);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value, type } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
     }));
   };
 
   const handleQuickPrompt = (intent: string) => {
-    setFormData(prev => ({ ...prev, intent }));
+    setFormData((prev) => ({ ...prev, intent }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.aiConsent) {
       alert('Please agree to the AI Policy before submitting.');
       return;
@@ -58,13 +129,8 @@ export default function ContactWidget() {
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          followUpConsent,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, followUpConsent }),
       });
 
       if (response.ok) {
@@ -78,24 +144,21 @@ export default function ContactWidget() {
           aiConsent: false,
         });
         setFollowUpConsent(false);
-        
-        // Send SMS alert if configured
+
+        // optional SMS alert
         try {
           await fetch('/api/alert', {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               name: formData.name,
               intent: formData.intent || 'General inquiry',
             }),
           });
         } catch (alertError) {
-          // SMS alert is optional, don't fail the main submission
           console.log('SMS alert failed (optional):', alertError);
         }
-        
+
         setTimeout(() => {
           setIsOpen(false);
           setSubmitStatus('idle');
@@ -111,26 +174,49 @@ export default function ContactWidget() {
     }
   };
 
-  if (!isOpen) {
+  // 🔓 Open-state (modal dialog with focus trap)
+  if (isOpen) {
     return (
-      <button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 bg-purple-600 hover:bg-purple-700 text-white p-4 rounded-full shadow-lg transition-all duration-200 hover:scale-105 z-50"
-        aria-label="Open contact form"
+      <div
+        id="contact-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contact-panel-title"
+        className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
-      </button>
+        <div
+          ref={panelRef}
+          tabIndex={-1}
+          className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative"
+        >
+          <h2 id="contact-panel-title" className="text-2xl font-semibold mb-4">
+            Contact Us
+          </h2>
+
+          {/* your contact form goes here — you can render the same form as below if you prefer modal-only UX */}
+
+          <button
+            type="button"
+            aria-label="Close contact form"
+            onClick={() => setIsOpen(false)}
+            className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 focus:outline-none"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
     );
   }
 
+  // 🔒 Closed-state (inline panel you already had)
   return (
     <div className="fixed bottom-6 right-6 w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
       <div className="p-6">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold text-gray-900">Contact Us</h3>
           <button
+            // keep a ref here if this button serves as the opener later
+            ref={openerRef}
             onClick={() => setIsOpen(false)}
             className="text-gray-400 hover:text-gray-600 transition-colors"
             aria-label="Close contact form"
@@ -202,9 +288,7 @@ export default function ContactWidget() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Quick prompts
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Quick prompts</label>
             <div className="flex flex-wrap gap-2">
               {QUICK_PROMPTS.map((prompt) => (
                 <button
@@ -278,7 +362,13 @@ export default function ContactWidget() {
 
           <button
             type="submit"
-            disabled={isSubmitting || !formData.aiConsent || !formData.name.trim() || !formData.email.trim() || !formData.message.trim()}
+            disabled={
+              isSubmitting ||
+              !formData.aiConsent ||
+              !formData.name.trim() ||
+              !formData.email.trim() ||
+              !formData.message.trim()
+            }
             className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white py-2 px-4 rounded-md transition-colors duration-200 font-medium"
           >
             {isSubmitting ? 'Sending...' : 'Send Message'}
