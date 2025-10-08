@@ -114,7 +114,7 @@ export default function VirtualStagingPage() {
           <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-12 text-center text-white">
             <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Listings?</h2>
             <p className="text-xl mb-8 opacity-90">
-              Professional virtual staging that helps properties sell faster and for higher prices.
+              Studies have shown that professionally staged homes tend to sell faster and at higher prices compared to unstaged homes. Actual results may vary depending on market conditions and property type.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -155,7 +155,7 @@ export default function VirtualStagingPage() {
               </div>
               <div>
                 <h4 className="text-lg font-semibold text-gray-900 mb-2">Proven Results</h4>
-                <p className="text-gray-600">Staged homes sell 73% faster and for 10% more than unstaged properties.</p>
+                <p className="text-gray-600">Studies have shown that professionally staged homes tend to sell faster and at higher prices compared to unstaged homes. Actual results may vary depending on market conditions and property type.</p>
               </div>
             </div>
           </div>

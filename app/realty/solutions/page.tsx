@@ -97,7 +97,7 @@ export default function SolutionsPage() {
               <div className="bg-white p-6 rounded-lg shadow-sm border-l-4 border-red-500">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-medium text-red-600 bg-red-100 px-2 py-1 rounded">HOT LEAD</span>
-                  <span className="text-sm text-gray-500">Score: 92/100</span>
+                  <span className="text-sm text-gray-500">Score: High</span>
                 </div>
                 <h4 className="font-semibold text-gray-900 mb-2">John & Sarah Martinez</h4>
                 <p className="text-sm text-gray-600 mb-3">
@@ -105,7 +105,7 @@ export default function SolutionsPage() {
                 </p>
                 <div className="text-xs text-gray-500">
                   <strong>AI Reasoning:</strong> Specific requirements, confirmed budget, urgent timeline, pre-approved financing. 
-                  High probability of conversion within 30 days.
+                  Indicates a strong potential for conversion.
                   <div className="mt-1 text-xs text-blue-600 italic">
                     AI-generated—may be imperfect. Use your judgment.
                   </div>
@@ -256,19 +256,19 @@ export default function SolutionsPage() {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white p-6 rounded-lg text-center">
-                <div className="text-3xl font-bold text-purple-600 mb-2">87%</div>
+                <div className="text-3xl font-bold text-purple-600 mb-2">High</div>
                 <div className="text-sm text-gray-600">Lead Quality Score</div>
-                <div className="text-xs text-green-600 mt-1"> + 23% from last month </div>
+                <div className="text-xs text-green-600 mt-1"> Positive trend </div>
               </div>
               <div className="bg-white p-6 rounded-lg text-center">
-                <div className="text-3xl font-bold text-blue-600 mb-2">3.2h</div>
+                <div className="text-3xl font-bold text-blue-600 mb-2">Significant</div>
                 <div className="text-sm text-gray-600">Daily Time Saved</div>
-                <div className="text-xs text-green-600 mt-1"> +45% efficiency gain </div>
+                <div className="text-xs text-green-600 mt-1"> Improved efficiency </div>
               </div>
               <div className="bg-white p-6 rounded-lg text-center">
-                <div className="text-3xl font-bold text-green-600 mb-2">42%</div>
+                <div className="text-3xl font-bold text-green-600 mb-2">High</div>
                 <div className="text-sm text-gray-600">Conversion Rate</div>
-                <div className="text-xs text-green-600 mt-1"> +18% improvement </div>
+                <div className="text-xs text-green-600 mt-1"> Positive improvement </div>
               </div>
             </div>
           </div>
