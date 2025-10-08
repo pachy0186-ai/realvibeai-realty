@@ -97,7 +97,7 @@ export default function RealtyPage() {
               <div className="text-sm">AI Working</div>
             </div>
             <div className="text-gray-300">
-              <div className="text-2xl font-bold text-purple-400">40%+</div>
+              <div className="text-2xl font-bold text-purple-400">Significantly</div>
               <div className="text-sm">More Closings</div>
             </div>
           </div>
@@ -131,7 +131,7 @@ export default function RealtyPage() {
                 including urgency, budget indicators, and engagement patterns to prioritize your follow-ups.
               </p>
               <div className="mt-4 text-sm text-purple-600 font-semibold">
-                → Save 3+ hours daily
+                → Significantly reduce time spent on unqualified leads
               </div>
             </div>
 
@@ -148,7 +148,7 @@ export default function RealtyPage() {
                 Each message is tailored to the lead's interest level and previous interactions.
               </p>
               <div className="mt-4 text-sm text-blue-600 font-semibold">
-                → 40% higher response rates
+                → Improved response rates
               </div>
             </div>
 
@@ -174,7 +174,7 @@ export default function RealtyPage() {
           {/* CTA Section within Features */}
           <div className="mt-16 text-center">
             <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-12 text-white">
-              <h3 className="text-3xl font-bold mb-4">Ready to 3x Your Lead Conversion?</h3>
+              <h3 className="text-3xl font-bold mb-4">Ready to Enhance Your Lead Conversion?</h3>
               <p className="text-xl mb-8 opacity-90">
                 Join 500+ real estate professionals who've transformed their business with AI-powered lead generation.
               </p>
@@ -309,7 +309,7 @@ export default function RealtyPage() {
               </div>
               <p className="text-gray-600 mb-4">
                 "RealVibeAI has completely transformed how I handle leads. I'm now focusing on the right prospects 
-                and closing 40% more deals. The setup was incredibly easy."
+                and closing more deals. The setup was incredibly easy."
               </p>
               <div className="font-semibold text-gray-900">Sarah M.</div>
               <div className="text-sm text-gray-500">Independent Agent, Austin TX</div>
