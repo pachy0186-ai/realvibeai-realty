@@ -120,10 +120,10 @@ export default function VirtualStagingPage() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
-                href="/pricing"
+                href="/realty/pricing"
                 className="bg-white text-purple-600 hover:bg-gray-100 font-semibold text-lg px-8 py-4 rounded-full transition-colors inline-block"
               >
-                View Pricing
+                See plans & get started
               </Link>
               
               <a

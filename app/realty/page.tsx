@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'RealVibeAI Realty - Intelligent Real Estate Solutions | AI Lead Qualification',
-  description: 'AI-powered lead qualification that saves real estate agents time and helps them focus on hot prospects. Transparent pricing, privacy-first approach.',
+  description: 'AI-powered lead qualification that saves real estate agents time and helps them focus on hot prospects. Transparent pricing starting at $29/mo, privacy-first approach.',
   keywords: 'real estate AI, lead qualification, virtual staging, real estate agents, CRM integration',
   openGraph: {
     title: 'RealVibeAI Realty - Intelligent Real Estate Solutions',
@@ -74,16 +74,20 @@ export default function RealtyPage() {
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up">
             <Link
-              href="/realty/contact"
+              href="/realty/pricing"
               className="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white font-semibold text-lg px-10 py-4 rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300"
             >
-              Get Hot Leads Now
+              See plans & get started
             </Link>
             <Link
-              href="/realty/virtual-staging"
+              href="/realty/contact"
               className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white hover:text-purple-600 font-semibold text-lg px-10 py-4 rounded-full transition-all duration-300"
             >
+<<<<<<< HEAD
               Get AI previews in minutes & final renders in 24–48 h
+=======
+              Book a demo
+>>>>>>> 74b369d (feat: Align pricing language and CTAs across realty pages)
             </Link>
           </div>
 
@@ -179,10 +183,10 @@ export default function RealtyPage() {
                 Join 500+ real estate professionals who've transformed their business with AI-powered lead generation.
               </p>
               <Link
-                href="/realty/contact"
+                href="/realty/pricing"
                 className="bg-white text-purple-600 hover:bg-gray-100 font-bold text-lg px-10 py-4 rounded-full transition-all duration-300 inline-block"
               >
-                Start Your Free Trial Today
+                See plans & get started
               </Link>
             </div>
           </div>
@@ -253,26 +257,32 @@ export default function RealtyPage() {
           </p>
           
           <div className="bg-white rounded-xl shadow-lg p-8 max-w-md mx-auto mb-8">
-            <div className="text-5xl font-bold text-purple-600 mb-2">$49</div>
-            <div className="text-gray-600 mb-6">per month</div>
+            <div className="text-3xl font-bold text-purple-600 mb-2">Starting at $29/mo</div>
+            
             <ul className="text-left space-y-3 mb-8">
               <li className="flex items-center">
                 <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                Unlimited lead qualification
+                AI Lead Qualification (Hot / Warm / Cold)
               </li>
               <li className="flex items-center">
                 <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                Real-time scoring & analytics
+                Daily lead summaries by email
               </li>
               <li className="flex items-center">
                 <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                Priority email support
+                1 brand profile
+              </li>
+              <li className="flex items-center">
+                <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Standard support
               </li>
             </ul>
           </div>
@@ -281,7 +291,7 @@ export default function RealtyPage() {
             href="/realty/pricing"
             className="btn-primary text-lg px-8 py-4"
           >
-            View Full Pricing Details
+            See plans & get started
           </Link>
         </div>
       </section>

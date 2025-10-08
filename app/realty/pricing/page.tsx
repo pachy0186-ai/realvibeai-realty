@@ -14,7 +14,7 @@ export default function PricingPage() {
             All plans include our core AI lead qualification features.
           </p>
           <div className="text-sm text-gray-300">
-            ✓ 30-day money-back guarantee • ✓ Cancel anytime • ✓ No setup fees
+            ✓ Cancel anytime • ✓ No setup fees
           </div>
         </div>
       </section>
@@ -38,24 +38,25 @@ export default function PricingPage() {
                   <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-gray-700">Up to 100 leads per month</span>
+                  <span className="text-gray-700">AI Lead Qualification (Hot / Warm / Cold)</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-gray-700">AI lead qualification (Hot/Warm/Cold)</span>
+                  <span className="text-gray-700">Daily lead summaries by email</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-gray-700">Basic analytics dashboard</span>
+                  <span className="text-gray-700">1 brand profile</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
+<<<<<<< HEAD
                   <span className="text-gray-700">Email support</span>
                 </li>
                 <li className="flex items-center">
@@ -63,14 +64,17 @@ export default function PricingPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   <span className="text-gray-700">5 virtual staging credits (AI previews in minutes, final renders in 24–48 h)</span>
+=======
+                  <span className="text-gray-700">Standard support</span>
+>>>>>>> 74b369d (feat: Align pricing language and CTAs across realty pages)
                 </li>
               </ul>
 
               <Link
-                href="/realty/contact"
+                href="/realty/pricing"
                 className="w-full btn-secondary text-center block"
               >
-                Start Free Trial
+                See plans & get started
               </Link>
             </div>
 
@@ -94,24 +98,25 @@ export default function PricingPage() {
                   <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-gray-700">Unlimited lead qualification</span>
+                  <span className="text-gray-700">Everything in Starter</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-gray-700">Advanced AI scoring with detailed reasoning</span>
+                  <span className="text-gray-700">Virtual Staging workflow access (24–48h turnaround)</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-gray-700">Real-time analytics & insights</span>
+                  <span className="text-gray-700">Up to 3 brand profiles</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
+<<<<<<< HEAD
                   <span className="text-gray-700">Priority email support</span>
                 </li>
                 <li className="flex items-center">
@@ -131,14 +136,17 @@ export default function PricingPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   <span className="text-gray-700">Custom lead scoring rules</span>
+=======
+                  <span className="text-gray-700">Priority support</span>
+>>>>>>> 74b369d (feat: Align pricing language and CTAs across realty pages)
                 </li>
               </ul>
 
               <Link
-                href="/realty/contact"
+                href="/realty/pricing"
                 className="w-full btn-primary text-center block"
               >
-                Start Free Trial
+                See plans & get started
               </Link>
             </div>
 
@@ -162,45 +170,31 @@ export default function PricingPage() {
                   <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-gray-700">Up to 3 team members</span>
+                  <span className="text-gray-700">Team onboarding & admin</span>
                 </li>
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
+<<<<<<< HEAD
                   <span className="text-gray-700">50 virtual staging credits (AI previews in minutes, final renders in 24–48 h)</span>
+=======
+                  <span className="text-gray-700">Custom integrations & SLAs</span>
+>>>>>>> 74b369d (feat: Align pricing language and CTAs across realty pages)
                 </li>
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-gray-700">Advanced reporting & exports</span>
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700">Phone support</span>
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700">White-label options</span>
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700">API access</span>
+                  <span className="text-gray-700">Volume discounts & dedicated success manager</span>
                 </li>
               </ul>
 
               <Link
-                href="/realty/contact"
+                href="/realty/pricing"
                 className="w-full btn-secondary text-center block"
               >
-                Contact Sales
+                See plans & get started
               </Link>
             </div>
           </div>
@@ -285,17 +279,7 @@ export default function PricingPage() {
 
           <div className="space-y-8">
             {/* FAQ 1 */}
-            <div className="bg-white p-8 rounded-xl shadow-sm">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                Is there a free trial?
-              </h3>
-              <p className="text-gray-600">
-                Yes! We offer a 14-day free trial with full access to all features. No credit card required. 
-                You'll get 5 free virtual staging credits and can qualify up to 50 leads during your trial.
-              </p>
-            </div>
-
-            {/* FAQ 2 */}
+            
             <div className="bg-white p-8 rounded-xl shadow-sm">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 Can I change plans anytime?
