@@ -1,3 +1,4 @@
+'''
 import Link from "next/link";
 import { Metadata } from 'next';
 
@@ -290,63 +291,43 @@ export default function SolutionsPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {/* Integration logos would go here */}
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <img src="/icons/integrations/crm.png" alt="CRM Icon" width={48} height={48} className="mx-auto mb-3" onError={(e)=>{e.currentTarget.src=\"/images/placeholder.webp\"}} />
+              <img src="/icons/integrations/crm.png" alt="CRM Icon" width={48} height={48} className="mx-auto mb-3" />
               <p className="text-sm text-gray-600">Popular CRMs</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <img src="/icons/integrations/leads.png" alt="Lead Sources Icon" width={48} height={48} className="mx-auto mb-3" onError={(e)=>{e.currentTarget.src=\"/images/placeholder.webp\"}} />
+              <img src="/icons/integrations/leads.png" alt="Lead Sources Icon" width={48} height={48} className="mx-auto mb-3" />
               <p className="text-sm text-gray-600">Lead Sources</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <img src="/icons/integrations/email.png" alt="Email Platforms Icon" width={48} height={48} className="mx-auto mb-3" onError={(e)=>{e.currentTarget.src=\"/images/placeholder.webp\"}} />
+              <img src="/icons/integrations/email.png" alt="Email Platforms Icon" width={48} height={48} className="mx-auto mb-3" />
               <p className="text-sm text-gray-600">Email Platforms</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <img src="/icons/integrations/mls.png" alt="MLS Systems Icon" width={48} height={48} className="mx-auto mb-3" onError={(e)=>{e.currentTarget.src=\"/images/placeholder.webp\"}} />
+              <img src="/icons/integrations/mls.png" alt="MLS Systems Icon" width={48} height={48} className="mx-auto mb-3" />
               <p className="text-sm text-gray-600">MLS Systems</p>
             </div>
-          </div>
-
-          <div className="text-center mt-12">
-            <p className="text-gray-600 mb-6">
-              Don't see your platform? We're constantly adding new integrations.
-            </p>
-            <Link
-              href="/realty/contact"
-              className="btn-secondary"
-            >
-              Request Integration
-            </Link>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 hero-gradient">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Ready to Transform Your Lead Management?
+      <section className="bg-white py-20">
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <h2 className="text-4xl font-bold text-gray-900 mb-6">
+            Ready to Transform Your Real Estate Business?
           </h2>
-          <p className="text-xl text-gray-200 mb-8 max-w-3xl mx-auto">
-            Join hundreds of agents who are already saving time and closing more deals with AI-powered solutions.
+          <p className="text-xl text-gray-600 mb-8">
+            Start your free trial today and see how RealVibeAI can help you qualify leads, save time, and close more deals.
           </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link
-              href="/realty/contact"
-              className="btn-primary bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-4"
-            >
-              Start Free Trial
-            </Link>
-            <Link
-              href="/realty/pricing"
-              className="btn-secondary border-white text-white hover:bg-white hover:text-purple-600 text-lg px-8 py-4"
-            >
-              View Pricing
-            </Link>
-          </div>
+          <Link
+            href="/realty/contact"
+            className="btn-primary-lg"
+          >
+            Get Started for Free
+          </Link>
         </div>
       </section>
     </div>
   );
 }
+'''
