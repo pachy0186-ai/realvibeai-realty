@@ -290,19 +290,19 @@ export default function SolutionsPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {/* Integration logos would go here */}
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <div className="h-12 bg-gray-200 rounded mb-3"></div>
+              <img src="/icons/integrations/crm.png" alt="CRM Icon" width={48} height={48} className="mx-auto mb-3" onError={(e)=>{e.currentTarget.src=\"/images/placeholder.webp\"}} />
               <p className="text-sm text-gray-600">Popular CRMs</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <div className="h-12 bg-gray-200 rounded mb-3"></div>
+              <img src="/icons/integrations/leads.png" alt="Lead Sources Icon" width={48} height={48} className="mx-auto mb-3" onError={(e)=>{e.currentTarget.src=\"/images/placeholder.webp\"}} />
               <p className="text-sm text-gray-600">Lead Sources</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <div className="h-12 bg-gray-200 rounded mb-3"></div>
+              <img src="/icons/integrations/email.png" alt="Email Platforms Icon" width={48} height={48} className="mx-auto mb-3" onError={(e)=>{e.currentTarget.src=\"/images/placeholder.webp\"}} />
               <p className="text-sm text-gray-600">Email Platforms</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <div className="h-12 bg-gray-200 rounded mb-3"></div>
+              <img src="/icons/integrations/mls.png" alt="MLS Systems Icon" width={48} height={48} className="mx-auto mb-3" onError={(e)=>{e.currentTarget.src=\"/images/placeholder.webp\"}} />
               <p className="text-sm text-gray-600">MLS Systems</p>
             </div>
           </div>
