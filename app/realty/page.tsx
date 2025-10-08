@@ -83,7 +83,7 @@ export default function RealtyPage() {
               href="/realty/virtual-staging"
               className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white hover:text-purple-600 font-semibold text-lg px-10 py-4 rounded-full transition-all duration-300"
             >
-              See Live Demo
+              Get AI previews in minutes & final renders in 24–48 h
             </Link>
           </div>
 
