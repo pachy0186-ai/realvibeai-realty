@@ -85,7 +85,7 @@ export default function VirtualStagingPage() {
                 </svg>
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Fast Turnaround</h3>
-              <p className="text-gray-600 text-sm">Professional staging delivered in 24-48 hours</p>
+              <p className="text-gray-600 text-sm">AI preview images delivered within minutes. Final enhanced renders delivered within 24–48 hours depending on room count and style complexity.</p>
             </div>
           </div>
 
@@ -151,7 +151,7 @@ export default function VirtualStagingPage() {
               </div>
               <div>
                 <h4 className="text-lg font-semibold text-gray-900 mb-2">Quick Delivery</h4>
-                <p className="text-gray-600">Get professionally staged photos in 24-48 hours, not weeks.</p>
+                <p className="text-gray-600">AI preview images delivered within minutes. Final enhanced renders delivered within 24–48 hours depending on room count and style complexity.</p>
               </div>
               <div>
                 <h4 className="text-lg font-semibold text-gray-900 mb-2">Proven Results</h4>
