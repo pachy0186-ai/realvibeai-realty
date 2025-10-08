@@ -19,7 +19,7 @@ const QUICK_PROMPTS = [
 ];
 
 export default function ContactWidget() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true); // Widget is open by default (visible inline panel)
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [followUpConsent, setFollowUpConsent] = useState(false);
@@ -32,66 +32,23 @@ export default function ContactWidget() {
     aiConsent: false,
   });
 
-  // refs inside the component
-  const panelRef = useRef<HTMLDivElement | null>(null);
-  const openerRef = useRef<HTMLButtonElement | null>(null); // used for focus return
+  // ref for focus return on close
+  const openerRef = useRef<HTMLButtonElement | null>(null);
 
-  // focus trap + ESC close + scroll lock + focus return (fixed cleanup ref)
+  // ESC key handler to close the widget
   useEffect(() => {
     if (!isOpen) return;
 
     // snapshot the opener element for cleanup (prevents ref-change warning)
     const openerEl = openerRef.current;
 
-    // lock background scroll
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
-    const root = panelRef.current;
-    const focusSelector =
-      'a[href],button:not([disabled]),textarea,input,select,[tabindex]:not([tabindex="-1"])';
-
-    // initial focus: first focusable or the panel
-    if (root) {
-      const first = root.querySelector<HTMLElement>(focusSelector) || root;
-      first.focus();
-    }
-
     const onKeyDown = (e: KeyboardEvent) => {
-      if (!root) return;
-
-      // ESC closes
+      // ESC closes the widget
       if (e.key === 'Escape') {
+        e.preventDefault();
         e.stopPropagation();
         setIsOpen(false);
         return;
-      }
-
-      // TAB loops focus
-      if (e.key !== 'Tab') return;
-
-      const candidates = Array.from(
-        root.querySelectorAll<HTMLElement>(focusSelector)
-      ).filter(
-        (el) => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true'
-      );
-
-      if (candidates.length === 0) {
-        e.preventDefault();
-        (root as HTMLElement).focus();
-        return;
-      }
-
-      const first = candidates[0];
-      const last = candidates[candidates.length - 1];
-      const active = document.activeElement as HTMLElement | null;
-
-      if (!e.shiftKey && active === last) {
-        e.preventDefault();
-        first.focus();
-      } else if (e.shiftKey && active === first) {
-        e.preventDefault();
-        last.focus();
       }
     };
 
@@ -99,11 +56,10 @@ export default function ContactWidget() {
 
     return () => {
       document.removeEventListener('keydown', onKeyDown);
-      document.body.style.overflow = prevOverflow;
       // use the captured element so ESLint is happy and focus is stable
       openerEl?.focus?.();
     };
-  }, [isOpen, setIsOpen]);
+  }, [isOpen]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -163,10 +119,11 @@ export default function ContactWidget() {
           console.log('SMS alert failed (optional):', alertError);
         }
 
+        // Auto-close widget after 5 seconds
         setTimeout(() => {
           setIsOpen(false);
           setSubmitStatus('idle');
-        }, 2000);
+        }, 5000);
       } else {
         setSubmitStatus('error');
       }
@@ -178,41 +135,12 @@ export default function ContactWidget() {
     }
   };
 
-  // Open-state (modal dialog with focus trap)
-  if (isOpen) {
-    return (
-      <div
-        id="contact-panel"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="contact-panel-title"
-        className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-      >
-        <div
-          ref={panelRef}
-          tabIndex={-1}
-          className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative"
-        >
-          <h2 id="contact-panel-title" className="text-2xl font-semibold mb-4">
-            Contact Us
-          </h2>
-
-          {/* render your modal form here if using modal-only UX */}
-
-          <button
-            type="button"
-            aria-label="Close contact form"
-            onClick={() => setIsOpen(false)}
-            className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 focus:outline-none"
-          >
-            ✕
-          </button>
-        </div>
-      </div>
-    );
+  // Widget is closed - don't render anything
+  if (!isOpen) {
+    return null;
   }
 
-  // Closed-state (inline panel)
+  // Widget is open - render the inline panel
   return (
     <div className="fixed bottom-6 right-6 w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
       <div className="p-6">
@@ -231,8 +159,9 @@ export default function ContactWidget() {
         </div>
 
         {submitStatus === 'success' && (
-          <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-md">
-            <p className="text-green-800 text-sm">Thank you! We'll get back to you soon.</p>
+          <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-md animate-pulse">
+            <p className="text-green-800 text-sm font-medium">✓ Message sent successfully!</p>
+            <p className="text-green-700 text-xs mt-1">Thank you! We'll get back to you soon.</p>
           </div>
         )}
 
