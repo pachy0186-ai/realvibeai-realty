@@ -1,7 +1,5 @@
-'''
 import Link from "next/link";
 import { Metadata } from 'next';
-
 export const metadata: Metadata = {
   title: 'AI Lead Qualification Solutions - RealVibeAI Realty',
   description: 'Discover how our AI-powered lead qualification system automatically scores prospects as Hot, Warm, or Cold with detailed reasoning. Built for solo real estate agents.',
@@ -330,4 +328,4 @@ export default function SolutionsPage() {
     </div>
   );
 }
-'''
+
