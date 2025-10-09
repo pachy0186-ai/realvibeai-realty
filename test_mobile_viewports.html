@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mobile Viewport Tester</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .device-test { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .viewport-info { background: #f0f0f0; padding: 10px; margin: 10px 0; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Mobile Viewport Testing Tool</h1>
+    <div id="current-viewport" class="viewport-info">
+        Current Viewport: <span id="viewport-size"></span>
+    </div>
+    
+    <h2>Older Device Presets</h2>
+    <div class="device-test">
+        <h3>iPhone SE (375×667)</h3>
+        <button onclick="setViewport(375, 667)">Set iPhone SE</button>
+        <button onclick="testPage('/')">Test Home</button>
+        <button onclick="testPage('/realty')">Test Realty</button>
+    </div>
+    
+    <div class="device-test">
+        <h3>iPhone 8 Plus (414×736)</h3>
+        <button onclick="setViewport(414, 736)">Set iPhone 8 Plus</button>
+        <button onclick="testPage('/')">Test Home</button>
+        <button onclick="testPage('/realty')">Test Realty</button>
+    </div>
+    
+    <div class="device-test">
+        <h3>Galaxy S10 (360×760)</h3>
+        <button onclick="setViewport(360, 760)">Set Galaxy S10</button>
+        <button onclick="testPage('/')">Test Home</button>
+        <button onclick="testPage('/realty')">Test Realty</button>
+    </div>
+    
+    <script>
+        function updateViewportDisplay() {
+            document.getElementById('viewport-size').textContent = 
+                window.innerWidth + '×' + window.innerHeight;
+        }
+        
+        function setViewport(width, height) {
+            // Note: This won't actually resize the browser window in most cases
+            // due to security restrictions, but it shows the target dimensions
+            alert(`Target viewport: ${width}×${height}\nPlease manually resize browser or use dev tools`);
+            updateViewportDisplay();
+        }
+        
+        function testPage(path) {
+            window.open(`http://localhost:3000${path}`, '_blank');
+        }
+        
+        // Check for horizontal scroll
+        function checkHorizontalScroll() {
+            const hasScroll = document.documentElement.scrollWidth > document.documentElement.clientWidth;
+            return hasScroll;
+        }
+        
+        // Update display on load and resize
+        window.addEventListener('load', updateViewportDisplay);
+        window.addEventListener('resize', updateViewportDisplay);
+        
+        // Initial check
+        updateViewportDisplay();
+    </script>
+</body>
+</html>
