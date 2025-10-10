@@ -84,10 +84,10 @@ export default function SolutionsPage() {
               </div>
 
               <Link
-                href="/realty/contact"
+                href="/realty/pricing"
                 className="btn-primary"
               >
-                See Lead Qualification in Action
+                See plans & get started
               </Link>
             </div>
 
