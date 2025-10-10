@@ -1,14 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/realty',
-        permanent: false,
-      },
-    ];
+  turbopack: {
+    root: __dirname, // explicitly set project root
   },
 };
 
-module.exports = nextConfig;
+module.exports = nextConfig; // CommonJS export
