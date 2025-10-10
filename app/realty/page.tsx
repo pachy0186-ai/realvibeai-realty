@@ -34,11 +34,7 @@ export default function RealtyPage() {
             />
           </div>
 
-<<<<<<< HEAD
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-in-up leading-tight">
-=======
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight animate-fade-in-up">
->>>>>>> 164b5e9 (fix(realty): repair truncated SVG and finalize conflict resolution)
             AI-Powered Lead Generation
             <span className="block text-transparent bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text">
               That Actually Works
@@ -46,15 +42,9 @@ export default function RealtyPage() {
           </h1>
 
           <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-4xl mx-auto animate-fade-in-up leading-relaxed">
-<<<<<<< HEAD
-            Stop chasing cold leads. Our intelligent system automatically qualifies prospects, sends personalized follow-ups,
-            and delivers hot leads directly to your inbox. Built for real estate professionals who want to close more deals
-            with less effort.
-=======
             Stop chasing cold leads. Our intelligent system automatically qualifies prospects,
             sends personalized follow-ups, and delivers hot leads directly to your inbox.
             Built for real estate professionals who want to close more deals with less effort.
->>>>>>> 164b5e9 (fix(realty): repair truncated SVG and finalize conflict resolution)
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up">
@@ -97,12 +87,7 @@ export default function RealtyPage() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Instant Lead Scoring</h3>
               <p className="text-gray-600 leading-relaxed">
-<<<<<<< HEAD
-                Every lead gets scored as Hot, Warm, or Cold within seconds. Our AI analyzes 50+ data points
-                including urgency, budget indicators, and engagement patterns to prioritize your follow-ups.
-=======
                 Every lead gets scored as Hot, Warm, or Cold within seconds. Our AI analyzes 50+ data points including urgency, budget indicators, and engagement patterns to prioritize your follow-ups.
->>>>>>> 164b5e9 (fix(realty): repair truncated SVG and finalize conflict resolution)
               </p>
             </div>
 
@@ -110,9 +95,6 @@ export default function RealtyPage() {
             <div className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<<<<<<< HEAD
-                  <path strokeLinecap="round" strokeLi
-=======
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -123,7 +105,7 @@ export default function RealtyPage() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Automated Follow-Ups</h3>
               <p className="text-gray-600 leading-relaxed">
-                Personalized email sequences sent at optimal times (48h, 7 days, monthly). Each message is tailored to the lead's interest level and previous interactions.
+                Personalized email sequences sent at optimal times (48h, 7 days, monthly). Each message is tailored to the lead&apos;s interest level and previous interactions.
               </p>
             </div>
 
@@ -145,4 +127,3 @@ export default function RealtyPage() {
     </div>
   );
 }
->>>>>>> 164b5e9 (fix(realty): repair truncated SVG and finalize conflict resolution)
