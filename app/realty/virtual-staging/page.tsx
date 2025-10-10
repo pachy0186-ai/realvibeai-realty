@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import Image from "next/image";
 
@@ -5,9 +6,9 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 const gallery = [
-  { title: "Living Room",  before: "/images/virtual-staging/living-before.jpg",  after: "/images/virtual-staging/living-after.jpg",  caption: "Modern, neutral style." },
-  { title: "Master Bedroom", before: "/images/virtual-staging/bedroom-before.jpg", after: "/images/virtual-staging/bedroom-after.jpg", caption: "Elegant traditional style." },
-  { title: "Kitchen & Dining", before: "/images/virtual-staging/kitchen-before.jpg", after: "/images/virtual-staging/kitchen-after.jpg", caption: "Bright, MLS-ready." },
+  { title: "Living Room",  before: "/images/virtual-staging/before-staging.webp",  after: "/images/virtual-staging/after-staging.webp",  caption: "Modern, neutral style." },
+  { title: "Master Bedroom", before: "/images/virtual-staging/before-staging.webp", after: "/images/virtual-staging/after-staging.webp", caption: "Elegant traditional style." },
+  { title: "Kitchen & Dining", before: "/images/virtual-staging/before-staging.webp", after: "/images/virtual-staging/after-staging.webp", caption: "Bright, MLS-ready." },
 ];
 
 export default function VirtualStagingPage() {
@@ -85,7 +86,7 @@ export default function VirtualStagingPage() {
                 </svg>
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Fast Turnaround</h3>
-              <p className="text-gray-600 text-sm">Professional staging delivered in 24-48 hours</p>
+              <p className="text-gray-600 text-sm">AI preview images delivered within minutes. Final enhanced renders delivered within 24–48 hours depending on room count and style complexity.</p>
             </div>
           </div>
 
@@ -98,11 +99,11 @@ export default function VirtualStagingPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <figure className="bg-white rounded-lg p-2">
                     <div className="text-sm text-gray-500 mb-2 text-center">Before</div>
-                    <Image src={g.before} alt={`${g.title} before`} width={1200} height={800} className="rounded-lg object-cover w-full h-auto" sizes="(max-width:768px) 100vw, 50vw" />
+                    <Image src="/images/virtual-staging/before-staging.webp" alt={`${g.title} before`} width={1200} height={800} className="rounded-lg object-cover w-full h-auto" sizes="(max-width:768px) 100vw, 50vw" />
                   </figure>
                   <figure className="bg-white rounded-lg p-2">
                     <div className="text-sm text-gray-500 mb-2 text-center">After AI Staging</div>
-                    <Image src={g.after} alt={`${g.title} after`} width={1200} height={800} className="rounded-lg object-cover w-full h-auto" sizes="(max-width:768px) 100vw, 50vw" />
+                    <Image src="/images/virtual-staging/after-staging.webp" alt={`${g.title} after`} width={1200} height={800} className="rounded-lg object-cover w-full h-auto" sizes="(max-width:768px) 100vw, 50vw" />
                   </figure>
                 </div>
                 <p className="text-center text-gray-600 mt-3">{g.caption}</p>
@@ -114,15 +115,15 @@ export default function VirtualStagingPage() {
           <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-12 text-center text-white">
             <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Listings?</h2>
             <p className="text-xl mb-8 opacity-90">
-              Professional virtual staging that helps properties sell faster and for higher prices.
+              Studies have shown that professionally staged homes tend to sell faster and at higher prices compared to unstaged homes. Actual results may vary depending on market conditions and property type.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
-                href="/pricing"
+                href="/realty/pricing"
                 className="bg-white text-purple-600 hover:bg-gray-100 font-semibold text-lg px-8 py-4 rounded-full transition-colors inline-block"
               >
-                View Pricing
+                See plans & get started
               </Link>
               
               <a
@@ -151,11 +152,11 @@ export default function VirtualStagingPage() {
               </div>
               <div>
                 <h4 className="text-lg font-semibold text-gray-900 mb-2">Quick Delivery</h4>
-                <p className="text-gray-600">Get professionally staged photos in 24-48 hours, not weeks.</p>
+                <p className="text-gray-600">AI preview images delivered within minutes. Final enhanced renders delivered within 24–48 hours depending on room count and style complexity.</p>
               </div>
               <div>
                 <h4 className="text-lg font-semibold text-gray-900 mb-2">Proven Results</h4>
-                <p className="text-gray-600">Staged homes sell 73% faster and for 10% more than unstaged properties.</p>
+                <p className="text-gray-600">Studies have shown that professionally staged homes tend to sell faster and at higher prices compared to unstaged homes. Actual results may vary depending on market conditions and property type.</p>
               </div>
             </div>
           </div>
@@ -164,3 +165,4 @@ export default function VirtualStagingPage() {
     </div>
   );
 }
+

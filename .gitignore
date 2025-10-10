@@ -41,3 +41,7 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+sendTestEmail.js
+app/sendTestEmail.js
+node
+setIsOpen(true)}

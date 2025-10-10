@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Metadata } from 'next';
-
 export const metadata: Metadata = {
   title: 'AI Lead Qualification Solutions - RealVibeAI Realty',
   description: 'Discover how our AI-powered lead qualification system automatically scores prospects as Hot, Warm, or Cold with detailed reasoning. Built for solo real estate agents.',
@@ -85,10 +84,10 @@ export default function SolutionsPage() {
               </div>
 
               <Link
-                href="/realty/contact"
+                href="/realty/pricing"
                 className="btn-primary"
               >
-                See Lead Qualification in Action
+                See plans & get started
               </Link>
             </div>
 
@@ -97,7 +96,7 @@ export default function SolutionsPage() {
               <div className="bg-white p-6 rounded-lg shadow-sm border-l-4 border-red-500">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-medium text-red-600 bg-red-100 px-2 py-1 rounded">HOT LEAD</span>
-                  <span className="text-sm text-gray-500">Score: 92/100</span>
+                  <span className="text-sm text-gray-500">Score: High</span>
                 </div>
                 <h4 className="font-semibold text-gray-900 mb-2">John & Sarah Martinez</h4>
                 <p className="text-sm text-gray-600 mb-3">
@@ -105,7 +104,7 @@ export default function SolutionsPage() {
                 </p>
                 <div className="text-xs text-gray-500">
                   <strong>AI Reasoning:</strong> Specific requirements, confirmed budget, urgent timeline, pre-approved financing. 
-                  High probability of conversion within 30 days.
+                  Indicates a strong potential for conversion.
                   <div className="mt-1 text-xs text-blue-600 italic">
                     AI-generated—may be imperfect. Use your judgment.
                   </div>
@@ -256,19 +255,19 @@ export default function SolutionsPage() {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white p-6 rounded-lg text-center">
-                <div className="text-3xl font-bold text-purple-600 mb-2">87%</div>
+                <div className="text-3xl font-bold text-purple-600 mb-2">High</div>
                 <div className="text-sm text-gray-600">Lead Quality Score</div>
-                <div className="text-xs text-green-600 mt-1"> + 23% from last month </div>
+                <div className="text-xs text-green-600 mt-1"> Positive trend </div>
               </div>
               <div className="bg-white p-6 rounded-lg text-center">
-                <div className="text-3xl font-bold text-blue-600 mb-2">3.2h</div>
+                <div className="text-3xl font-bold text-blue-600 mb-2">Significant</div>
                 <div className="text-sm text-gray-600">Daily Time Saved</div>
-                <div className="text-xs text-green-600 mt-1"> +45% efficiency gain </div>
+                <div className="text-xs text-green-600 mt-1"> Improved efficiency </div>
               </div>
               <div className="bg-white p-6 rounded-lg text-center">
-                <div className="text-3xl font-bold text-green-600 mb-2">42%</div>
+                <div className="text-3xl font-bold text-green-600 mb-2">High</div>
                 <div className="text-sm text-gray-600">Conversion Rate</div>
-                <div className="text-xs text-green-600 mt-1"> +18% improvement </div>
+                <div className="text-xs text-green-600 mt-1"> Positive improvement </div>
               </div>
             </div>
           </div>
@@ -290,63 +289,43 @@ export default function SolutionsPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {/* Integration logos would go here */}
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <div className="h-12 bg-gray-200 rounded mb-3"></div>
+              <img src="/icons/integrations/crm.png" alt="CRM Icon" width={48} height={48} className="mx-auto mb-3" />
               <p className="text-sm text-gray-600">Popular CRMs</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <div className="h-12 bg-gray-200 rounded mb-3"></div>
+              <img src="/icons/integrations/leads.png" alt="Lead Sources Icon" width={48} height={48} className="mx-auto mb-3" />
               <p className="text-sm text-gray-600">Lead Sources</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <div className="h-12 bg-gray-200 rounded mb-3"></div>
+              <img src="/icons/integrations/email.png" alt="Email Platforms Icon" width={48} height={48} className="mx-auto mb-3" />
               <p className="text-sm text-gray-600">Email Platforms</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <div className="h-12 bg-gray-200 rounded mb-3"></div>
+              <img src="/icons/integrations/mls.png" alt="MLS Systems Icon" width={48} height={48} className="mx-auto mb-3" />
               <p className="text-sm text-gray-600">MLS Systems</p>
             </div>
-          </div>
-
-          <div className="text-center mt-12">
-            <p className="text-gray-600 mb-6">
-              Don't see your platform? We're constantly adding new integrations.
-            </p>
-            <Link
-              href="/realty/contact"
-              className="btn-secondary"
-            >
-              Request Integration
-            </Link>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 hero-gradient">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Ready to Transform Your Lead Management?
+      <section className="bg-white py-20">
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <h2 className="text-4xl font-bold text-gray-900 mb-6">
+            Ready to Transform Your Real Estate Business?
           </h2>
-          <p className="text-xl text-gray-200 mb-8 max-w-3xl mx-auto">
-            Join hundreds of agents who are already saving time and closing more deals with AI-powered solutions.
+          <p className="text-xl text-gray-600 mb-8">
+            Start your free trial today and see how RealVibeAI can help you qualify leads, save time, and close more deals.
           </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link
-              href="/realty/contact"
-              className="btn-primary bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-4"
-            >
-              Start Free Trial
-            </Link>
-            <Link
-              href="/realty/pricing"
-              className="btn-secondary border-white text-white hover:bg-white hover:text-purple-600 text-lg px-8 py-4"
-            >
-              View Pricing
-            </Link>
-          </div>
+          <Link
+            href="/realty/contact"
+            className="btn-primary-lg"
+          >
+            Get Started for Free
+          </Link>
         </div>
       </section>
     </div>
   );
 }
+

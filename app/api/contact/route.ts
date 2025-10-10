@@ -7,15 +7,22 @@ export const dynamic = 'force-dynamic';
 const toAscii = (input: string): string =>
   (input || '')
     .normalize('NFKC')
-    .replace(/[\u2012-\u2015]/g, '-')  // figure/en/em dashes -> hyphen
-    .replace(/[\u2018\u2019]/g, "'")   // curly single quotes -> '
-    .replace(/[\u201C\u201D]/g, '"')   // curly double quotes -> "
-    .replace(/[^\x00-\x7F]/g, '');     // drop any remaining non-ASCII
+    .replace(/[\u2012-\u2015]/g, '-') // figure/en/em dashes -> hyphen
+    .replace(/[\u2018\u2019]/g, "'")  // curly single quotes -> '
+    .replace(/[\u201C\u201D]/g, '"')  // curly double quotes -> "
+    .replace(/[^\x00-\x7F]/g, '');    // drop any remaining non-ASCII
 
 const escapeHtml = (s: string) =>
   toAscii(s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]!));
 
 const isEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+
+// error helpers (lint-safe)
+const isDev = process.env.NODE_ENV !== 'production';
+const errMsg = (e: unknown): string =>
+  (e instanceof Error ? e.message : (() => { try { return JSON.stringify(e); } catch { return String(e); } })());
+const errStack = (e: unknown): string | undefined =>
+  (e instanceof Error && e.stack ? e.stack : undefined);
 
 // ---------- types ----------
 interface ContactInput {
@@ -92,29 +99,36 @@ export async function POST(request: NextRequest) {
       `<p><strong>Message</strong><br>${escapeHtml(data.message).replace(/\n/g, '<br>')}</p>`,
     ].filter(Boolean).join('');
 
-    // Optional send via Resend (lazy import)
-    if (process.env.RESEND_API_KEY && (process.env.CONTACT_TO || process.env.BUSINESS_EMAIL)) {
-      const { Resend } = await import('resend');
-      const resend = new Resend(process.env.RESEND_API_KEY);
-      const to = (process.env.CONTACT_TO || process.env.BUSINESS_EMAIL || 'realvibeairealty@gmail.com').trim();
+    // ----------------- Resend (optional) -----------------
+    const toEnv = process.env.CONTACT_TO_EMAIL || process.env.CONTACT_TO || process.env.BUSINESS_EMAIL || 'realvibeairealty@gmail.com';
+    const fromEnv = process.env.FROM_EMAIL || process.env.BUSINESS_EMAIL || 'onboarding@resend.dev';
+
+    if (process.env.RESEND_API_KEY && toEnv) {
       try {
+        const { Resend } = await import('resend');
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        const to = toAscii(toEnv.trim());
         await resend.emails.send({
-          from: toAscii(process.env.BUSINESS_EMAIL || 'realvibeai-realty@no-reply.example'),
-          to: [toAscii(to)],
+          from: toAscii(fromEnv),
+          to: [to],
           subject: toAscii(subject),
-          text,  // ASCII-only
-          html,  // ASCII-safe HTML (escaped + sanitized)
+          text,
+          html,
         });
-      } catch (e) {
-        console.error('Resend send error', e);
+      } catch (e: unknown) {
+        console.error('Resend send error', errMsg(e), isDev ? errStack(e) : '');
       }
     }
 
-    // Optional send via SMTP (lazy)
-    if (process.env.SMTP_HOST && (process.env.CONTACT_TO || process.env.BUSINESS_EMAIL)) {
+    // ----------------- SMTP (optional) -----------------
+    if (process.env.SMTP_HOST && toEnv) {
       try {
-        const nodemailer = await import('nodemailer');
-        const transporter = nodemailer.default.createTransport({
+        // Typed extraction avoids ESLint/TS unsafe access complaints on dynamic import
+        const nodemailerMod = await import('nodemailer');
+        const { createTransport } =
+          nodemailerMod as unknown as { createTransport: typeof import('nodemailer')['createTransport'] };
+
+        const transporter = createTransport({
           host: process.env.SMTP_HOST,
           port: parseInt(process.env.SMTP_PORT || '587', 10),
           secure: process.env.SMTP_PORT === '465',
@@ -122,23 +136,30 @@ export async function POST(request: NextRequest) {
             ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
             : undefined,
         });
-        const to = (process.env.CONTACT_TO || process.env.BUSINESS_EMAIL || 'realvibeairealty@gmail.com').trim();
+
+        const to = toAscii(toEnv.trim());
         await transporter.sendMail({
-          from: toAscii(process.env.BUSINESS_EMAIL || 'realvibeai-realty@no-reply.example'),
-          to: toAscii(to),
+          from: toAscii(fromEnv),
+          to,
           subject: toAscii(subject),
-          text,  // ASCII-only
-          html,  // ASCII-safe HTML
+          text,
+          html,
         });
-      } catch (e) {
-        console.error('SMTP send error', e);
+      } catch (e: unknown) {
+        console.error('SMTP send error', errMsg(e), isDev ? errStack(e) : '');
       }
     }
 
     return NextResponse.json({ ok: true }, { headers: { 'Cache-Control': 'no-store' } });
-  } catch (err) {
-    console.error('Contact API error', err);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  } catch (err: unknown) {
+    console.error('Contact API error', errMsg(err), isDev ? errStack(err) : '');
+    return NextResponse.json(
+      {
+        error: 'Internal server error',
+        detail: isDev ? errMsg(err) : undefined,
+      },
+      { status: 500 }
+    );
   }
 }
 
