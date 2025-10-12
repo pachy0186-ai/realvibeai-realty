@@ -7,9 +7,9 @@ export const metadata: Metadata = realtyMetadata;
 
 export default function RealtyPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-[70vh]">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
