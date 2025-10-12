@@ -1,4 +1,8 @@
 import Link from "next/link";
+// NOTE: react/no-img-element is temporarily disabled in eslint.config.mjs
+// to maintain velocity during rapid iteration. Tracked for migration to next/image
+// in follow-up issue: "Re-enable react/no-img-element and migrate to next/image site-wide"
+
 import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'AI Lead Qualification Solutions - RealVibeAI Realty',
