@@ -19,7 +19,7 @@ export default function RealtyPage() {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 to-blue-900/80"></div>
+          <div className="absolute inset-0 hero-gradient"></div>
         </div>
 
         {/* Hero Content */}
@@ -34,7 +34,7 @@ export default function RealtyPage() {
             />
           </div>
 
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight animate-fade-in-up">
+          <h1 className="text-hero font-bold text-white mb-6 leading-tight animate-fade-in-up">
             AI-Powered Lead Generation
             <span className="block text-transparent bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text">
               That Actually Works
