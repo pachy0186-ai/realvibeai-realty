@@ -1,6 +1,9 @@
 // postcss.config.mjs  (ESM, Tailwind v4)
-export default {
+const postcssConfig = {
   plugins: {
     '@tailwindcss/postcss': {},
   },
 };
+
+export default postcssConfig;
+
