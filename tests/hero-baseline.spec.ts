@@ -1,18 +1,8 @@
 import { test, expect } from '@playwright/test';
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
-
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-});
-
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
-
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
-
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+test("Hero section visual regression test", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 }); // Set a fixed viewport size
+  await page.goto("/realty");
+  await page.waitForSelector("main"); // Wait for the main content to load
+  await expect(page).toHaveScreenshot("hero-baseline.png", { fullPage: true });
 });
