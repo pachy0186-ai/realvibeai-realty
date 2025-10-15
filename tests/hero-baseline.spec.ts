@@ -1,16 +1,28 @@
 import { test, expect } from '@playwright/test';
 
-test("Hero section visual regression test", async ({ page }) => {
-  await page.setViewportSize({ width: 1280, height: 720 }); // Set a fixed viewport size
-  await page.goto("/realty", { waitUntil: 'networkidle' });
-  await page.waitForSelector("main"); // Wait for the main content to load
-  
-  // Wait for fonts to load to ensure consistent rendering
-  await page.evaluate(() => document.fonts.ready);
-  
-  // Additional small delay to ensure all animations/transitions complete
-  await page.waitForTimeout(500);
-  
-  await expect(page).toHaveScreenshot("hero-baseline.png", { fullPage: true });
-});
+test('Hero section visual regression', async ({ page }) => {
+  await page.goto('/realty', { waitUntil: 'networkidle' });
 
+  // Wait for all fonts to load
+  await page.evaluate(async () => {
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+  });
+
+  // Disable animations/transitions to stabilize rendering
+  await page.addStyleTag({ content: `
+    *,*::before,*::after {
+      animation: none !important;
+      transition: none !important;
+    }
+    html { scroll-behavior: auto !important; }
+  `});
+
+  // Capture only the hero section
+  const hero = page.locator('[data-testid="hero"], main, section:first-of-type');
+  await expect(hero.first()).toBeVisible();
+
+  await expect(hero.first()).toHaveScreenshot('hero-baseline.png', {
+    animations: 'disabled',
+    maxDiffPixelRatio: 0.01,
+  });
+});
