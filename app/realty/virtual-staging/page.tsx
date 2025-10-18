@@ -1,53 +1,85 @@
+// app/realty/virtual-staging/page.tsx
 import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "AI-Powered Virtual Staging | RealVibeAI Realty",
-  description: "Before & After gallery ready for MLS and marketing.",
+  description:
+    "Before & After gallery showcasing AI-generated home staging transformations in minutes, not days.",
 };
 
-function BeforeAfter({ before, after, label }: { before: string; after: string; label: string }) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <figure className="relative overflow-hidden rounded-xl bg-gray-100" style={{ aspectRatio: "16/9" }}>
-        <Image src={before} alt={`${label} before`} fill className="object-cover" />
-        <figcaption className="absolute bottom-2 left-2 bg-white/85 text-xs px-2 py-1 rounded">Before</figcaption>
-      </figure>
-      <figure className="relative overflow-hidden rounded-xl bg-gray-100" style={{ aspectRatio: "16/9" }}>
-        <Image src={after} alt={`${label} after`} fill className="object-cover" />
-        <figcaption className="absolute bottom-2 left-2 bg-white/85 text-xs px-2 py-1 rounded">After</figcaption>
-      </figure>
-    </div>
-  );
-}
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+const gallery = [
+  {
+    title: "Living Room",
+    before: "/images/virtual-staging/living-before.jpg",
+    after: "/images/virtual-staging/living-after.jpg",
+  },
+  {
+    title: "Master Bedroom",
+    before: "/images/virtual-staging/bedroom-before.jpg",
+    after: "/images/virtual-staging/bedroom-after.jpg",
+  },
+  {
+    title: "Kitchen & Dining",
+    before: "/images/virtual-staging/kitchen-before.jpg",
+    after: "/images/virtual-staging/kitchen-after.jpg",
+  },
+];
 
 export default function VirtualStagingPage() {
   return (
-    <main className="max-w-6xl mx-auto px-4 py-12 space-y-12">
-      <header className="text-center">
-        <h1 className="text-4xl font-bold mb-3">AI-Powered Virtual Staging</h1>
-        <p className="text-gray-600">Professional results in minutes. Multiple styles. MLS-ready exports.</p>
-      </header>
+    <main className="min-h-screen bg-white text-gray-900">
+      <section className="py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-5xl font-bold mb-6">AI-Powered Virtual Staging</h1>
+          <p className="text-lg text-gray-600 mb-12">
+            Transform empty or outdated rooms into stunning, market-ready visuals. Professional
+            results in minutes.
+          </p>
 
-      <BeforeAfter
-        label="Bedroom"
-        before="/images/virtual-staging/bedroom-before.jpg"
-        after="/images/virtual-staging/bedroom-after.jpg"
-      />
-      <BeforeAfter
-        label="Kitchen"
-        before="/images/virtual-staging/kitchen-before.jpg"
-        after="/images/virtual-staging/kitchen-after.jpg"
-      />
-      <BeforeAfter
-        label="Living Room"
-        before="/images/virtual-staging/living-before.jpg"
-        after="/images/virtual-staging/living-after.jpg"
-      />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            {gallery.map(({ title, before, after }) => (
+              <div key={title} className="space-y-3">
+                <h3 className="font-semibold text-gray-800">{title}</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  <figure className="relative">
+                    <Image
+                      src={before}
+                      alt={`${title} before`}
+                      width={400}
+                      height={300}
+                      className="rounded-lg object-cover border"
+                    />
+                    <figcaption className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
+                      Before
+                    </figcaption>
+                  </figure>
 
-      <p className="text-xs text-blue-600 italic">
-        AI-generated previews may be imperfect. Use your judgment.
-      </p>
+                  <figure className="relative">
+                    <Image
+                      src={after}
+                      alt={`${title} after`}
+                      width={400}
+                      height={300}
+                      className="rounded-lg object-cover border"
+                    />
+                    <figcaption className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
+                      After
+                    </figcaption>
+                  </figure>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-6 text-xs text-gray-500">
+            AI-generated—may be imperfect. Use your judgment.
+          </p>
+        </div>
+      </section>
     </main>
   );
 }
