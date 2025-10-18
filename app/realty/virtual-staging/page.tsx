@@ -6,9 +6,9 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 const gallery = [
-  { title: "Living Room",  before: "/images/virtual-staging/before-staging.webp",  after: "/images/virtual-staging/after-staging.webp",  caption: "Modern, neutral style." },
-  { title: "Master Bedroom", before: "/images/virtual-staging/before-staging.webp", after: "/images/virtual-staging/after-staging.webp", caption: "Elegant traditional style." },
-  { title: "Kitchen & Dining", before: "/images/virtual-staging/before-staging.webp", after: "/images/virtual-staging/after-staging.webp", caption: "Bright, MLS-ready." },
+  { title: "Living Room",  before: "/images/virtual-staging/living-before.jpg",  after: "/images/virtual-staging/living-after.jpg",  caption: "Modern, neutral style." },
+  { title: "Master Bedroom", before: "/images/virtual-staging/bedroom-before.jpg", after: "/images/virtual-staging/bedroom-after.jpg", caption: "Elegant traditional style." },
+  { title: "Kitchen & Dining", before: "/images/virtual-staging/kitchen-before.jpg", after: "/images/virtual-staging/kitchen-after.jpg", caption: "Bright, MLS-ready." },
 ];
 
 export default function VirtualStagingPage() {
@@ -99,11 +99,11 @@ export default function VirtualStagingPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <figure className="bg-white rounded-lg p-2">
                     <div className="text-sm text-gray-500 mb-2 text-center">Before</div>
-                    <Image src="/images/virtual-staging/before-staging.webp" alt={`${g.title} before`} width={1200} height={800} className="rounded-lg object-cover w-full h-auto" sizes="(max-width:768px) 100vw, 50vw" />
+                    <Image src={g.before} alt={`${g.title} before`} width={1200} height={800} className="rounded-lg object-cover w-full h-auto" sizes="(max-width:768px) 100vw, 50vw" />
                   </figure>
                   <figure className="bg-white rounded-lg p-2">
                     <div className="text-sm text-gray-500 mb-2 text-center">After AI Staging</div>
-                    <Image src="/images/virtual-staging/after-staging.webp" alt={`${g.title} after`} width={1200} height={800} className="rounded-lg object-cover w-full h-auto" sizes="(max-width:768px) 100vw, 50vw" />
+                    <Image src={g.after} alt={`${g.title} after`} width={1200} height={800} className="rounded-lg object-cover w-full h-auto" sizes="(max-width:768px) 100vw, 50vw" />
                   </figure>
                 </div>
                 <p className="text-center text-gray-600 mt-3">{g.caption}</p>
