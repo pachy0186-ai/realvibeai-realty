@@ -1,10 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  turbopack: {
-    root: __dirname, // explicitly set project root
-  },
-  serverExternalPackages: ["nodemailer"], // don't bundle server-only lib
+  // silences the wrong-root Turbopack warning
+  turbopack: { root: __dirname },
+
+  // prevents nodemailer from being bundled into client code
+  serverExternalPackages: ['nodemailer'],
 };
 
-module.exports = nextConfig; // CommonJS export
-
+module.exports = nextConfig;
