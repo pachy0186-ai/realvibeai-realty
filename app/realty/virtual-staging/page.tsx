@@ -74,6 +74,37 @@ export default function VirtualStagingPage() {
                 </div>
               </div>
             ))}
+          </section>
+
+          {/* CTA Section */}
+          <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-12 text-center text-white">
+            <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Listings?</h2>
+            <p className="text-xl mb-8 opacity-90">
+              Studies have shown that professionally staged homes tend to sell faster and at higher prices compared to unstaged homes. Actual results may vary depending on market conditions and property type.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Link
+                href="/pricing"
+                className="bg-white text-purple-600 hover:bg-gray-100 font-semibold text-lg px-8 py-4 rounded-full transition-colors inline-block"
+              >
+                View Pricing
+              </Link>
+              
+              <a
+                href="mailto:realvibeairealty@gmail.com"
+                className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-purple-600 font-semibold text-lg px-8 py-4 rounded-full transition-colors inline-block"
+              >
+                Email Us
+              </a>
+              
+              <a
+                href="tel:+19542478275"
+                className="bg-green-500 hover:bg-green-600 text-white font-semibold text-lg px-8 py-4 rounded-full transition-colors inline-block"
+              >
+                Call (954) 247-8275
+              </a>
+            </div>
           </div>
 
           <p className="mt-6 text-xs text-gray-500">
