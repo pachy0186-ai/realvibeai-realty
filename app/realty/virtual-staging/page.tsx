@@ -8,6 +8,7 @@ export const metadata: Metadata = {
     "Before & After gallery showcasing AI-generated home staging transformations in minutes, not days.",
 };
 
+// keep dynamic so changes show immediately in Preview/Prod while iterating
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
@@ -36,21 +37,21 @@ export default function VirtualStagingPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl font-bold mb-6">AI-Powered Virtual Staging</h1>
           <p className="text-lg text-gray-600 mb-12">
-            Transform empty or outdated rooms into stunning, market-ready visuals. Professional
-            results in minutes.
+            Transform empty or outdated rooms into stunning, market-ready visuals. Professional results in minutes.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {gallery.map(({ title, before, after }) => (
               <div key={title} className="space-y-3">
                 <h3 className="font-semibold text-gray-800">{title}</h3>
+
                 <div className="grid grid-cols-2 gap-3">
                   <figure className="relative">
                     <Image
                       src={before}
                       alt={`${title} before`}
-                      width={400}
-                      height={300}
+                      width={600}
+                      height={450}
                       className="rounded-lg object-cover border"
                     />
                     <figcaption className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
@@ -62,8 +63,8 @@ export default function VirtualStagingPage() {
                     <Image
                       src={after}
                       alt={`${title} after`}
-                      width={400}
-                      height={300}
+                      width={600}
+                      height={450}
                       className="rounded-lg object-cover border"
                     />
                     <figcaption className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
