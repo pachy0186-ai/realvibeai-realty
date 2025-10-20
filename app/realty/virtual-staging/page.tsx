@@ -1,3 +1,5 @@
+// app/realty/virtual-staging/page.tsx
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,7 +8,7 @@ export const metadata: Metadata = {
     "Before & After gallery showcasing AI-generated home staging transformations in minutes, not days.",
 };
 
-// Keep this page dynamic so it never caches a broken render
+// keep dynamic so changes show immediately in Preview/Prod while iterating
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
@@ -32,28 +34,26 @@ const gallery = [
 export default function VirtualStagingPage() {
   return (
     <main className="min-h-screen bg-white text-gray-900">
-      <section className="py-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-extrabold text-center mb-10">
-            Before &amp; After Gallery
-          </h1>
+      <section className="py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-5xl font-bold mb-6">AI-Powered Virtual Staging</h1>
+          <p className="text-lg text-gray-600 mb-12">
+            Transform empty or outdated rooms into stunning, market-ready visuals. Professional results in minutes.
+          </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {gallery.map(({ title, before, after }) => (
-              <div key={title}>
-                <h3 className="text-lg font-semibold text-center mb-3">
-                  {title}
-                </h3>
+              <div key={title} className="space-y-3">
+                <h3 className="font-semibold text-gray-800">{title}</h3>
 
                 <div className="grid grid-cols-2 gap-3">
                   <figure className="relative">
-                    <img
+                    <Image
                       src={before}
                       alt={`${title} before`}
                       width={600}
                       height={450}
-                      loading="lazy"
-                      className="w-full h-auto rounded-lg object-cover border"
+                      className="rounded-lg object-cover border"
                     />
                     <figcaption className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
                       Before
@@ -61,13 +61,12 @@ export default function VirtualStagingPage() {
                   </figure>
 
                   <figure className="relative">
-                    <img
+                    <Image
                       src={after}
                       alt={`${title} after`}
                       width={600}
                       height={450}
-                      loading="lazy"
-                      className="w-full h-auto rounded-lg object-cover border"
+                      className="rounded-lg object-cover border"
                     />
                     <figcaption className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
                       After
@@ -78,7 +77,7 @@ export default function VirtualStagingPage() {
             ))}
           </div>
 
-          <p className="mt-6 text-xs text-gray-500 text-center">
+          <p className="mt-6 text-xs text-gray-500">
             AI-generated—may be imperfect. Use your judgment.
           </p>
         </div>
