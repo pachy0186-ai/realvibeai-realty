@@ -45,3 +45,5 @@ sendTestEmail.js
 app/sendTestEmail.js
 node
 setIsOpen(true)}
+playwright-report/
+test-results/
