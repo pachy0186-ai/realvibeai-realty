@@ -19,8 +19,10 @@ const isEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 
 // error helpers (lint-safe)
 const isDev = process.env.NODE_ENV !== 'production';
-const errMsg = (e: unknown): string => (e instanceof Error ? e.message : (() => { try { return JSON.stringify(e); } catch { return String(e); } })());
-const errStack = (e: unknown): string | undefined => (e instanceof Error && e.stack ? e.stack : undefined);
+const errMsg = (e: unknown): string =>
+  (e instanceof Error ? e.message : (() => { try { return JSON.stringify(e); } catch { return String(e); } })());
+const errStack = (e: unknown): string | undefined =>
+  (e instanceof Error && e.stack ? e.stack : undefined);
 
 // ---------- types ----------
 interface ContactInput {
@@ -121,8 +123,10 @@ export async function POST(request: NextRequest) {
     // ----------------- SMTP (optional) -----------------
     if (process.env.SMTP_HOST && toEnv) {
       try {
+        // Typed extraction avoids ESLint/TS unsafe access complaints on dynamic import
         const nodemailerMod = await import('nodemailer');
-        const { createTransport } = nodemailerMod as unknown as { createTransport: typeof import('nodemailer')['createTransport'] };
+        const { createTransport } =
+          nodemailerMod as unknown as { createTransport: typeof import('nodemailer')['createTransport'] };
 
         const transporter = createTransport({
           host: process.env.SMTP_HOST,

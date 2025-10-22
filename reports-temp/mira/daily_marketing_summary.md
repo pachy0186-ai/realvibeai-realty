@@ -1,4 +1,4 @@
-This report? Daily Marketing Check: Summary of Findings and Outreach Ideas
+Daily Marketing Check: Summary of Findings and Outreach Ideas
 
 This report provides a summary of the daily marketing check, including a review of organic opportunities based on current digital marketing trends, potential ad angles and keywords for Meta and Google Ads, and new outreach ideas for the day.
 
