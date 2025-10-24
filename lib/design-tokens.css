@@ -1,0 +1,43 @@
+:root {
+  --brand-purple: #6B4EFF;
+  --brand-blue:   #00A3FF;
+  --brand-indigo: #3B82F6;
+  --surface: #0B1020;
+  --surface-2: #121A2E;
+  --text: #E8ECF8;
+
+  /* Source gradient variable used by .hero-gradient */
+  --gradient-hero: radial-gradient(80% 100% at 0% 100%, rgba(107,78,255,0.70) 0%, rgba(107,78,255,0.05) 55%, rgba(0,0,0,0.0) 100%),
+                   radial-gradient(80% 100% at 100% 0%, rgba(0,163,255,0.70) 0%, rgba(0,163,255,0.05) 55%, rgba(0,0,0,0.0) 100%),
+                   linear-gradient(160deg, #1B1238 0%, #0B1C33 60%, #051225 100%);
+}
+
+/* 🔒 DO NOT MODIFY these classes without following the Visual Contract */
+.hero-gradient {
+  background-image: var(--gradient-hero);
+  background-size: cover;
+  background-position: center;
+}
+
+.btn-primary {
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:.7rem 1.05rem; border-radius:.75rem;
+  color:#0a0d1a; background:linear-gradient(180deg, var(--brand-blue), var(--brand-indigo));
+  font-weight:600; text-decoration:none; gap:.5rem; transition:transform .12s ease, box-shadow .12s ease;
+  box-shadow:0 6px 18px rgba(0,163,255,0.25);
+}
+.btn-primary:hover { transform:translateY(-1px); box-shadow:0 8px 22px rgba(0,163,255,0.35); }
+.btn-primary:focus { outline:2px solid #fff; outline-offset:2px; }
+
+.btn-secondary {
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:.66rem 1rem; border-radius:.75rem; color:var(--text);
+  border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.04);
+  backdrop-filter: blur(6px); transition: background .12s ease, border-color .12s ease, transform .12s ease;
+}
+.btn-secondary:hover { transform:translateY(-1px); border-color:rgba(255,255,255,0.25); background:rgba(255,255,255,0.07); }
+.btn-secondary:focus { outline:2px solid #fff; outline-offset:2px; }
+
+/* entrance animation */
+@keyframes fadeInUp { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
+.animate-fade-in-up { animation: fadeInUp .6s ease-out both; }
