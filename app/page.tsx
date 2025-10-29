@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+// import { useBetaSeats } from '@/hooks/useBetaSeats'; // Phase B: live counter
 
 const FEATURE_VIRTUAL_ISA = process.env.NEXT_PUBLIC_FEATURE_VIRTUAL_ISA === 'true';
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL || "/realty/contact";
@@ -47,9 +48,18 @@ export default function Home() {
             </span>
           </h1>
           
-          <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-4xl mx-auto animate-fade-in-up leading-relaxed">
+          <p className="text-xl md:text-2xl text-gray-200 mb-4 max-w-4xl mx-auto animate-fade-in-up leading-relaxed">
             Your AI Virtual ISA engages, qualifies, and books to your calendar. Plugs straight into Follow Up Boss (Lofty/CINC next).
           </p>
+
+          {/* Beta Limited Seats Subhead */}
+          <div className="mb-8 animate-fade-in-up">
+            <p className="text-base md:text-lg text-yellow-300 font-semibold">
+              Limited beta: 10 seats per metro. Apply to claim yours.
+              {/* TODO: replace with live count from Supabase in Phase B */}
+              <span data-beta-seats="10" className="sr-only">10 seats per metro</span>
+            </p>
+          </div>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up">
             <Link
