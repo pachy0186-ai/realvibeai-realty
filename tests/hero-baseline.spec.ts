@@ -1,7 +1,9 @@
 import { test, expect } from '@playwright/test';
 
 test('Hero section visual regression', async ({ page }) => {
-  await page.goto('/realty', { waitUntil: 'networkidle' });
+  // Use absolute URL with fallback for CI environments without dev server
+  const BASE = process.env.PLAYWRIGHT_TEST_BASE_URL || process.env.BASE_URL || 'http://localhost:3000';
+  await page.goto(`${BASE}/realty`, { waitUntil: 'networkidle' });
 
   // Wait for all fonts to load
   await page.evaluate(async () => {
