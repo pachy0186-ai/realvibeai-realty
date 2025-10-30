@@ -1,10 +1,54 @@
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-// import { useBetaSeats } from '@/hooks/useBetaSeats'; // Phase B: live counter
+import { useBetaSeats } from '@/hooks/useBetaSeats';
 
 const FEATURE_VIRTUAL_ISA = process.env.NEXT_PUBLIC_FEATURE_VIRTUAL_ISA === 'true';
+const FEATURE_BETA_COUNTER = process.env.NEXT_PUBLIC_FEATURE_BETA_COUNTER === 'true';
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL || "/realty/contact";
+
+function BetaSeatsCounter() {
+  'use client';
+  const { data, loading } = useBetaSeats('General');
+
+  if (!FEATURE_BETA_COUNTER) {
+    return (
+      <div className="mb-8 animate-fade-in-up">
+        <p className="text-base md:text-lg text-yellow-300 font-semibold">
+          Limited beta: 10 seats per metro. Apply to claim yours.
+        </p>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="mb-8 animate-fade-in-up">
+        <p className="text-base md:text-lg text-yellow-300 font-semibold">
+          Limited beta: Loading availability...
+        </p>
+      </div>
+    );
+  }
+
+  const claimed = data?.claimed || 0;
+  const total = data?.total || 10;
+  const available = data?.available || 10;
+
+  return (
+    <div className="mb-8 animate-fade-in-up">
+      <p className="text-base md:text-lg text-yellow-300 font-semibold">
+        Limited beta: <span className="text-white">{claimed}/{total}</span> seats claimed per metro. 
+        {available > 0 ? (
+          <span className="text-green-300"> {available} available</span>
+        ) : (
+          <span className="text-red-300"> Fully booked</span>
+        )}
+        . Apply to claim yours.
+      </p>
+    </div>
+  );
+}
 
 export default function Home() {
   // If Virtual ISA feature is disabled, redirect to /realty (canonical page)
@@ -53,13 +97,7 @@ export default function Home() {
           </p>
 
           {/* Beta Limited Seats Subhead */}
-          <div className="mb-8 animate-fade-in-up">
-            <p className="text-base md:text-lg text-yellow-300 font-semibold">
-              Limited beta: 10 seats per metro. Apply to claim yours.
-              {/* TODO: replace with live count from Supabase in Phase B */}
-              <span data-beta-seats="10" className="sr-only">10 seats per metro</span>
-            </p>
-          </div>
+          <BetaSeatsCounter />
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up">
             <Link

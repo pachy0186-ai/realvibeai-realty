@@ -13,9 +13,11 @@ export default function BetaPage() {
     phone: "",
     brokerage: "",
     crm: "",
-    monthlyLeadVolume: "",
-    hearAboutUs: "",
+    leadVolume: "",
+    metro: "",
+    referralSource: "",
   });
+  const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -24,21 +26,23 @@ export default function BetaPage() {
     setLoading(true);
 
     try {
-      // TODO: Integrate with HubSpot/Supabase
+      setError(null);
       const response = await fetch("/api/beta-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
+      const result = await response.json();
+
       if (response.ok) {
         setSubmitted(true);
       } else {
-        alert("Something went wrong. Please try again or contact us directly.");
+        setError(result.error || "Something went wrong. Please try again or contact us directly.");
       }
     } catch (error) {
       console.error("Beta signup error:", error);
-      alert("Something went wrong. Please try again or contact us directly.");
+      setError("Network error. Please check your connection and try again.");
     } finally {
       setLoading(false);
     }
@@ -246,41 +250,63 @@ export default function BetaPage() {
               </select>
             </div>
 
-            <div className="mb-6">
-              <label htmlFor="monthlyLeadVolume" className="block text-sm font-semibold text-gray-700 mb-2">
-                Monthly Lead Volume *
-              </label>
-              <select
-                id="monthlyLeadVolume"
-                name="monthlyLeadVolume"
-                required
-                value={formData.monthlyLeadVolume}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              >
-                <option value="">Select volume</option>
-                <option value="0-50">0-50 leads/month</option>
-                <option value="51-100">51-100 leads/month</option>
-                <option value="101-200">101-200 leads/month</option>
-                <option value="201-500">201-500 leads/month</option>
-                <option value="500+">500+ leads/month</option>
-              </select>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label htmlFor="leadVolume" className="block text-sm font-semibold text-gray-700 mb-2">
+                  Monthly Lead Volume *
+                </label>
+                <select
+                  id="leadVolume"
+                  name="leadVolume"
+                  required
+                  value={formData.leadVolume}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                >
+                  <option value="">Select volume</option>
+                  <option value="0-50">0-50 leads/month</option>
+                  <option value="51-100">51-100 leads/month</option>
+                  <option value="101-200">101-200 leads/month</option>
+                  <option value="201-500">201-500 leads/month</option>
+                  <option value="500+">500+ leads/month</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="metro" className="block text-sm font-semibold text-gray-700 mb-2">
+                  Metro Area
+                </label>
+                <input
+                  type="text"
+                  id="metro"
+                  name="metro"
+                  value={formData.metro}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  placeholder="e.g., Miami, Los Angeles"
+                />
+              </div>
             </div>
 
-            <div className="mb-8">
-              <label htmlFor="hearAboutUs" className="block text-sm font-semibold text-gray-700 mb-2">
+            <div className="mb-6">
+              <label htmlFor="referralSource" className="block text-sm font-semibold text-gray-700 mb-2">
                 How did you hear about us?
               </label>
               <input
                 type="text"
-                id="hearAboutUs"
-                name="hearAboutUs"
-                value={formData.hearAboutUs}
+                id="referralSource"
+                name="referralSource"
+                value={formData.referralSource}
                 onChange={handleChange}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 placeholder="LinkedIn, referral, Google, etc."
               />
             </div>
+
+            {error && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-800 text-sm">{error}</p>
+              </div>
+            )}
 
             <button
               type="submit"
