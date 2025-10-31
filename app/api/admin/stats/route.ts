@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
           approved: 0,
           rejected: 0,
         };
-        data?.forEach((row: any) => {
+        data?.forEach((row: { status?: string }) => {
           const status = row.status || 'pending';
           if (status in counts) {
             counts[status as keyof typeof counts]++;
@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
       .select('metro')
       .then(({ data }) => {
         const metroCounts: Record<string, number> = {};
-        data?.forEach((row: any) => {
+        data?.forEach((row: { metro?: string }) => {
           const metro = row.metro || 'General';
           metroCounts[metro] = (metroCounts[metro] || 0) + 1;
         });

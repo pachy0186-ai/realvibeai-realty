@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 
 const FEATURE_ADMIN = process.env.NEXT_PUBLIC_FEATURE_ADMIN === 'true';
