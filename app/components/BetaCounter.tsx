@@ -1,22 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function BetaCounter() {
-  const [seatsLeft, setSeatsLeft] = useState<number | null>(null);
-  const [totalSeats, setTotalSeats] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
+  // Read the feature flag from the environment
+  const showCounter =
+    process.env.NEXT_PUBLIC_FEATURE_BETA_COUNTER === "true";
 
+  const [seats, setSeats] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
+
+  // If the flag is off, render nothing
+  if (!showCounter) return null;
+
+  // Fetch seat count on mount
   useEffect(() => {
     async function fetchSeats() {
       try {
         const res = await fetch("/api/beta-seats");
-        if (!res.ok) throw new Error("Failed to fetch seat data");
+        if (!res.ok) throw new Error("Failed to fetch seat count");
         const data = await res.json();
-        setSeatsLeft(data.seatsLeft);
-        setTotalSeats(data.total);
-      } catch (err) {
-        console.error("Error fetching beta seat data:", err);
+        setSeats(data?.seats ?? null);
+      } catch {
+        setError(true);
       } finally {
         setLoading(false);
       }
@@ -25,37 +32,21 @@ export default function BetaCounter() {
   }, []);
 
   if (loading) {
-    return (
-      <p className="text-sm text-gray-400 mt-2 animate-pulse">
-        Checking beta availability...
-      </p>
-    );
+    return <span className="text-sm text-gray-500">Loading beta seats…</span>;
   }
 
-  if (seatsLeft === null || totalSeats === null) {
-    return (
-      <p className="text-sm text-red-500 mt-2">
-        Unable to load beta seat data.
-      </p>
-    );
+  if (error || seats === null) {
+    return <span className="text-sm text-red-500">Beta seats unavailable</span>;
   }
 
-  const percentLeft = Math.max(0, Math.round((seatsLeft / totalSeats) * 100));
-  const statusColor =
-    percentLeft > 50
-      ? "bg-green-500"
-      : percentLeft > 20
-      ? "bg-yellow-400"
-      : "bg-red-500";
+  // Choose indicator colour based on seats
+  const indicatorColor = seats > 0 ? "bg-green-500" : "bg-red-500";
 
   return (
-    <div className="flex items-center justify-center mt-3">
-      <span
-        className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium text-white ${statusColor} shadow-md`}
-      >
-        <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-        {seatsLeft} of {totalSeats} beta seats left
-      </span>
+    <div className="inline-flex items-center gap-2 rounded-md px-2 py-1 text-xs font-medium">
+      <span className={`h-2 w-2 rounded-full ${indicatorColor}`} />
+      <span className="font-bold">{seats}</span>
+      <span className="ml-1">beta seats left</span>
     </div>
   );
 }
