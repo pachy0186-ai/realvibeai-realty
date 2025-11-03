@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from 'next';
+import BetaCounter from "@/app/components/BetaCounter";
 // import { useBetaSeats } from '@/hooks/useBetaSeats'; // Phase B: live counter
 
 import { realtyMetadata } from "../../lib/seo_metadata";
@@ -60,11 +61,7 @@ export default function RealtyPage() {
 
               {/* Beta Limited Seats Subhead */}
               <div className="mb-8 animate-fade-in-up">
-                <p className="text-base md:text-lg text-yellow-300 font-semibold">
-                  Limited beta: 10 seats per metro. Apply to claim yours.
-                  {/* TODO: replace with live count from Supabase in Phase B */}
-                  <span data-beta-seats="10" className="sr-only">10 seats per metro</span>
-                </p>
+                <BetaCounter />
               </div>
 
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up">
