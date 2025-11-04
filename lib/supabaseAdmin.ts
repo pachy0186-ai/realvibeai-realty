@@ -5,35 +5,15 @@ import { createClient } from '@supabase/supabase-js'
 
 // Read from env (service role must never be exposed to the browser)
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
-const SUPABASE_SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE_KEY // Corrected key name
+const SUPABASE_SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-// Optional helper you can use in API routes to guard execution
-export const isSupabaseConfigured = (): boolean =>
+// Helper: allow routes to guard when local env isn’t configured
+export const isSupabaseConfigured =
   Boolean(SUPABASE_URL && SUPABASE_SERVICE_ROLE)
 
-if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE) {
-  // Don't crash the build; warn so Preview can still compile.
-  // Your API routes should call isSupabaseConfigured() before using the client.
-  console.warn(
-    '[supabaseAdmin] Missing env vars: ' +
-      `${!SUPABASE_URL ? 'NEXT_PUBLIC_SUPABASE_URL ' : ''}` +
-      `${!SUPABASE_SERVICE_ROLE ? 'SUPABASE_SERVICE_ROLE_KEY ' : ''}`.trim()
-  )
-}
-
-/**
- * Admin (service-role) client for server-side code only:
- * - Use inside /app/api/* route handlers or server utilities.
- * - Never import from client components.
- */
-export const supabaseAdmin = SUPABASE_URL && SUPABASE_SERVICE_ROLE
-  ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE, {
-      auth: { persistSession: false, autoRefreshToken: false }, // Keeping autoRefreshToken: false from my previous version
-      global: {
-        headers: {
-          'X-Client-Info': 'realvibeai-realty/admin',
-        },
-      },
+// Export a server-only admin client when configured; otherwise a typed null
+export const supabaseAdmin = isSupabaseConfigured
+  ? createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE!, {
+      auth: { persistSession: false, autoRefreshToken: false },
     })
-  // Fallback dummy client to avoid undefined imports; guard with isSupabaseConfigured()
   : (null as unknown as ReturnType<typeof createClient>)
