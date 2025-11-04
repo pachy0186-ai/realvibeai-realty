@@ -1,4 +1,4 @@
-import BetaCounter from "./components/BetaCounter";
+
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
