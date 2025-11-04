@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function BetaCounter() {
   // Read flag once per render (string === "true")
-  const featureOn =
-    process.env.NEXT_PUBLIC_FEATURE_BETA_COUNTER === "true";
+  const featureOn = process.env.NEXT_PUBLIC_FEATURE_BETA_COUNTER === "true";
 
   // Hooks must be unconditional
   const [seats, setSeats] = useState<number | null>(null);
@@ -48,7 +47,7 @@ export default function BetaCounter() {
       {loading
         ? "Checking seats…"
         : error
-        ? "Seats unavailable"
+        ? "Limited beta: seats unavailable. Apply to claim yours."
         : `Limited beta: ${seats ?? 0} seats per metro. Apply to claim yours.`}
     </div>
   );
