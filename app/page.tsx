@@ -2,16 +2,22 @@
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import BetaCounter from "./components/BetaCounter"; // relative import to avoid dupes
+import BetaCounter from "./components/BetaCounter";
 
-const FEATURE_VIRTUAL_ISA =
-  process.env.NEXT_PUBLIC_FEATURE_VIRTUAL_ISA === "true";
+// If the env var is not set:
+// - Preview/Dev: default ON (show the hero so you can QA it)
+// - Production: default OFF unless explicitly set true
+const RAW = process.env.NEXT_PUBLIC_FEATURE_VIRTUAL_ISA;
+const IS_PROD = process.env.NODE_ENV === "production";
+const FEATURE_VIRTUAL_ISA = RAW
+  ? RAW === "true"
+  : !IS_PROD; // default true in preview/dev, false in prod
+
 const CALENDLY_URL =
   process.env.NEXT_PUBLIC_CALENDLY_URL || "/realty/contact";
 
 export default function Home() {
-  // If Virtual ISA feature is disabled, redirect to /realty (canonical page)
-  if (!FEATURE_VIRTUAL_ISA) {
+  if (IS_PROD && !FEATURE_VIRTUAL_ISA) {
     redirect("/realty");
   }
 
