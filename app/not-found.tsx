@@ -6,7 +6,7 @@ export default function NotFound() {
       <div className="text-center max-w-md mx-auto">
         <h1 className="text-3xl font-bold mb-3">Page not found</h1>
         <p className="text-gray-600 mb-6">
-          The page you’re looking for doesn’t exist or may have been moved.
+          The page you're looking for doesn't exist or may have been moved.
         </p>
         <a
           href="/realty"
