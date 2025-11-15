@@ -13,16 +13,25 @@ const toAscii = (input: string): string =>
     .replace(/[^\x00-\x7F]/g, '');    // drop any remaining non-ASCII
 
 const escapeHtml = (s: string) =>
-  toAscii(s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]!));
+  toAscii(s).replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  })[c]!);
 
 const isEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 
-// error helpers (lint-safe)
+// error helpers
 const isDev = process.env.NODE_ENV !== 'production';
 const errMsg = (e: unknown): string =>
-  (e instanceof Error ? e.message : (() => { try { return JSON.stringify(e); } catch { return String(e); } })());
+  e instanceof Error ? e.message : (() => {
+    try { return JSON.stringify(e); } catch { return String(e); }
+  })();
+
 const errStack = (e: unknown): string | undefined =>
-  (e instanceof Error && e.stack ? e.stack : undefined);
+  e instanceof Error && e.stack ? e.stack : undefined;
 
 // ---------- types ----------
 interface ContactInput {
@@ -32,7 +41,7 @@ interface ContactInput {
   intent?: string;
   timeframe?: string;
   budget?: string;
-  financing?: string; // yes | no | unsure
+  financing?: string;
   message: string;
   aiConsent?: boolean;
 }
@@ -43,7 +52,6 @@ export async function POST(request: NextRequest) {
     const raw = (await request.json().catch(() => ({}))) as Partial<ContactInput>;
     console.log('Incoming contact form data:', raw);
 
-    // validate requireds
     const name = typeof raw.name === 'string' ? raw.name.trim() : '';
     const email = typeof raw.email === 'string' ? raw.email.trim() : '';
     const message = typeof raw.message === 'string' ? raw.message : '';
@@ -52,7 +60,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
     }
 
-    // sanitize to ASCII
     const data: ContactInput = {
       name: toAscii(name),
       email: toAscii(email),
@@ -65,10 +72,9 @@ export async function POST(request: NextRequest) {
       aiConsent: !!raw.aiConsent,
     };
 
-    // subject + bodies
     const subject = `New contact: ${data.name}${data.intent ? ` (${data.intent})` : ''}`;
 
-    const textLines = [
+    const text = [
       'New contact form submission',
       `Name: ${data.name}`,
       `Email: ${data.email}`,
@@ -81,9 +87,8 @@ export async function POST(request: NextRequest) {
       'Message:',
       data.message,
       '',
-      `AI Consent: ${data.aiConsent ? 'Yes' : 'No'}`,
-    ].filter(Boolean);
-    const text = textLines.join('\n');
+      `AI Consent: ${data.aiConsent ? 'Yes' : 'No'}`
+    ].filter(Boolean).join('\n');
 
     const html = [
       '<h2>New contact form submission</h2>',
@@ -96,34 +101,39 @@ export async function POST(request: NextRequest) {
       data.financing ? `<p><strong>Financing:</strong> ${escapeHtml(data.financing)}</p>` : '',
       `<p><strong>AI Consent:</strong> ${data.aiConsent ? 'Yes' : 'No'}</p>`,
       '<hr>',
-      `<p><strong>Message</strong><br>${escapeHtml(data.message).replace(/\n/g, '<br>')}</p>`,
+      `<p><strong>Message</strong><br>${escapeHtml(data.message).replace(/\n/g, '<br>')}</p>`
     ].filter(Boolean).join('');
 
-    // ----------------- Resend (optional) -----------------
-    const toEnv = process.env.CONTACT_TO_EMAIL || process.env.CONTACT_TO || process.env.BUSINESS_EMAIL || 'realvibeairealty@gmail.com';
-    const fromEnv = process.env.FROM_EMAIL || process.env.BUSINESS_EMAIL || 'onboarding@resend.dev';
+    const toEnv = process.env.CONTACT_TO_EMAIL ||
+                  process.env.CONTACT_TO ||
+                  process.env.BUSINESS_EMAIL ||
+                  'realvibeairealty@gmail.com';
 
+    const fromEnv = process.env.FROM_EMAIL ||
+                    process.env.BUSINESS_EMAIL ||
+                    'onboarding@resend.dev';
+
+    // Resend
     if (process.env.RESEND_API_KEY && toEnv) {
       try {
         const { Resend } = await import('resend');
         const resend = new Resend(process.env.RESEND_API_KEY);
-        const to = toAscii(toEnv.trim());
+
         await resend.emails.send({
           from: toAscii(fromEnv),
-          to: [to],
+          to: [toAscii(toEnv)],
           subject: toAscii(subject),
           text,
           html,
         });
-      } catch (e: unknown) {
+      } catch (e) {
         console.error('Resend send error', errMsg(e), isDev ? errStack(e) : '');
       }
     }
 
-    // ----------------- SMTP (optional) -----------------
+    // SMTP fallback
     if (process.env.SMTP_HOST && toEnv) {
       try {
-        // Typed extraction avoids ESLint/TS unsafe access complaints on dynamic import
         const nodemailerMod = await import('nodemailer');
         const { createTransport } =
           nodemailerMod as unknown as { createTransport: typeof import('nodemailer')['createTransport'] };
@@ -137,21 +147,20 @@ export async function POST(request: NextRequest) {
             : undefined,
         });
 
-        const to = toAscii(toEnv.trim());
         await transporter.sendMail({
           from: toAscii(fromEnv),
-          to,
+          to: toAscii(toEnv),
           subject: toAscii(subject),
           text,
           html,
         });
-      } catch (e: unknown) {
+      } catch (e) {
         console.error('SMTP send error', errMsg(e), isDev ? errStack(e) : '');
       }
     }
 
     return NextResponse.json({ ok: true }, { headers: { 'Cache-Control': 'no-store' } });
-  } catch (err: unknown) {
+  } catch (err) {
     console.error('Contact API error', errMsg(err), isDev ? errStack(err) : '');
     return NextResponse.json(
       {
