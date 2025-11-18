@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { auditEvents } from '../../../lib/audit';
+import type { ContactResponse } from '@/lib/sanitize';
 
 type FormState = {
   name: string;
@@ -30,6 +31,7 @@ export default function ContactPage() {
   });
 
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'sending' | 'success' | 'error' | 'consent-required'>('idle');
+  const [warnings, setWarnings] = useState<string[]>([]);
 
   const update = (k: keyof FormState) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
@@ -41,6 +43,7 @@ export default function ContactPage() {
       setSubmitStatus('consent-required');
       return;
     }
+    setWarnings([]);
     setSubmitStatus('sending');
     try {
       auditEvents.aiConsentAccepted('contact_form');
@@ -59,10 +62,13 @@ export default function ContactPage() {
           budget: form.budget || undefined,
           financing: form.financing || undefined,
           aiConsent: form.aiConsent,
+          followUpConsent: false,
         }),
       });
 
-      if (!res.ok) throw new Error('Request failed');
+      const payload = (await res.json()) as ContactResponse;
+      if (!res.ok || !payload.ok) throw new Error(payload.error || 'Request failed');
+      setWarnings(payload.warnings || []);
       setSubmitStatus('success');
       setForm({
         name: '',
@@ -77,6 +83,7 @@ export default function ContactPage() {
       });
     } catch {
       setSubmitStatus('error');
+      setWarnings([]);
     }
   }
 
@@ -245,6 +252,16 @@ export default function ContactPage() {
             <p className="text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-4">
               Please check the consent box before submitting.
             </p>
+          )}
+          {warnings.length > 0 && (
+            <div className="text-amber-800 bg-amber-50 border border-amber-200 rounded-lg p-4">
+              <p className="font-semibold">Heads up:</p>
+              <ul className="list-disc list-inside text-sm space-y-1 mt-2">
+                {warnings.map(warning => (
+                  <li key={warning}>{warning}</li>
+                ))}
+              </ul>
+            </div>
           )}
         </form>
       </div>

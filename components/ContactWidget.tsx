@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import type { ContactResponse } from '@/lib/sanitize';
 
 interface ContactFormData {
   name: string;
@@ -22,6 +23,7 @@ export default function ContactWidget() {
   const [isOpen, setIsOpen] = useState(false); // Start closed
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [warnings, setWarnings] = useState<string[]>([]);
   const [followUpConsent, setFollowUpConsent] = useState(false);
   const [formData, setFormData] = useState<ContactFormData>({
     name: '',
@@ -85,6 +87,7 @@ export default function ContactWidget() {
 
     setIsSubmitting(true);
     setSubmitStatus('idle');
+    setWarnings([]);
 
     try {
       const response = await fetch('/api/contact', {
@@ -93,7 +96,10 @@ export default function ContactWidget() {
         body: JSON.stringify({ ...formData, followUpConsent }),
       });
 
-      if (response.ok) {
+      const payload = (await response.json()) as ContactResponse;
+
+      if (response.ok && payload.ok) {
+        setWarnings(payload.warnings || []);
         setSubmitStatus('success');
         setFormData({
           name: '',
@@ -123,13 +129,16 @@ export default function ContactWidget() {
         setTimeout(() => {
           setIsOpen(false);
           setSubmitStatus('idle');
+          setWarnings([]);
         }, 5000);
       } else {
+        setWarnings(payload.warnings || []);
         setSubmitStatus('error');
       }
     } catch (error) {
       console.error('Contact form error:', error);
       setSubmitStatus('error');
+      setWarnings([]);
     } finally {
       setIsSubmitting(false);
     }
@@ -179,6 +188,17 @@ export default function ContactWidget() {
             {submitStatus === 'error' && (
               <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
                 <p className="text-red-800 text-sm">Something went wrong. Please try again.</p>
+              </div>
+            )}
+
+            {warnings.length > 0 && (
+              <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-md">
+                <p className="text-amber-900 text-sm font-semibold">Heads up</p>
+                <ul className="list-disc list-inside text-xs text-amber-900 mt-1 space-y-1">
+                  {warnings.map((warning) => (
+                    <li key={warning}>{warning}</li>
+                  ))}
+                </ul>
               </div>
             )}
 
