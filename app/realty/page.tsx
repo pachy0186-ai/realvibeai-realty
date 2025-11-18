@@ -1,13 +1,10 @@
-
 import Image from "next/image";
 import Link from "next/link";
-import { Metadata } from 'next';
+import { Metadata } from "next";
 import BetaCounter from "@/app/components/BetaCounter";
-// import { useBetaSeats } from '@/hooks/useBetaSeats'; // Phase B: live counter
-
 import { realtyMetadata } from "../../lib/seo_metadata";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: realtyMetadata.title,
   description: realtyMetadata.description,
   keywords: realtyMetadata.keywords,
@@ -15,16 +12,101 @@ export const metadata = {
   twitter: realtyMetadata.twitter,
 };
 
-const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL || "/realty/contact";
-const FEATURE_VIRTUAL_ISA = process.env.NEXT_PUBLIC_FEATURE_VIRTUAL_ISA === 'true';
+const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL || "/contact";
+
+const PROOF_POINTS = [
+  {
+    stat: "40%",
+    label: "of an agent's week is burned on manual lead follow-up",
+    detail: "We hand it to your AI Virtual ISA so you get time back.",
+  },
+  {
+    stat: "70%",
+    label: "consult success when expectations are clear",
+    detail: "VibeMatch scripts every convo in your tone before the call.",
+  },
+  {
+    stat: "60 days",
+    label: "to stabilize your pipeline",
+    detail: "Most teams feel the shift within the first two months.",
+  },
+];
+
+const HOW_IT_WORKS = [
+  {
+    title: "Qualify",
+    description:
+      "AI lead qualification across email + SMS. Budget, timing, motivation, and objections captured automatically.",
+  },
+  {
+    title: "Engage",
+    description:
+      "Omnichannel follow-up with VibeMatch tone mirroring. Every touchpoint feels like you, even at 2am.",
+  },
+  {
+    title: "Book",
+    description:
+      "Calendar sync + routing logic so the right agent meets the right lead without back-and-forth.",
+  },
+];
+
+const COMPARISON = [
+  {
+    title: "Manual",
+    tone: "bg-rose-50 border-rose-200",
+    bullets: [
+      "Spreadsheets, sticky notes, and late-night callbacks",
+      "Leads wait days, forget you, or book elsewhere",
+      "Team burnout from chasing misaligned consults",
+    ],
+  },
+  {
+    title: "Automated",
+    tone: "bg-emerald-50 border-emerald-200",
+    bullets: [
+      "AI concierge greets every lead instantly",
+      "Expectations set, documents collected, and objections cleared",
+      "Your calendar fills with high-fit buyers and sellers",
+    ],
+  },
+];
+
+const SUCCESS_60 = [
+  {
+    title: "Week 1",
+    detail: "Connect Follow Up Boss, import playbooks, and go live with your VibeMatch profile.",
+  },
+  {
+    title: "Week 3",
+    detail: "Pipeline clarity report shows which leads are ready, stalled, or nurture-only.",
+  },
+  {
+    title: "Week 6",
+    detail: "Calendar reliability: more qualified consults, fewer no-shows, predictable energy.",
+  },
+];
+
+const VIBEMATCH_FEATURES = [
+  {
+    title: "Tone mirroring",
+    detail: "We map your cadence, slang, and empathy markers so AI sounds like your top agent.",
+  },
+  {
+    title: "Personality routing",
+    detail: "Buyers that vibe with bold, calm, or analytical personalities route to the right person automatically.",
+  },
+  {
+    title: "Context memory",
+    detail: "Every answer travels with the lead: budget, timelines, even family details, so consults feel effortless.",
+  },
+];
 
 export default function RealtyPage() {
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
+    <div className="min-h-screen bg-white">
+      {/* Hero */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 -z-10">
           <Image
             src="/hero-banner-realvibeai.jpg"
             alt="RealVibeAI Realty Hero Background"
@@ -32,457 +114,227 @@ export default function RealtyPage() {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 to-blue-900/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0f0f1a]/90 via-[#181033]/80 to-[#0d1c2f]/85" />
         </div>
-
-        {/* Hero Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="mb-8">
-            <Image
-              src="/logo-realvibeai-realty.png"
-              alt="RealVibeAI Realty Logo"
-              width={120}
-              height={120}
-              className="mx-auto mb-6"
-            />
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center text-white">
+          <p className="uppercase tracking-[0.4em] text-sm text-white/60 mb-6">RealVibeAI Realty</p>
+          <h1 className="text-4xl md:text-6xl font-semibold leading-tight mb-6">
+            AI Virtual ISA for top agents who refuse chaos
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-sky-300 mt-3">
+              Automate. Match. Fill your calendar.
+            </span>
+          </h1>
+          <p className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-8">
+            RealVibeAI handles lead engagement, VibeMatch™ personality pairing, and appointment booking
+            so experienced agents and boutique brokerages reclaim their week and protect their energy.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+            <Link
+              href={CALENDLY_URL}
+              className="bg-white text-gray-900 font-semibold px-10 py-4 rounded-full shadow-lg hover:shadow-xl transition"
+            >
+              Book a 15-min fit call
+            </Link>
+            <Link
+              href="/contact?demo=vibematch"
+              className="text-white/90 border border-white/40 px-8 py-3 rounded-full hover:bg-white/10 transition"
+            >
+              See VibeMatch in action →
+            </Link>
           </div>
-          
-          {FEATURE_VIRTUAL_ISA ? (
-            <>
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-in-up leading-tight">
-                Turn cold real-estate leads into
-                <span className="block text-transparent bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text">
-                  booked appointments—automatically
-                </span>
-              </h1>
-              
-              <p className="text-xl md:text-2xl text-gray-200 mb-4 max-w-4xl mx-auto animate-fade-in-up leading-relaxed">
-                Your AI Virtual ISA engages, qualifies, and books to your calendar. Plugs straight into Follow Up Boss (Lofty/CINC next).
-              </p>
-
-              {/* Beta Limited Seats Subhead */}
-              <div className="mb-8 animate-fade-in-up">
-                <BetaCounter />
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up">
-                <Link
-                  href={CALENDLY_URL}
-                  className="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white font-semibold text-lg px-10 py-4 rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300"
-                >
-                  Book Onboarding Call
-                </Link>
-                <Link
-                  href="/realty/integrations"
-                  className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white hover:text-purple-600 font-semibold text-lg px-10 py-4 rounded-full transition-all duration-300"
-                >
-                  View Integrations
-                </Link>
-              </div>
-
-              <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto text-center">
-                <div className="text-gray-300">
-                  <div className="text-2xl font-bold text-green-400">24/7</div>
-                  <div className="text-sm">AI Virtual ISA</div>
-                </div>
-                <div className="text-gray-300">
-                  <div className="text-2xl font-bold text-blue-400">Auto</div>
-                  <div className="text-sm">Calendar Booking</div>
-                </div>
-                <div className="text-gray-300">
-                  <div className="text-2xl font-bold text-purple-400">FUB</div>
-                  <div className="text-sm">Direct Integration</div>
-                </div>
-              </div>
-            </>
-          ) : (
-            <>
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-in-up leading-tight">
-                AI-Powered Lead Generation
-                <span className="block text-transparent bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text">
-                  That Actually Works
-                </span>
-              </h1>
-              
-              <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-4xl mx-auto animate-fade-in-up leading-relaxed">
-                Stop chasing cold leads. Our intelligent system automatically qualifies prospects, sends personalized follow-ups, 
-                and delivers hot leads directly to your inbox. Built for real estate professionals who want to close more deals 
-                with less effort.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up">
-                <Link
-                  href="/realty/contact"
-                  className="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white font-semibold text-lg px-10 py-4 rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300"
-                >
-                  Get Hot Leads Now
-                </Link>
-                <Link
-                  href="/realty/virtual-staging"
-                  className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white hover:text-purple-600 font-semibold text-lg px-10 py-4 rounded-full transition-all duration-300"
-                >
-                  Get AI previews in minutes & final renders in 24–48 h
-                </Link>
-              </div>
-
-              <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto text-center">
-                <div className="text-gray-300">
-                  <div className="text-2xl font-bold text-green-400">2 min</div>
-                  <div className="text-sm">Setup Time</div>
-                </div>
-                <div className="text-gray-300">
-                  <div className="text-2xl font-bold text-blue-400">24/7</div>
-                  <div className="text-sm">AI Working</div>
-                </div>
-                <div className="text-gray-300">
-                  <div className="text-2xl font-bold text-purple-400">Significantly</div>
-                  <div className="text-sm">More Closings</div>
-                </div>
-              </div>
-            </>
-          )}
+          <div className="max-w-md mx-auto">
+            <BetaCounter />
+            <p className="text-xs text-white/60 mt-3">Limited to 10 seats per metro. Once a seat is taken, we pause invites.</p>
+          </div>
         </div>
       </section>
 
-      {/* Virtual ISA Features Section (Feature Flag) */}
-      {FEATURE_VIRTUAL_ISA && (
-        <section className="py-20 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                Your AI Virtual ISA: Qualified Appointments on Autopilot
-              </h2>
-              <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-                From first contact to calendar booking, our AI Virtual ISA handles every conversation. 
-                Automatic qualification, intelligent follow-ups, and seamless calendar integration—all working 24/7 to fill your pipeline with qualified appointments.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Feature 1 */}
-              <div className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-purple-200">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Auto Calendar Booking</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Qualified leads book directly to your Google Calendar or Calendly. No back-and-forth emails. 
-                  Your AI ISA handles scheduling conflicts, time zones, and confirmation reminders.
-                </p>
-                <div className="mt-4 text-sm text-purple-600 font-semibold">
-                  → More appointments, zero scheduling hassle
-                </div>
-              </div>
-
-              {/* Feature 2 */}
-              <div className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Instant Qualification</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Every conversation is analyzed in real-time. Budget, timeline, motivation—your AI ISA asks the right questions 
-                  and only books appointments with qualified prospects.
-                </p>
-                <div className="mt-4 text-sm text-blue-600 font-semibold">
-                  → Talk to buyers ready to move
-                </div>
-              </div>
-
-              {/* Feature 3 */}
-              <div className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-green-200">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">CRM Integration</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Plugs directly into Follow Up Boss. Lofty and CINC integrations coming soon. 
-                  All conversations, qualifications, and bookings sync automatically to your CRM.
-                </p>
-                <div className="mt-4 text-sm text-green-600 font-semibold">
-                  → One source of truth for your pipeline
-                </div>
-              </div>
-            </div>
-
-            {/* CTA Section within Features */}
-            <div className="mt-16 text-center">
-              <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-12 text-white">
-                <h3 className="text-3xl font-bold mb-4">Ready to Fill Your Calendar with Qualified Appointments?</h3>
-                <p className="text-xl mb-8 opacity-90">
-                  Join real estate professionals who've automated their ISA workflow and 10x'd their appointment volume.
-                </p>
-                <Link
-                  href={CALENDLY_URL}
-                  className="bg-white text-purple-600 hover:bg-gray-100 font-bold text-lg px-10 py-4 rounded-full transition-all duration-300 inline-block"
-                >
-                  Book Your Onboarding Call
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Legacy Lead Generation Features (No Feature Flag) */}
-      {!FEATURE_VIRTUAL_ISA && (
-        <section className="py-20 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                The Complete Lead Generation System
-              </h2>
-              <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-                From initial contact to closing, our AI handles every step of lead nurturing. 
-                Automatic qualification, personalized follow-ups, and intelligent prioritization—all working 24/7 to grow your business.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Feature 1 */}
-              <div className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-purple-200">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Instant Lead Scoring</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Every lead gets scored as Hot, Warm, or Cold within seconds. Our AI analyzes 50+ data points 
-                  including urgency, budget indicators, and engagement patterns to prioritize your follow-ups.
-                </p>
-                <div className="mt-4 text-sm text-purple-600 font-semibold">
-                  → Significantly reduce time spent on unqualified leads
-                </div>
-              </div>
-
-              {/* Feature 2 */}
-              <div className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Automated Follow-Ups</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Personalized email sequences sent at optimal times (48h, 7 days, monthly). 
-                  Each message is tailored to the lead's interest level and previous interactions.
-                </p>
-                <div className="mt-4 text-sm text-blue-600 font-semibold">
-                  → Improved response rates
-                </div>
-              </div>
-
-              {/* Feature 3 */}
-              <div className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-green-200">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2-2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Smart Analytics</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Track conversion rates, lead quality trends, and ROI in real-time. 
-                  Identify your best lead sources and optimize your marketing spend.
-                </p>
-                <div className="mt-4 text-sm text-green-600 font-semibold">
-                  → Data-driven decisions
-                </div>
-              </div>
-            </div>
-
-            {/* CTA Section within Features */}
-            <div className="mt-16 text-center">
-              <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-12 text-white">
-                <h3 className="text-3xl font-bold mb-4">Ready to Enhance Your Lead Conversion?</h3>
-                <p className="text-xl mb-8 opacity-90">
-                  Join 500+ real estate professionals who've transformed their business with AI-powered lead generation.
-                </p>
-                <Link
-                  href="/realty/contact"
-                  className="bg-white text-purple-600 hover:bg-gray-100 font-bold text-lg px-10 py-4 rounded-full transition-all duration-300 inline-block"
-                >
-                  Start Your Free Trial Today
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* How It Works Section */}
+      {/* Proof layer */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              How It Works
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Get up and running in three simple steps. No technical expertise required.
-            </p>
-          </div>
-
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Step 1 */}
-            <div className="text-center">
-              <div className="w-16 h-16 bg-purple-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
-                1
+            {PROOF_POINTS.map((point) => (
+              <div key={point.stat} className="p-8 rounded-3xl border border-gray-100 shadow-[0_20px_60px_-40px_rgba(15,23,42,0.8)]">
+                <div className="text-4xl font-semibold text-gray-900 mb-3">{point.stat}</div>
+                <p className="text-lg text-gray-700 mb-2">{point.label}</p>
+                <p className="text-sm text-gray-500">{point.detail}</p>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                {FEATURE_VIRTUAL_ISA ? "Connect Your CRM" : "Connect Your Leads"}
-              </h3>
-              <p className="text-gray-600">
-                {FEATURE_VIRTUAL_ISA 
-                  ? "Integrate with Follow Up Boss in minutes. Your AI Virtual ISA syncs all conversations and bookings automatically."
-                  : "Integrate with your existing lead sources in minutes. Works with most CRMs, lead capture forms, and marketing platforms."
-                }
-              </p>
-            </div>
-
-            {/* Step 2 */}
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
-                2
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                {FEATURE_VIRTUAL_ISA ? "AI Engages & Qualifies" : "AI Analyzes & Scores"}
-              </h3>
-              <p className="text-gray-600">
-                {FEATURE_VIRTUAL_ISA
-                  ? "Your AI ISA engages every lead via email/SMS, asks qualifying questions, and identifies appointment-ready prospects."
-                  : "Our AI automatically analyzes each lead's behavior, responses, and engagement to provide instant Hot/Warm/Cold scoring with detailed reasoning."
-                }
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
-                3
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                {FEATURE_VIRTUAL_ISA ? "Appointments Booked" : "Focus on Hot Leads"}
-              </h3>
-              <p className="text-gray-600">
-                {FEATURE_VIRTUAL_ISA
-                  ? "Qualified leads book directly to your calendar. You show up to pre-qualified appointments ready to close."
-                  : "Receive prioritized lead lists with clear action recommendations. Spend your time on prospects most likely to convert."
-                }
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Pricing Teaser Section */}
+      {/* VibeMatch Engine */}
       <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-gray-900 mb-6">
-            Simple, Transparent Pricing
-          </h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Choose the plan that fits your business. No hidden fees, cancel anytime.
-          </p>
-          <Link
-            href="/realty/pricing"
-            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold text-lg px-10 py-4 rounded-full transition-all duration-300 inline-block"
-          >
-            View Pricing Plans
-          </Link>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Trusted by Real Estate Professionals
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <p className="uppercase tracking-[0.3em] text-xs text-gray-500 mb-4">VibeMatch Engine™</p>
+            <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-6">
+              Precision matching for real estate success
             </h2>
-            <p className="text-xl text-gray-600">
-              See what our clients are saying about RealVibeAI Realty
+            <p className="text-lg text-gray-600 mb-6">
+              The VibeMatch Engine mirrors how your team actually speaks. Every interaction adapts to the lead's tone,
+              preferred channel, and urgency so conversations feel bespoke—not bot-like.
             </p>
+            <div className="space-y-4">
+              {VIBEMATCH_FEATURES.map((feature) => (
+                <div key={feature.title} className="bg-white border border-gray-100 rounded-2xl p-5">
+                  <h3 className="text-xl font-semibold text-gray-900">{feature.title}</h3>
+                  <p className="text-gray-600 mt-2">{feature.detail}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                href={CALENDLY_URL}
+                className="bg-gradient-to-r from-emerald-500 to-sky-500 text-white px-6 py-3 rounded-full font-semibold shadow"
+              >
+                See the scripts we build
+              </Link>
+              <Link href="/integrations" className="text-emerald-700 font-medium">
+                Explore CRM integrations →
+              </Link>
+            </div>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Testimonial 1 */}
-            <div className="bg-gray-50 p-8 rounded-2xl">
-              <div className="flex items-center mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-gray-700 mb-4 italic">
-                "RealVibeAI has completely transformed how I handle leads. I'm closing more deals than ever before."
-              </p>
-              <div className="font-semibold text-gray-900">Sarah M.</div>
-              <div className="text-sm text-gray-600">Real Estate Agent, Miami</div>
-            </div>
-
-            {/* Testimonial 2 */}
-            <div className="bg-gray-50 p-8 rounded-2xl">
-              <div className="flex items-center mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-gray-700 mb-4 italic">
-                "The AI lead scoring is incredibly accurate. I no longer waste time on unqualified prospects."
-              </p>
-              <div className="font-semibold text-gray-900">James T.</div>
-              <div className="text-sm text-gray-600">Broker, Los Angeles</div>
-            </div>
-
-            {/* Testimonial 3 */}
-            <div className="bg-gray-50 p-8 rounded-2xl">
-              <div className="flex items-center mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-gray-700 mb-4 italic">
-                "Setup was incredibly easy. Within 24 hours, I was getting qualified leads delivered to my inbox."
-              </p>
-              <div className="font-semibold text-gray-900">Maria G.</div>
-              <div className="text-sm text-gray-600">Team Lead, New York</div>
-            </div>
+          <div className="bg-white border border-gray-100 rounded-3xl p-8 shadow-xl">
+            <h3 className="text-lg font-semibold text-gray-900 uppercase tracking-[0.4em] mb-6">Proof Layer</h3>
+            <ul className="space-y-5">
+              <li>
+                <p className="text-2xl font-semibold text-gray-900">24/7</p>
+                <p className="text-gray-600">AI lead concierge so no inquiry is left on read.</p>
+              </li>
+              <li>
+                <p className="text-2xl font-semibold text-gray-900">+3 hrs / day</p>
+                <p className="text-gray-600">Average time reclaimed per agent who lets AI manage nurture conversations.</p>
+              </li>
+              <li>
+                <p className="text-2xl font-semibold text-gray-900">10 seats / metro</p>
+                <p className="text-gray-600">We cap access to keep performance high and protect local differentiation.</p>
+              </li>
+            </ul>
           </div>
         </div>
       </section>
 
-      {/* Final CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-purple-900 to-blue-900 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            {FEATURE_VIRTUAL_ISA 
-              ? "Ready to Automate Your Appointment Pipeline?"
-              : "Ready to Transform Your Lead Generation?"
-            }
-          </h2>
-          <p className="text-xl mb-8 opacity-90">
-            {FEATURE_VIRTUAL_ISA
-              ? "Join real estate professionals who've automated their ISA workflow and 10x'd their qualified appointments."
-              : "Join hundreds of real estate professionals who've transformed their business with AI."
-            }
+      {/* How it works */}
+      <section className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="uppercase tracking-[0.3em] text-xs text-gray-500 mb-3">Three pillars</p>
+          <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">Qualify → Engage → Book</h2>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-12">
+            RealVibeAI becomes your Virtual ISA in one onboarding call. You provide your scripts. We infuse them with
+            AI guardrails so every interaction stays compliant, on brand, and outcome-driven.
           </p>
-          <Link
-            href={FEATURE_VIRTUAL_ISA ? CALENDLY_URL : "/realty/contact"}
-            className="bg-white text-purple-600 hover:bg-gray-100 font-bold text-lg px-12 py-5 rounded-full transition-all duration-300 inline-block shadow-2xl"
-          >
-            {FEATURE_VIRTUAL_ISA ? "Book Your Onboarding Call" : "Get Started Today"}
-          </Link>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {HOW_IT_WORKS.map((step, index) => (
+              <div key={step.title} className="p-8 border border-gray-100 rounded-3xl shadow-sm">
+                <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gray-900 text-white flex items-center justify-center font-semibold">
+                  {index + 1}
+                </div>
+                <h3 className="text-2xl font-semibold text-gray-900 mb-3">{step.title}</h3>
+                <p className="text-gray-600">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Manual vs automated */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {COMPARISON.map((column) => (
+              <div key={column.title} className={`p-8 rounded-3xl border ${column.tone}`}>
+                <p className="uppercase tracking-[0.4em] text-xs text-gray-500 mb-3">{column.title}</p>
+                <ul className="space-y-4 text-gray-700 text-lg">
+                  {column.bullets.map((bullet) => (
+                    <li key={bullet} className="flex items-start gap-3">
+                      <span className="mt-1 text-sm text-gray-400">•</span>
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Success in 60 days */}
+      <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="uppercase tracking-[0.3em] text-xs text-gray-500 mb-3">Outcome framing</p>
+          <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">What most teams experience within 60 days</h2>
+          <p className="text-lg text-gray-600 mb-12">
+            Not a guarantee—just the pattern we see when agents let RealVibeAI run conversations end-to-end.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+            {SUCCESS_60.map((milestone) => (
+              <div key={milestone.title} className="p-8 border border-gray-100 rounded-3xl h-full">
+                <p className="text-sm uppercase tracking-[0.4em] text-gray-500 mb-3">{milestone.title}</p>
+                <p className="text-gray-700 text-lg">{milestone.detail}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-sm text-gray-500 mt-10">We measure everything with your CRM + HubSpot logs so you always know the inputs.</p>
+        </div>
+      </section>
+
+      {/* Integrations & pricing teaser */}
+      <section className="py-20 bg-gradient-to-r from-[#0d1c2f] to-[#1c2c52] text-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12">
+          <div>
+            <h3 className="text-3xl font-semibold mb-4">Plugged into your systems</h3>
+            <p className="text-white/80 mb-6">
+              Follow Up Boss integration is live now. Lofty and CINC follow next. Every conversation, score, and appointment syncs back to your CRM and HubSpot automatically.
+            </p>
+            <ul className="space-y-4 text-white/80">
+              <li>• Follow Up Boss (live)</li>
+              <li>• Google Calendar + Calendly</li>
+              <li>• Lofty (Q2 2025) & CINC (Q2 2025)</li>
+            </ul>
+            <Link href="/integrations" className="inline-flex mt-6 text-emerald-200 font-semibold">
+              View integration details →
+            </Link>
+          </div>
+          <div className="bg-white/10 rounded-3xl p-8 backdrop-blur">
+            <p className="uppercase tracking-[0.4em] text-xs text-white/80 mb-3">Pricing narrative</p>
+            <h3 className="text-2xl font-semibold mb-4">Built for agents who scale relationships, not workloads.</h3>
+            <p className="text-white/80 mb-6">
+              Choose the tier that matches your roster. Every plan includes the same AI brain—only routing logic and reporting depth change.
+            </p>
+            <Link
+              href="/pricing"
+              className="inline-flex items-center justify-center bg-white text-gray-900 px-6 py-3 rounded-full font-semibold"
+            >
+              Explore plans
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">Ready for a calmer, more profitable pipeline?</h2>
+          <p className="text-lg text-gray-600 mb-8">
+            We partner with high-performing agents and boutique brokerages only. If we are not a fit, we will say so fast.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href={CALENDLY_URL}
+              className="bg-gray-900 text-white px-10 py-4 rounded-full font-semibold hover:bg-gray-800"
+            >
+              Book a 15-min fit call
+            </Link>
+            <Link
+              href="/contact"
+              className="border border-gray-300 px-8 py-4 rounded-full font-semibold text-gray-900"
+            >
+              Talk with our team
+            </Link>
+          </div>
+          <p className="text-sm text-gray-500 mt-6">Human onboarding in under 24 hours. No spammy drip sequences—just clarity.</p>
         </div>
       </section>
     </div>
